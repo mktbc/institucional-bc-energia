@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+p {
+  font-family: 'Open Sans', sans-serif;
+}
+
+@layer utilities {
+}
+
+.loader {
+  width: 15px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l5 1s infinite linear alternate;
+}
+
+.submenu-mobile.close {
+  height: 0;
+}
+
+@keyframes l5 {
+  0% {
+    box-shadow:
+      20px 0 #0d9488,
+      -20px 0 rgba(13, 148, 136, 0.2);
+    background: #0d9488;
+  }
+  33% {
+    box-shadow:
+      20px 0 #0d9488,
+      -20px 0 rgba(13, 148, 136, 0.2);
+    background: rgba(13, 148, 136, 0.2);
+  }
+  66% {
+    box-shadow:
+      20px 0 rgba(13, 148, 136, 0.2),
+      -20px 0 #0d9488;
+    background: rgba(13, 148, 136, 0.2);
+  }
+  100% {
+    box-shadow:
+      20px 0 rgba(13, 148, 136, 0.2),
+      -20px 0 #0d9488;
+    background: #0d9488;
+  }
+}
+
+@media screen and (min-width: 1500px) and (max-width: 1600px) {
+  .container {
+    max-width: 1300px;
+  }
+}
+
+@media screen and (min-width: 1278px) and (max-width: 1350px) {
+  #home,
+  nav,
+  section {
+  }
+}
+
+@media screen and (max-width: 1100px) and (min-width: 1023px) {
+  #home,
+  nav,
+  section {
+  }
+}
+
+@media screen and (max-width: 763px) {
+  section:not(#home):not(#fotos):not(#local) {
+  }
+}

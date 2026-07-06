@@ -1,8 +1,6 @@
-.jest
-.next
-.swc
+dist
 build
 node_modules
+public
+package-lock.json
 .env.*
-next-env.d.ts
-yarn-error.log

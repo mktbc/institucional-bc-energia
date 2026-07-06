@@ -1,0 +1,85 @@
+{
+  "title": "Turismo",
+  "description": "",
+  "icon": "/turismo.svg",
+  "coverUrl": "/img/global/arrendamento-de-usinas.jpg",
+  "introduction": {
+    "img": "/img/pages/segmentos/hotelaria.jpg",
+    "content": [
+      {
+        "title": "Conforto para seus clientes usando energia limpa e renovável",
+        "description": "O setor de turismo enfrenta desafios significativos com os altos custos da conta de energia. Hotéis, pousadas, resorts e outros estabelecimentos turísticos precisam manter a iluminação, climatização, aquecimento de água e diversos equipamentos elétricos funcionando constantemente para garantir o conforto e a satisfação dos hóspedes. Esses custos elevados podem impactar diretamente a lucratividade e limitar a capacidade de investir em melhorias e inovações para atrair mais visitantes. \n \n O Grupo BC Energia oferece soluções eficazes para ajudar o segmento de turismo a reduzir seus custos energéticos sem a necessidade de investimentos iniciais. Através do Mercado Livre de Energia e do consórcio de energia, os estabelecimentos turísticos podem ganhar um alívio no orçamento. Com a economia gerada na conta de energia, é possível investir em melhorias na infraestrutura, modernizar as instalações, implementar tecnologias sustentáveis e aprimorar a experiência dos hóspedes. Assim, o Grupo BC Energia contribui para um setor de turismo mais eficiente, sustentável e lucrativo, permitindo que os empresários se concentrem no crescimento e na inovação de seus negócios, atraindo mais turistas e oferecendo um serviço de qualidade."
+      }
+    ],
+    "benefits": [
+      {
+        "title": "Entendemos a sua necessidade",
+        "description": "Temos experiência com clientes do seu segmento de negócio. Conte com nossa expertise para encontrar a melhor solução de economia para seu empreendimento",
+        "icon": "/img/icons/energy.svg"
+      },
+      {
+        "title": "Adicione SUSTENTABILIDADE ao seu portfólio",
+        "description": "Através do Grupo BC Energia, mostre ao mercado sua preocupação com a sustentabilidade e o meio ambiente, utilizando energia limpas e renováveis",
+        "icon": "/img/icons/solar-energy.svg"
+      },
+      {
+        "title": "Seja destaque no seu segmento",
+        "description": "O uso de fontes de energia renováveis, que geram redução de custo ao mesmo tempo que contribuem para ao meio ambiente é uma tendência dentro de organizações e empresas conscientes, e alinhadas com práticas ESG- Environmental, social, and governance - Governança ambiental, social e corporativa)",
+        "icon": "/img/icons/star.svg"
+      }
+    ]
+  },
+  "cta": {
+    "bgImage": "/img/global/arrendamento-de-usinas.jpg",
+    "title": "Somos a maior <span class='text-amber-400'>comercializadora de energia</span> do\n Centro-Oeste e uma das principais independentes do país.",
+    "link": "#contato",
+    "linkText": "Quero economizar"
+  },
+  "resources": {
+    "items": [
+      {
+        "title": "Lorem ipsum dolor sit amet",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+      },
+      {
+        "title": "Lorem ipsum dolor sit amet",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+      },
+      {
+        "title": "Lorem ipsum dolor sit amet",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+      }
+    ],
+    "img": "/img/pages/segmentos/recursos-1.jpg"
+  },
+  "testimony": {
+    "title": "O que nossos clientes estão dizendo",
+    "description": "Lorem ipsum dolor sit amet consectetur. Adipiscing amet mattis elit in malesuada. Turpis\n aliquam duis eget montes faucibus pretium leo faucibus sed. Mattis consequat commodo.",
+    "testimonials": [
+      {
+        "customer": "Ana Maria",
+        "office": "CEO Ford Corporation",
+        "testimony": "Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque. Sem egestas tortor habitasse lorem praesent vitae pretium auctor sit. Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque.",
+        "avatar": "/img/global/avatar-1.jpg"
+      },
+      {
+        "customer": "Ricardo Yoshida",
+        "office": "CTO toyota",
+        "testimony": "Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque. Sem egestas tortor habitasse lorem praesent vitae pretium auctor sit.",
+        "avatar": "/img/global/avatar-2.jpg"
+      },
+      {
+        "customer": "Bernard Jackes",
+        "office": "Gestor de negócios RD Station",
+        "testimony": "Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque. Sem egestas tortor habitasse lorem praesent vitae pretium auctor sit. Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque.",
+        "avatar": "/img/global/avatar-3.jpg"
+      },
+      {
+        "customer": "Ana Maria",
+        "office": "CEO Ford Corporation",
+        "testimony": "Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque. Sem egestas tortor habitasse lorem praesent vitae pretium auctor sit. Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque.",
+        "avatar": "/img/global/avatar-1.jpg"
+      }
+    ]
+  }
+}

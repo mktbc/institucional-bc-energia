@@ -1,0 +1,19 @@
+:root {
+  --swiper-theme-color: rgb(251, 191, 36) !important;
+}
+
+#home_slider .swiper-horizontal > .swiper-pagination-bullets {
+  bottom: 60px !important;
+}
+
+#testimony_slider > .swiper-pagination-bullets {
+  position: relative;
+  margin-top: 40px;
+}
+
+@media only screen and (max-width: 600px) {
+  #testimony_slider > .swiper-pagination-bullets {
+    position: relative;
+    margin-top: 20px;
+  }
+}
