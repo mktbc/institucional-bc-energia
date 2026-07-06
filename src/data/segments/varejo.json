@@ -1,7 +1,7 @@
 {
   "title": "Varejo",
   "description": "",
-  "icon": "/varejo.svg",
+  "icon": "varejo.svg",
   "coverUrl": "/img/global/arrendamento-de-usinas.jpg",
   "introduction": {
     "img": "/img/pages/segmentos/varejo.jpg",

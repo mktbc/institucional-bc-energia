@@ -1,7 +1,7 @@
 {
   "title": "Saúde",
   "description": "",
-  "icon": "/saude.svg",
+  "icon": "saude.svg",
   "coverUrl": "/img/global/arrendamento-de-usinas.jpg",
   "introduction": {
     "img": "/img/pages/segmentos/saude.jpg",

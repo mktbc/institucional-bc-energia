@@ -1,7 +1,7 @@
 {
   "title": "Turismo",
   "description": "",
-  "icon": "/turismo.svg",
+  "icon": "turismo.svg",
   "coverUrl": "/img/global/arrendamento-de-usinas.jpg",
   "introduction": {
     "img": "/img/pages/segmentos/hotelaria.jpg",

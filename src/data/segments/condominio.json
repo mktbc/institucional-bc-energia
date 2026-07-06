@@ -1,7 +1,7 @@
 {
   "title": "Condomínio",
   "description": "",
-  "icon": "/condominio.svg",
+  "icon": "condominio.svg",
   "coverUrl": "/img/global/arrendamento-de-usinas.jpg",
   "introduction": {
     "img": "/img/pages/segmentos/condominio.jpg",
@@ -20,7 +20,7 @@
       {
         "title": "+ de 400 condomínios economizando conosco",
         "description": "Por meio de nossas soluções, conseguimos ajudar nossos clientes deste segmento a economizarem na conta de energia",
-        "icon": "/img/icons//solar-energy.svg"
+        "icon": "/img/icons/solar-energy.svg"
       },
       {
         "title": "Seja destaque na sua região",

@@ -1,27 +1,24 @@
 /**
- * MOCK — substitui a integração com o Salesforce (`getNumbers`).
+ * Números da seção "Numbers" (home e demais páginas que usam o bloco).
  *
- * ⚠️  TODO: TI reconectar Salesforce.
- * Endpoint original: `${SALESFORCE_API}/getDadosParaConsulta-EILPjWCr1IDO7sF?query=<context>`
- * A UI (componente Numbers) permanece intacta; apenas a fonte de dados foi mockada.
+ * Valores REAIS e FIXOS (hardcoded), definidos pela BC Energia. Substituem o
+ * antigo mock com valores fictícios e a integração original com o Salesforce.
+ *
+ * // TODO: TI pode reconectar getNumbers (Salesforce) no futuro se quiser
+ * valores dinâmicos. Endpoint original:
+ * `${SALESFORCE_API}/getDadosParaConsulta-EILPjWCr1IDO7sF?query=<context>`
  */
 
 type NumberItem = { title?: string; subtitle?: string }
 
-/**
- * Números de exemplo (PLACEHOLDER) para manter o layout da seção populado.
- * ⚠️  TODO: TI reconectar — estes valores são fictícios e devem vir do Salesforce.
- */
-const MOCK_NUMBERS: Record<string, NumberItem[]> = {
-  home: [
-    { title: '+15 anos', subtitle: 'de atuação no setor elétrico' },
-    { title: '+30 mil', subtitle: 'clientes atendidos' },
-    { title: '+500 GWh', subtitle: 'de energia comercializada' },
-    { title: 'Centro-Oeste', subtitle: 'maior comercializadora da região' }
-  ]
-}
+// Números reais atuais, fixos no código.
+const NUMBERS: NumberItem[] = [
+  { title: '+ de 5 mil', subtitle: 'clientes recebendo nossas soluções em economia' },
+  { title: '+ de R$400M', subtitle: 'de economia gerada aos nossos clientes' },
+  { title: '+ de 15 mil', subtitle: 'toneladas de CO2 evitados na atmosfera' }
+]
 
 export const getNumbers = async (context: string): Promise<NumberItem[]> => {
-  // TODO: TI reconectar — trocar o mock abaixo por fetch ao Salesforce.
-  return MOCK_NUMBERS[context] ?? MOCK_NUMBERS.home
+  // TODO: TI pode reconectar getNumbers (Salesforce) no futuro para valores dinâmicos.
+  return NUMBERS
 }

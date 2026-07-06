@@ -67,7 +67,7 @@ export const segmentos: Array<NavbarSubItems> = [
     description: 'Energia limpa e barata para seu agronegócio crescer forte e com lucratividade',
     url: '/segmentos/agronegocio',
     icon: {
-      url: '/agronegocio.svg',
+      url: 'agronegocio.svg',
       size: [30, 30]
     }
   },
@@ -78,7 +78,7 @@ export const segmentos: Array<NavbarSubItems> = [
       'Sustentabilidade no cardápio: Ofereça aos seus clientes um ambiente mais verde com energia renovável',
     url: '/segmentos/bares-e-restaurantes',
     icon: {
-      url: '/bareserestaurante.svg',
+      url: 'bareserestaurante.svg',
       size: [30, 30]
     }
   },
@@ -88,7 +88,7 @@ export const segmentos: Array<NavbarSubItems> = [
     description: 'Condomínios modernos reduzem custo sem abrir mão da sustentabilidade',
     url: '/segmentos/condominio',
     icon: {
-      url: '/condominio.svg',
+      url: 'condominio.svg',
       size: [30, 30]
     }
   },
@@ -98,7 +98,7 @@ export const segmentos: Array<NavbarSubItems> = [
     description: '',
     url: '/segmentos/educacional',
     icon: {
-      url: '/educacional.svg',
+      url: 'educacional.svg',
       size: [30, 30]
     }
   },
@@ -108,7 +108,7 @@ export const segmentos: Array<NavbarSubItems> = [
     description: '',
     url: '/segmentos/turismo',
     icon: {
-      url: '/turismo.svg',
+      url: 'turismo.svg',
       size: [30, 30]
     }
   },
@@ -118,7 +118,7 @@ export const segmentos: Array<NavbarSubItems> = [
     description: 'O futuro da energia para o lazer e entretenimento',
     url: '/segmentos/lazer',
     icon: {
-      url: '/lazer.svg',
+      url: 'lazer.svg',
       size: [35, 35]
     }
   },
@@ -128,7 +128,7 @@ export const segmentos: Array<NavbarSubItems> = [
     description: 'Trazendo economia e sustentabilidade para sua gestão',
     url: '/segmentos/religioso',
     icon: {
-      url: '/religioso.svg',
+      url: 'religioso.svg',
       size: [30, 30]
     }
   },
@@ -138,7 +138,7 @@ export const segmentos: Array<NavbarSubItems> = [
     description: 'Conforto no seu lar, economia no seu bolso',
     url: '/segmentos/residencial',
     icon: {
-      url: '/residencial.svg',
+      url: 'residencial.svg',
       size: [32, 32]
     }
   },
@@ -148,7 +148,7 @@ export const segmentos: Array<NavbarSubItems> = [
     description: 'Cuide da saúde da sua conta de energia',
     url: '/segmentos/saude',
     icon: {
-      url: '/saude.svg',
+      url: 'saude.svg',
       size: [30, 30]
     }
   },
@@ -158,7 +158,7 @@ export const segmentos: Array<NavbarSubItems> = [
     description: 'Entregue resultado, sem preocupação com a conta de energia',
     url: '/segmentos/servico',
     icon: {
-      url: '/servico.svg',
+      url: 'servico.svg',
       size: [30, 30]
     }
   },
@@ -169,7 +169,7 @@ export const segmentos: Array<NavbarSubItems> = [
     url: '/segmentos/varejo',
     border: false,
     icon: {
-      url: '/varejo.svg',
+      url: 'varejo.svg',
       size: [30, 30]
     }
   }

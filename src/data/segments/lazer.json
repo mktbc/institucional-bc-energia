@@ -2,7 +2,7 @@
   "title": "Lazer",
   "description": "",
   "coverUrl": "/img/global/arrendamento-de-usinas.jpg",
-  "icon": "/lazer.svg",
+  "icon": "lazer.svg",
   "introduction": {
     "img": "/img/pages/segmentos/lazer.jpg",
     "content": [
