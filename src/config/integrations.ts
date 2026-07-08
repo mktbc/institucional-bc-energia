@@ -25,9 +25,9 @@ type IntegrationsShape = {
 // Defaults usados enquanto a config remota não carrega (e como fallback).
 export const INTEGRATIONS: IntegrationsShape = {
   WHATSAPP_LINK: 'https://wa.link/o6o37f',
-  WHATSAPP_LINK_COMPRAS: '/contato',
-  WHATSAPP_LINK_PARCERIAS: '/contato',
-  RDSTATION_TRACKING_SCRIPT_URL: '',
+  WHATSAPP_LINK_COMPRAS: 'https://wa.me/5562981590131',
+  WHATSAPP_LINK_PARCERIAS: 'https://wa.me/5562981632741',
+  RDSTATION_TRACKING_SCRIPT_URL: 'https://d335luupugsy2.cloudfront.net/js/loader-scripts/3f36aaee-f131-4207-a336-e111e60483a3-loader.js',
   VAGAS_URL: 'https://grupobcenergia.vagas.solides.com.br',
   GTM_ID: ''
 }
