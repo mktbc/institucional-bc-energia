@@ -39,6 +39,7 @@ import SobreSocial from '@/pages/sobre/social/page'
 import SobreCondicoesVarejistas from '@/pages/sobre/condicoes-gerais-varejistas/page'
 
 import NotFound from '@/pages/not-found'
+import PdfRedirect from '@/pages/documentos/PdfRedirect'
 
 const App = () => (
   <Routes>
@@ -79,6 +80,14 @@ const App = () => (
       <Route path="sobre/sustentabilidade" element={<SobreSustentabilidade />} />
       <Route path="sobre/social" element={<SobreSocial />} />
       <Route path="sobre/condicoes-gerais-varejistas" element={<SobreCondicoesVarejistas />} />
+
+      {/* Redirecionamentos das URLs de documentos do site antigo (Next.js) */}
+      <Route path="documentos/campanha_com_fidelidade_2anos" element={<PdfRedirect file="campanha_com_fidelidade_2anos.pdf" />} />
+      <Route path="documentos/campanha_sem_fidelidade" element={<PdfRedirect file="campanha_sem_fidelidade.pdf" />} />
+      <Route path="documentos/condicoes_gerais_gd" element={<PdfRedirect file="condicoes_gerais_gd.pdf" />} />
+      <Route path="documentos/condicoes_gerais_gd_v2" element={<PdfRedirect file="condicoes_gerais_gd_v2.pdf" />} />
+      <Route path="documentos/condicoes_gerais_gd_alta_tensao" element={<PdfRedirect file="condicoes_gerais_gd_alta_tensao.pdf" />} />
+      <Route path="documentos/condicoes_gerais_gd_externo" element={<PdfRedirect file="condicoes_gerais_gd_externo.pdf" />} />
 
       <Route path="*" element={<NotFound />} />
     </Route>
