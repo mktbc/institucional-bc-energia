@@ -1,83 +1,72 @@
 /**
- * Central de integrações do site institucional.
+ * Config pública do site.
  *
- * Sem Lovable Cloud / edge functions: estes valores são públicos no navegador.
- * Para produção no Lovable sem Build Secrets, preencha PUBLIC_INTEGRATION_VALUES
- * abaixo. Variáveis `VITE_*` continuam funcionando em ambientes externos que as
- * injetem no build.
+ * Backend: Supabase externo (projeto ufbkblkahyzfsjsoqmzg).
  *
- * ⚠️  Tudo que começa com `VITE_` vai para o bundle e é público no navegador.
- * NÃO coloque chaves privadas / tokens de servidor aqui — para isso é preciso
- * um backend (Lovable Cloud / edge function).
+ * - Chamadas de API/formulário → Edge Functions (via supabase.functions.invoke).
+ *   Secrets ficam no Supabase (Dashboard → Edge Functions → Manage secrets):
+ *   FORM_WEBHOOK_URL, SALESFORCE_API, BLOG_API, API.
+ *
+ * - Valores públicos do frontend (WhatsApp, tracking, vagas) ficam na tabela
+ *   `public.app_config` no Supabase (RLS de leitura pública). São lidos no
+ *   boot da app (loadAppConfig) e ficam disponíveis em INTEGRATIONS.
  */
-const env = import.meta.env
+import { supabase } from '@/lib/supabase'
 
-const PUBLIC_INTEGRATION_VALUES = {
-  FORM_WEBHOOK_URL: '',
-  API: '',
-  SALESFORCE_API: '',
-  BLOG_API: '',
-  SEGMENTS_API: '',
-  WHATSAPP_LINK: '',
-  WHATSAPP_LINK_COMPRAS: '',
-  WHATSAPP_LINK_PARCERIAS: '',
+type IntegrationsShape = {
+  WHATSAPP_LINK: string
+  WHATSAPP_LINK_COMPRAS: string
+  WHATSAPP_LINK_PARCERIAS: string
+  RDSTATION_TRACKING_SCRIPT_URL: string
+  VAGAS_URL: string
+  GTM_ID: string
+}
+
+// Defaults usados enquanto a config remota não carrega (e como fallback).
+export const INTEGRATIONS: IntegrationsShape = {
+  WHATSAPP_LINK: 'https://wa.link/o6o37f',
+  WHATSAPP_LINK_COMPRAS: '/contato',
+  WHATSAPP_LINK_PARCERIAS: '/contato',
   RDSTATION_TRACKING_SCRIPT_URL: '',
-  VAGAS_URL: '',
+  VAGAS_URL: 'https://grupobcenergia.vagas.solides.com.br',
   GTM_ID: ''
-} as const
+}
 
-const pick = (value: string | undefined, fallback = ''): string =>
-  (value ?? '').trim() || fallback
+const REMOTE_KEYS: Array<keyof IntegrationsShape> = [
+  'WHATSAPP_LINK',
+  'WHATSAPP_LINK_COMPRAS',
+  'WHATSAPP_LINK_PARCERIAS',
+  'RDSTATION_TRACKING_SCRIPT_URL',
+  'VAGAS_URL',
+  'GTM_ID'
+]
 
-export const INTEGRATIONS = {
-  /** Endpoint que recebe os formulários (antes: /api/form → N8N_WEBHOOK_URL). */
-  FORM_WEBHOOK_URL: pick(
-    PUBLIC_INTEGRATION_VALUES.FORM_WEBHOOK_URL,
-    pick(env.VITE_FORM_WEBHOOK_URL ?? env.VITE_N8N_WEBHOOK_URL)
-  ),
+// Alias aceito no banco (o pedido do usuário mencionou este nome).
+const KEY_ALIASES: Record<string, keyof IntegrationsShape> = {
+  RDSTATION_TRACKING_CODE_SCRIPT_URL: 'RDSTATION_TRACKING_SCRIPT_URL'
+}
 
-  /** API interna (antes: process.env.API). */
-  API: pick(PUBLIC_INTEGRATION_VALUES.API, pick(env.VITE_API)),
+let loaded: Promise<void> | null = null
 
-  /** API de números/estatísticas da home (antes: SALESFORCE_API → getNumbers). */
-  SALESFORCE_API: pick(PUBLIC_INTEGRATION_VALUES.SALESFORCE_API, pick(env.VITE_SALESFORCE_API)),
-
-  /** API de posts do blog (antes: BLOG_API / rota /api/blog). */
-  BLOG_API: pick(PUBLIC_INTEGRATION_VALUES.BLOG_API, pick(env.VITE_BLOG_API)),
-
-  /** API de segmentos (opcional — há dados locais em src/data/segments). */
-  SEGMENTS_API: pick(PUBLIC_INTEGRATION_VALUES.SEGMENTS_API, pick(env.VITE_SEGMENTS_API)),
-
-  /** Link de WhatsApp principal. */
-  WHATSAPP_LINK: pick(
-    PUBLIC_INTEGRATION_VALUES.WHATSAPP_LINK,
-    pick(env.VITE_WHATSAPP_LINK, 'https://wa.link/o6o37f')
-  ),
-
-  /** Link de WhatsApp para fornecedores/compras. */
-  WHATSAPP_LINK_COMPRAS: pick(
-    PUBLIC_INTEGRATION_VALUES.WHATSAPP_LINK_COMPRAS,
-    pick(env.VITE_WHATSAPP_LINK_COMPRAS, '/contato')
-  ),
-
-  /** Link de WhatsApp para parcerias. */
-  WHATSAPP_LINK_PARCERIAS: pick(
-    PUBLIC_INTEGRATION_VALUES.WHATSAPP_LINK_PARCERIAS,
-    pick(env.VITE_WHATSAPP_LINK_PARCERIAS, '/contato')
-  ),
-
-  /** URL do loader de rastreamento RD Station. */
-  RDSTATION_TRACKING_SCRIPT_URL: pick(
-    PUBLIC_INTEGRATION_VALUES.RDSTATION_TRACKING_SCRIPT_URL,
-    pick(env.VITE_RDSTATION_TRACKING_CODE_SCRIPT_URL)
-  ),
-
-  /** URL da página de vagas (Solides etc.). */
-  VAGAS_URL: pick(
-    PUBLIC_INTEGRATION_VALUES.VAGAS_URL,
-    pick(env.VITE_VAGAS_URL, 'https://grupobcenergia.vagas.solides.com.br')
-  ),
-
-  /** ID do Google Tag Manager. */
-  GTM_ID: pick(PUBLIC_INTEGRATION_VALUES.GTM_ID, pick(env.VITE_GTM_ID))
-} as const
+export const loadAppConfig = (): Promise<void> => {
+  if (loaded) return loaded
+  loaded = (async () => {
+    try {
+      const { data, error } = await supabase.from('app_config').select('key,value')
+      if (error) {
+        console.warn('[app_config] erro ao carregar:', error.message)
+        return
+      }
+      for (const row of data ?? []) {
+        const raw = String((row as any).key || '')
+        const key = (KEY_ALIASES[raw] || raw) as keyof IntegrationsShape
+        if (REMOTE_KEYS.includes(key) && typeof (row as any).value === 'string') {
+          INTEGRATIONS[key] = (row as any).value
+        }
+      }
+    } catch (e) {
+      console.warn('[app_config] falha:', e)
+    }
+  })()
+  return loaded
+}

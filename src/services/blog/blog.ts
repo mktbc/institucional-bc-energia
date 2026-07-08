@@ -1,12 +1,21 @@
 /**
- * MOCK — substitui a busca de posts do blog (`getBlogPosts`).
- *
- * ⚠️  TODO: TI reconectar API do blog.
- * Origem: rota Next `/api/blog` → `${BLOG_API}/posts` (WordPress/Yoast).
- * A UI (carrossel de posts na home) permanece intacta; retornar um array vazio
- * faz o componente exibir o estado "Nenhum artigo publicado.".
+ * Busca posts do blog via Edge Function `blog-posts` (Supabase externo).
+ * Secret usado pela function: BLOG_API (base URL do WordPress REST).
  */
+import { supabase } from '@/lib/supabase'
+
 export const getBlogPosts = async (): Promise<any[]> => {
-  // TODO: TI reconectar — retornar os posts reais do blog.
-  return []
+  try {
+    const { data, error } = await supabase.functions.invoke('blog-posts', {
+      method: 'GET'
+    })
+    if (error) {
+      console.error('blog-posts error:', error)
+      return []
+    }
+    return Array.isArray(data) ? data : []
+  } catch (e) {
+    console.error('blog-posts exception:', e)
+    return []
+  }
 }
