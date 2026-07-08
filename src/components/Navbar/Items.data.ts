@@ -278,7 +278,7 @@ export const itemsData: Array<NavbarItems> = [
         id: '5.3',
         title: 'Trabalhe conosco',
         target: '_blank',
-        url: 'https://grupobcenergia.vagas.solides.com.br'
+        url: INTEGRATIONS.VAGAS_URL
       },
       {
         id: '5.4',
