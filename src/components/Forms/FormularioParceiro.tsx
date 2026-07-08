@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import './bc-form.css'
 
-import { INTEGRATIONS } from '@/config/integrations'
+import { supabase } from '@/lib/supabase'
 
 type FormState = {
   nome: string
@@ -30,8 +30,8 @@ const UTM_DEFAULTS: Record<string, string> = {
   utm_channel: 'Formulario Site'
 }
 
-// TODO: TI reconectar endpoint de envio de formularios (antes: /api/form -> N8N_WEBHOOK_URL)
-const FORM_API = INTEGRATIONS.FORM_WEBHOOK_URL
+// Envio via Edge Function `form-webhook` (Supabase). A URL do N8N fica no
+// secret FORM_WEBHOOK_URL configurado no Dashboard do Supabase.
 
 const FormularioParceiro = ({
   solucao = 'arrendamento',
@@ -102,12 +102,10 @@ const FormularioParceiro = ({
         dataHoraEnvio: new Date().toISOString()
       }
 
-      const res = await fetch(FORM_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+      const { error } = await supabase.functions.invoke('form-webhook', {
+        body: payload
       })
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      if (error) throw error
 
       setSuccess(true)
     } catch {
