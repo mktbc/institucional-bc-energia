@@ -6,6 +6,10 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import '@/styles/globals.css'
 import { loadAppConfig } from '@/config/integrations'
+import { ensureDefaultUtms } from '@/helpers/utm'
+
+// Aplica UTMs padrão de trackeamento quando o visitante chega sem nenhum utm_*.
+ensureDefaultUtms()
 
 // Carrega config pública (WhatsApp, RD Station, vagas) do Supabase antes/junto do render.
 loadAppConfig()
