@@ -93,9 +93,10 @@ const App = () => (
       <Route path="documentos/condicoes_gerais_gd_alta_tensao" element={<PdfRedirect file="condicoes_gerais_gd_alta_tensao.pdf" />} />
       <Route path="documentos/condicoes_gerais_gd_externo" element={<PdfRedirect file="condicoes_gerais_gd_externo.pdf" />} />
 
-      <Route path="*" element={<NotFound />} />
-    </Route>
-  </Routes>
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  </>
 )
 
 export default App
