@@ -40,10 +40,14 @@ import SobreCondicoesVarejistas from '@/pages/sobre/condicoes-gerais-varejistas/
 
 import NotFound from '@/pages/not-found'
 import PdfRedirect from '@/pages/documentos/PdfRedirect'
+import UtmKeeper from '@/components/Utm/UtmKeeper'
 
 const App = () => (
-  <Routes>
-    <Route element={<RootLayout />}>
+  <>
+    <UtmKeeper />
+    <Routes>
+      <Route element={<RootLayout />}>
+
       <Route index element={<Home />} />
 
       <Route path="contato" element={<Contato />} />
@@ -89,9 +93,10 @@ const App = () => (
       <Route path="documentos/condicoes_gerais_gd_alta_tensao" element={<PdfRedirect file="condicoes_gerais_gd_alta_tensao.pdf" />} />
       <Route path="documentos/condicoes_gerais_gd_externo" element={<PdfRedirect file="condicoes_gerais_gd_externo.pdf" />} />
 
-      <Route path="*" element={<NotFound />} />
-    </Route>
-  </Routes>
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  </>
 )
 
 export default App

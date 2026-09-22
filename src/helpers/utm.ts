@@ -16,34 +16,78 @@ export const DEFAULT_UTMS: Record<string, string> = {
   utm_contract: 'sem fidelidade'
 }
 
+const STORAGE_KEY = 'bc_utms'
+
+const readStoredUtms = (): Record<string, string> => {
+  if (typeof window === 'undefined') return {}
+  try {
+    const raw = window.sessionStorage.getItem(STORAGE_KEY)
+    return raw ? (JSON.parse(raw) as Record<string, string>) : {}
+  } catch {
+    return {}
+  }
+}
+
+const storeUtms = (utms: Record<string, string>): void => {
+  if (typeof window === 'undefined') return
+  try {
+    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(utms))
+  } catch {
+    /* sessionStorage indisponível */
+  }
+}
+
+const readUrlUtms = (): Record<string, string> => {
+  const utms: Record<string, string> = {}
+  if (typeof window === 'undefined') return utms
+  new URLSearchParams(window.location.search).forEach((value, key) => {
+    if (key.startsWith('utm_')) utms[key] = value
+  })
+  return utms
+}
+
 /**
- * Se a URL atual não tiver nenhum parâmetro utm_*, injeta os UTMs padrão
- * na URL (sem recarregar a página), para que links e formulários os usem.
+ * Garante que a URL atual sempre tenha UTMs:
+ * - se vierem na URL, elas vencem e ficam guardadas na sessão;
+ * - se não vierem, reaplica as da sessão (navegação interna) ou as padrão.
+ * Roda em toda troca de página, sem recarregar.
  */
 export const ensureDefaultUtms = (): void => {
   if (typeof window === 'undefined') return
-  const url = new URL(window.location.href)
-  const hasUtm = Array.from(url.searchParams.keys()).some((key) => key.startsWith('utm_'))
-  if (hasUtm) return
 
-  Object.entries(DEFAULT_UTMS).forEach(([key, value]) => {
-    url.searchParams.set(key, value)
+  const fromUrl = readUrlUtms()
+  const active =
+    Object.keys(fromUrl).length > 0
+      ? fromUrl
+      : Object.keys(readStoredUtms()).length > 0
+        ? readStoredUtms()
+        : { ...DEFAULT_UTMS }
+
+  storeUtms(active)
+
+  const url = new URL(window.location.href)
+  let changed = false
+  Object.entries(active).forEach(([key, value]) => {
+    if (url.searchParams.get(key) !== value) {
+      url.searchParams.set(key, value)
+      changed = true
+    }
   })
-  window.history.replaceState(null, '', url.toString())
+
+  if (changed) window.history.replaceState(window.history.state, '', url.toString())
 }
 
 /**
- * Lê os parâmetros utm_* da URL atual. Se não houver nenhum, retorna os padrões.
+ * Lê os parâmetros utm_* da URL atual, caindo para os da sessão ou os padrões.
  */
 export const getUtmParams = (): Record<string, string> => {
   if (typeof window === 'undefined') return { ...DEFAULT_UTMS }
-  const params = new URLSearchParams(window.location.search)
-  const utms: Record<string, string> = {}
-  params.forEach((value, key) => {
-    if (key.startsWith('utm_')) utms[key] = value
-  })
-  return Object.keys(utms).length > 0 ? utms : { ...DEFAULT_UTMS }
+  const fromUrl = readUrlUtms()
+  if (Object.keys(fromUrl).length > 0) return fromUrl
+  const stored = readStoredUtms()
+  return Object.keys(stored).length > 0 ? stored : { ...DEFAULT_UTMS }
 }
+
 
 /**
  * Constrói a URL do simulador BC Energia com os UTMs da página atual
