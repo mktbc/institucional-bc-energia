@@ -40,10 +40,14 @@ import SobreCondicoesVarejistas from '@/pages/sobre/condicoes-gerais-varejistas/
 
 import NotFound from '@/pages/not-found'
 import PdfRedirect from '@/pages/documentos/PdfRedirect'
+import UtmKeeper from '@/components/Utm/UtmKeeper'
 
 const App = () => (
-  <Routes>
-    <Route element={<RootLayout />}>
+  <>
+    <UtmKeeper />
+    <Routes>
+      <Route element={<RootLayout />}>
+
       <Route index element={<Home />} />
 
       <Route path="contato" element={<Contato />} />
