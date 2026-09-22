@@ -7,7 +7,6 @@ export type UtmChannel = 'Formulario Site' | 'Widget Site'
 export const DEFAULT_UTMS: Record<string, string> = {
   utm_lp: 'grupobcenergia-com-br',
   utm_campaign_code: 'BCCAMPMKT033',
-  utm_link_id: 'BCLINK000110',
   utm_source: 'SEO',
   utm_medium: 'organic',
   utm_font: 'marketing',
