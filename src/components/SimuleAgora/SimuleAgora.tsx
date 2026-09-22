@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
-import { SIMULATOR_WIDGET_URL } from '@/helpers'
+import { buildSimulatorUrl } from '@/helpers/utm'
 import Image from '@/components/Image'
 
 type WidgetState = 'closed' | 'widget' | 'modal'
@@ -23,6 +23,7 @@ const SimuleAgora = () => {
   const [state, setState] = useState<WidgetState>('closed')
   const [iframeHeight, setIframeHeight] = useState(500)
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const simulatorUrl = useMemo(() => buildSimulatorUrl('Widget Site'), [])
 
   // Trava scroll do body quando o modal estiver aberto
   useEffect(() => {
@@ -155,7 +156,7 @@ const SimuleAgora = () => {
             </button>
             <iframe
               ref={iframeRef}
-              src={SIMULATOR_WIDGET_URL}
+              src={simulatorUrl}
               style={{
                 width: '100%',
                 height: `${iframeHeight}px`,

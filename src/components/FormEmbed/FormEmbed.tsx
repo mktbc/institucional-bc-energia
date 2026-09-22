@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 
 import { Section } from '@/components'
-import { SIMULATOR_FORM_URL } from '@/helpers'
+import { buildSimulatorUrl } from '@/helpers/utm'
 
 const ORIGIN = 'https://simulador.bcenergiacomdesconto.com.br'
 
