@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 
 import { Section } from '@/components'
-import { SIMULATOR_FORM_URL } from '@/helpers'
+import { buildSimulatorUrl } from '@/helpers/utm'
 
 const ORIGIN = 'https://simulador.bcenergiacomdesconto.com.br'
 
@@ -19,6 +19,7 @@ const theme = {
 
 const FormEmbed = ({ title, description }: { title?: string; description?: string }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const simulatorUrl = useMemo(() => buildSimulatorUrl('Formulario Site'), [])
 
   useEffect(() => {
     const iframe = iframeRef.current
@@ -117,7 +118,7 @@ const FormEmbed = ({ title, description }: { title?: string; description?: strin
       >
         <iframe
           ref={iframeRef}
-          src={SIMULATOR_FORM_URL}
+          src={simulatorUrl}
           style={{
             width: '100%',
             border: '0',
