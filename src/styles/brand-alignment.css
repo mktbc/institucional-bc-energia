@@ -1,0 +1,124 @@
+/* Brandbook alignment: official artwork and functional interface geometry.
+   Logos/client marks are never filtered, recolored or stretched. */
+.bc-logo-clearspace {
+  /* Half the symbol at the existing rendered size is approximately 10px.
+     12px provides a conservative protection area on all four sides. */
+  padding: 12px;
+  margin-inline: -12px;
+}
+.bc-footer-logo {
+  box-sizing: content-box;
+  padding: 20px;
+  object-fit: contain;
+}
+.bc-editorial.bc-reference-home .be-process > div {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 12px;
+}
+.bc-editorial.bc-reference-home .be-process > div > img { margin-top: 2px; }
+.bc-reference-home :is(.be-about-photo, .be-operation-layout figure) > img {
+  filter: saturate(.94) contrast(1.02);
+}
+.bc-form .bcf-submit:hover:not(:disabled) {
+  background: var(--bc-color-yellow) !important;
+  color: var(--bc-color-dark) !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.bc-arrow-action {
+  display: inline-flex;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--be-green-text, var(--bc-color-primary));
+  border-radius: 6px;
+  padding: 9px 14px;
+  background: transparent;
+  color: var(--be-green-text, var(--bc-color-primary));
+  font-family: Onest, sans-serif;
+  font-size: .9375rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  transition: background-color .16s ease, border-color .16s ease, color .16s ease;
+}
+.bc-arrow-action:hover {
+  background: color-mix(in srgb, var(--be-green-text, var(--bc-color-primary)) 8%, white);
+  text-decoration: none;
+}
+.bc-arrow-action:focus-visible {
+  outline: 3px solid var(--bc-color-primary);
+  outline-offset: 3px;
+}
+.bc-arrow-action--dark {
+  border-color: var(--bc-color-cyan);
+  color: var(--bc-color-cyan);
+}
+.bc-arrow-action--dark:hover {
+  background: color-mix(in srgb, var(--bc-color-cyan) 12%, transparent);
+}
+.bc-arrow-action--dark:focus-visible {
+  outline-color: var(--bc-color-yellow);
+}
+.bc-arrow-action--brand {
+  border-color: var(--bc-color-white);
+  color: var(--bc-color-white);
+}
+.bc-arrow-action--brand:hover {
+  background: color-mix(in srgb, var(--bc-color-white) 12%, transparent);
+}
+.bc-arrow-action--brand:focus-visible {
+  outline-color: var(--bc-color-yellow);
+}
+.bc-arrow-action--row {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--be-green-text, var(--bc-color-primary));
+  border-radius: 6px;
+  padding: 12px 14px;
+  background: transparent;
+  color: var(--be-green-text, var(--bc-color-primary));
+  text-align: left;
+  text-decoration: none;
+}
+.bc-arrow-action--row:hover {
+  background: color-mix(in srgb, var(--be-green-text, var(--bc-color-primary)) 8%, white);
+  text-decoration: none;
+}
+.bc-arrow-action--row.bc-arrow-action--dark {
+  border-color: var(--bc-color-cyan);
+  color: var(--bc-color-cyan);
+}
+.bc-arrow-action--row.bc-arrow-action--dark:hover {
+  background: color-mix(in srgb, var(--bc-color-cyan) 12%, var(--bc-color-dark));
+}
+.bc-arrow-action--primary {
+  border-color: var(--bc-color-yellow);
+  background: var(--bc-color-yellow);
+  color: var(--bc-color-dark);
+}
+.bc-arrow-action--primary:hover {
+  background: var(--bc-color-yellow);
+  filter: brightness(.96);
+}
+.bc-arrow-action--primary:focus-visible {
+  outline-color: var(--bc-color-dark);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bc-arrow-action { transition: none; }
+}
+@media (max-width: 767px) {
+  .bc-footer-logo { box-sizing: border-box; max-width: calc(100% - 40px); }
+}

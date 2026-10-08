@@ -1,0 +1,14 @@
+Grupo BC Energia — projeto completo atualizado
+Versão publicada: 28
+Data: 03/10/2026
+Commit: 1883fd7dea201783a683217c7d5ed15efbadafa9
+
+Inclui código-fonte, assets originais, configurações, documentação, scripts e definições existentes de backend.
+
+Para executar:
+1. Instale Node.js e npm.
+2. Execute npm ci na pasta do projeto.
+3. Configure as variáveis de ambiente conforme a documentação existente.
+4. Execute npm run dev para desenvolvimento ou npm run build para produção.
+
+Não inclui node_modules, histórico Git, credenciais locais nem dados do banco de produção. Integrações dependem das configurações e serviços existentes.

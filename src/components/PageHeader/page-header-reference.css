@@ -1,0 +1,74 @@
+/* Shared PageHeader presentation: readable editorial banners without glass effects. */
+.bc-reference-banner .bc-container {
+  max-width: var(--container-max);
+  padding-inline: 24px;
+}
+.bc-reference-banner .hero-panel {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.bc-reference-banner .hero-title {
+  max-width: none;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2.25rem, 4.4vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0;
+  text-transform: none;
+  text-wrap: pretty;
+}
+.bc-reference-banner .hero-title-accent {
+  color: hsl(var(--bc-yellow));
+}
+.bc-reference-banner .hero-description {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+.bc-reference-banner .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.bc-reference-banner .hero-actions a {
+  min-height: 48px;
+  max-width: 100%;
+  font-family: Onest, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  white-space: normal;
+}
+.bc-reference-banner .grid:has(> .bc-banner-copy) > div:has(> img) {
+  margin-block: 0;
+}
+.bc-reference-banner .grid:has(> .bc-banner-copy) img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: contain;
+}
+@media (min-width: 768px) {
+  .bc-reference-banner .bc-container {
+    padding-inline: 32px;
+  }
+}
+@media (max-width: 767px) {
+  .bc-reference-banner .bc-banner-copy,
+  .bc-reference-banner .hero-panel {
+    max-width: none;
+  }
+  .bc-reference-banner .hero-actions {
+    align-items: stretch;
+  }
+  .bc-reference-banner .hero-actions a {
+    width: auto;
+  }
+}

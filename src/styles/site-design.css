@@ -1,0 +1,51 @@
+/* Padrões compartilhados de composição e interação da marca. */
+:root { --site-gutter: clamp(20px, 3.5vw, 56px); --site-section-space: clamp(56px, 6vw, 96px); }
+.bc-site-shell { color: var(--bc-color-dark); }
+.bc-site-shell .bc-container { width: 100%; max-width: 1392px; padding-inline: var(--site-gutter); }
+.bc-site-shell :is(button, a, input, select, textarea):focus-visible { outline: 3px solid var(--bc-color-primary); outline-offset: 4px; }
+.bc-site-shell header.fixed :is(button, a):focus-visible, .bc-site-shell footer :is(button, a):focus-visible { outline-color: var(--bc-color-yellow); }
+.bc-site-shell :is(h1, h2, h3) { text-wrap: balance; }
+.bc-site-shell :is(p, li, dd) { overflow-wrap: break-word; }
+.bc-site-shell img { max-width: 100%; }
+.bc-site-shell .bc-navbar { background: var(--bc-color-dark); border-bottom: 1px solid rgb(255 255 255 / 15%); box-shadow: none; }
+.bc-site-shell--internal .bc-navbar { background: var(--bc-color-dark); border-color: rgb(255 255 255 / 15%); }
+.bc-site-shell .bc-navbar > .bc-container { min-height: 80px; }
+.bc-navbar .bc-logo-clearspace { padding-right: 20px; }
+.bc-site-shell .bc-arrow-action { min-height: 44px; }
+.bc-site-shell :is(input:not([type=checkbox]):not([type=radio]):not([type=file]),select,textarea) { min-height: 52px; border-radius: 4px; }
+.bc-site-shell :is(input,select,textarea):disabled { cursor: not-allowed; opacity: .65; }
+.bc-site-shell :is(input,select,textarea)[aria-invalid=true] { border-color: hsl(var(--error)); }
+.bc-site-shell button:disabled { cursor: not-allowed; }
+.bc-site-shell footer { background: var(--bc-color-dark); }
+.bc-site-shell footer .bc-footer-main { gap: 48px; }
+.bc-site-shell footer .bc-footer-brand > .bc-footer-identity > p { font-size: 1.75rem; text-transform: none; color: var(--bc-color-yellow); }
+.bc-site-shell footer .bc-footer-addresses p:last-child { color: rgb(255 255 255 / 80%); font-size: .875rem; line-height: 1.7; }
+.bc-site-shell footer nav a { color: rgb(255 255 255 / 85%); }
+.bc-site-shell footer nav a:hover { color: var(--bc-color-cyan); }
+.bc-site-shell--internal footer { border-top-color: rgb(255 255 255 / 15%); }
+.bc-route-loading { display: grid; min-height: 60vh; place-items: center; }
+.bc-route-loading::after {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--bc-border-subtle);
+  border-top-color: var(--bc-color-primary);
+  border-radius: 50%;
+  content: '';
+  animation: bc-route-loading-spin 800ms linear infinite;
+}
+.bc-not-found .t-metric-xl { color: var(--bc-color-cyan); }
+@keyframes bc-route-loading-spin { to { transform: rotate(1turn); } }
+.bc-footer-overview { width: min(100% - 48px,1280px); margin-inline: auto; padding-block: 24px; border-bottom: 1px solid rgb(255 255 255 / 18%); }
+.bc-footer-overview nav { display: flex; flex-wrap: wrap; gap: 8px 32px; }
+.bc-footer-overview a { display: inline-flex; align-items: center; min-height: 44px; font-size: .9375rem; }
+@media(max-width:1023px) {
+  .bc-site-shell .bc-navbar > .bc-container { min-height: 72px; }
+}
+@media(max-width:767px) {
+  .bc-site-shell footer .bc-footer-main { gap: 32px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .bc-site-shell *, .bc-site-shell *::before, .bc-site-shell *::after { scroll-behavior: auto !important; transition-duration: 0s !important; animation-duration: 0s !important; }
+  .bc-route-loading::after { animation: none; }
+}
+.bc-carousel-shell:not(#home_slider .bc-carousel-shell) .bc-carousel-toggle { position: static; margin: 16px auto 0; color: var(--bc-color-dark); border-color: var(--bc-border-subtle); min-height: 44px; padding: 8px 16px; }
