@@ -21,8 +21,9 @@ const tabletHeroImage = (src: string) => {
  * feita por fusão das fotos (com zoom lento) e entrada em cascata do texto,
  * sem barra de navegação visível. Todos os slides
  * ficam no DOM (prerender e SEO), mas só o ativo é exposto a leitores de tela
- * e ao teclado. Pausa com mouse ou foco dentro do hero, e não avança sozinho
- * com `prefers-reduced-motion`. O controle de pausa (WCAG 2.2.2) fica fora da
+ * e ao teclado. Pausa com o mouse sobre o texto/CTAs do slide (não sobre a
+ * foto, que ocupa quase toda a tela) ou com foco de teclado, e não avança
+ * sozinho com `prefers-reduced-motion`. Toque no celular não pausa. O controle de pausa (WCAG 2.2.2) fica fora da
  * composição visual e aparece, com anterior/próximo, ao receber foco do teclado.
  */
 const Hero = () => {
@@ -49,7 +50,10 @@ const Hero = () => {
     return () => window.clearTimeout(timer)
   }, [current, running, total])
 
-  const go = useCallback((index: number) => setCurrent((index + total) % total), [total])
+  const go = useCallback((index: number) => {
+    setHovered(false)
+    setCurrent((index + total) % total)
+  }, [total])
 
   return (
     <section
@@ -58,9 +62,10 @@ const Hero = () => {
       aria-roledescription="carrossel"
       aria-label="Destaques do Grupo BC Energia"
       data-running={running || undefined}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onFocusCapture={() => setFocused(true)}
+      onFocusCapture={(event) => {
+        // Só foco de teclado pausa: clique/toque num CTA não deve travar a troca.
+        if ((event.target as Element).matches?.(':focus-visible')) setFocused(true)
+      }}
       onBlurCapture={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false)
       }}
@@ -106,6 +111,8 @@ const Hero = () => {
                 aria-label={`${index + 1} de ${total}: ${slide.eyebrow ?? ''}`}
                 aria-hidden={!active}
                 {...(active ? {} : { inert: '' })}
+                onPointerEnter={(event) => event.pointerType === 'mouse' && setHovered(true)}
+                onPointerLeave={() => setHovered(false)}
               >
                 {slide.eyebrow && <p className="hx-eyebrow">{slide.eyebrow}</p>}
                 <Title className="hx-hero-title">{slide.title}</Title>
