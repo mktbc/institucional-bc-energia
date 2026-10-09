@@ -65,18 +65,34 @@ export const MarketContext = ({
   description,
   participants,
   items,
+  image,
   tone = 'soft'
 }: {
   eyebrow?: string
   title: ReactNode
   description?: string
   participants?: Item
+  /** Foto de apoio sob o título, na coluna que ficava vazia ao lado do texto longo. */
+  image?: { src: string; alt: string }
   items: Array<Item>
   tone?: ProductSectionTone
 }) => (
   <ProductSection tone={tone}>
     <div className="bc-split-head">
-      <SectionHead eyebrow={eyebrow} title={title} titleWidth="max-w-[16ch]" />
+      <div>
+        <SectionHead eyebrow={eyebrow} title={title} titleWidth="max-w-[16ch]" />
+        {image ? (
+          <img
+            src={image.src}
+            alt={image.alt}
+            width={1600}
+            height={1066}
+            loading="lazy"
+            decoding="async"
+            className="bc-split-media"
+          />
+        ) : null}
+      </div>
       <div className="bc-split-aside">
         {description ? <p>{description}</p> : null}
         {participants ? (

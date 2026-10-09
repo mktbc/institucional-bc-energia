@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 
 import Link from '@/components/Link'
 
+import CountUp from './CountUp'
 import ProductSection from './ProductSection'
 
 export type ProofItem = { title?: string; label?: string; subtitle?: string }
@@ -67,7 +68,9 @@ const ProofBand = ({
       <dl className="bc-proof-metrics">
         {items.map((item, index) => (
           <div key={`${item.title}-${index}`}>
-            <dt className="t-metric-md">{item.title}</dt>
+            <dt className="t-metric-md">
+              <CountUp value={item.title} />
+            </dt>
             <dd>
               {item.label ? <span className="bc-proof-label">{item.label}</span> : null}
               {item.subtitle}

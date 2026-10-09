@@ -74,6 +74,7 @@ export const ContextEditorial = ({
   title,
   description,
   items,
+  image,
   tone = 'soft',
   id
 }: {
@@ -81,6 +82,8 @@ export const ContextEditorial = ({
   title: ReactNode
   description?: string
   items: Array<Item>
+  /** Foto de apoio sob o título. */
+  image?: { src: string; alt: string }
   tone?: ProductSectionTone
   id?: string
 }) => {
@@ -89,7 +92,20 @@ export const ContextEditorial = ({
   return (
     <ProductSection tone={tone} id={id}>
       <div className="bc-split-head">
-        <SectionHeader eyebrow={eyebrow} title={title} />
+        <div>
+          <SectionHeader eyebrow={eyebrow} title={title} />
+          {image ? (
+            <img
+              src={image.src}
+              alt={image.alt}
+              width={1600}
+              height={1067}
+              loading="lazy"
+              decoding="async"
+              className="bc-split-media"
+            />
+          ) : null}
+        </div>
         <div className="bc-split-aside">
           {description ? <p>{description}</p> : null}
           {lead ? (

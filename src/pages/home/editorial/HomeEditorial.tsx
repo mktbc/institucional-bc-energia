@@ -13,6 +13,7 @@ import { getEpisodes, getEpisodeLabel } from '@/data/content/episodes'
 import HomeFaq from '../Sections/HomeFaq'
 import { PILLARS } from '../Sections/positioning.data'
 import Hero from '../Sections/Hero'
+import CountUp from '@/components/Product/CountUp'
 import PlantPanorama from './PlantPanorama'
 import './home-design.css'
 
@@ -153,7 +154,7 @@ const HomeEditorial = () => {
             {metrics.map((metric, index) => (
               <Reveal key={metric.id} delay={index * 0.12}>
                 <dt>{metric.label}</dt>
-                <dd className="hx-metric-value">{metric.value}</dd>
+                <dd className="hx-metric-value"><CountUp value={metric.value} /></dd>
                 {metric.description && <dd className="hx-metric-text">{metric.description}</dd>}
               </Reveal>
             ))}

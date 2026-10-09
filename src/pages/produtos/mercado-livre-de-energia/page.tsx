@@ -189,6 +189,10 @@ const FreeEnergyMarket = () => (
       eyebrow="Contexto do mercado"
       title="Principais aspectos do Ambiente de Contratação Livre"
       description={howItWorks.description}
+      image={{
+        src: '/img/editorial/infrastructure.webp',
+        alt: 'Torres de transmissão de energia ao entardecer'
+      }}
       participants={howItWorks.itens.find((item) => item.title === 'Participantes')}
       items={howItWorks.itens
         .filter((item) => item.title !== 'Participantes')

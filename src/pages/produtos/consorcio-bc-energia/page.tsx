@@ -177,6 +177,10 @@ const SubscriptionEnergy = () => (
       eyebrow="Contexto do mercado"
       title={howItWorks.title}
       description={howItWorks.description}
+      image={{
+        src: '/img/global/energia-por-assinatura.webp',
+        alt: 'Painéis solares em campo aberto gerando energia renovável'
+      }}
       items={howItWorks.itens.map((item) => ({
         title: item.title,
         description: item.description
