@@ -13,11 +13,8 @@ export type EditorialIndexProps = {
 }
 
 /**
- * VISUAL SYSTEM 06 — cluster único: cabeçalho em largura útil no topo e
- * conteúdo relacionado imediatamente abaixo.
- *
- * Substitui o padrão "header isolado em 4/12 + lista distante em 8/12", que
- * fragmentava a leitura e criava colunas vazias.
+ * Cabeçalho dividido, como as seções da Home: eyebrow e título à esquerda,
+ * descrição à direita; o conteúdo do cluster (itens, listas) vem abaixo.
  */
 const EditorialIndex = ({
   eyebrow,
@@ -28,8 +25,15 @@ const EditorialIndex = ({
   className = ''
 }: EditorialIndexProps) => (
   <div className={className}>
-    <SectionHeader eyebrow={eyebrow} title={title} description={description} as={as} />
-    <div className="mt-7 lg:mt-8">{children}</div>
+    <div className="bc-split-head">
+      <SectionHeader eyebrow={eyebrow} title={title} as={as} />
+      {description ? (
+        <div className="bc-split-aside">
+          <p>{description}</p>
+        </div>
+      ) : null}
+    </div>
+    {children}
   </div>
 )
 

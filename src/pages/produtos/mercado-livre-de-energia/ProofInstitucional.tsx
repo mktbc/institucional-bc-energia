@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import Link from '@/components/Link'
-import { ProductSection } from '@/components/Product'
+import ProofBand from '@/components/Product/ProofBand'
 import type { SectionGraphic } from '@/components/Product/ProductSection'
 import { getNumbers } from '@/services'
 
@@ -25,8 +24,7 @@ const ProofInstitucional = ({
   title,
   description,
   link,
-  id,
-  graphic = { variant: 'radial', tone: 'light', size: 'large', position: 'bottom-cut', opacity: 0.05 }
+  id
 }: ProofInstitucionalProps) => {
   const [data, setData] = useState<NumberItem[]>([])
 
@@ -41,50 +39,14 @@ const ProofInstitucional = ({
   }, [context])
 
   return (
-    <ProductSection graphic={graphic} tone="dark" id={id}>
-      <div className="w-full">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-          <div>
-            <span aria-hidden="true" className="block h-[2px] w-8 bg-bc-cyan" />
-            <h2 className="mt-5 max-w-[16ch] t-h2 text-white">
-              {title}
-            </h2>
-            {description ? (
-              <p className="mt-[18px] max-w-[28rem] t-body-lg text-white/75">
-                {description}
-              </p>
-            ) : null}
-            {link ? (
-              <Link
-                href={link.href}
-                target={link.target}
-                data-cta-name={link.label}
-                data-cta-location="product_proof"
-                className="bc-arrow-action bc-arrow-action--dark mt-8 t-action-label focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bc-dark"
-              >
-                {link.label}
-              </Link>
-            ) : null}
-          </div>
-
-          <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
-            {data.map((item, index) => (
-              <div
-                key={`${item.title}-${index}`}
-                className="flex h-full flex-col rounded-[12px] bg-white/[0.04] px-5 pb-5 pt-[18px] sm:min-h-[150px]"
-              >
-                <dt className="t-metric-md text-bc-cyan">
-                  {item.title}
-                </dt>
-                <dd className="mt-3 t-body-sm text-white/75">
-                  {item.subtitle}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </div>
-    </ProductSection>
+    <ProofBand
+      id={id}
+      title={title}
+      description={description}
+      link={link}
+      ctaLocation="product_proof"
+      items={data}
+    />
   )
 }
 

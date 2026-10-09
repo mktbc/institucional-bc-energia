@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react'
 
 import { logos } from '@/components/Customers/Customers.data'
 import LogoStrip from '@/components/Customers/LogoStrip'
-import Link from '@/components/Link'
+import ProofBand from '@/components/Product/ProofBand'
 import { getNumbers } from '@/services'
 
-import SegmentSection from './SegmentSection'
 import type { SectionGraphic } from '@/components/Product/ProductSection'
 
 type NumberItem = { title?: string; subtitle?: string }
@@ -38,7 +37,6 @@ const selectLogos = (limit: number) => {
  * Amarelo apenas sobre fundo escuro.
  */
 const SegmentProof = ({
-  graphic = { variant: 'radial', tone: 'light', size: 'large', position: 'bottom-cut', opacity: 0.05 },
   context = 'segmentos',
   title,
   description,
@@ -60,42 +58,14 @@ const SegmentProof = ({
 
   return (
     <>
-      <SegmentSection graphic={graphic} tone="dark" id={id}>
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end lg:gap-10">
-          <div className="lg:col-span-5">
-            <h2 className="t-h2 text-white">{title}</h2>
-            {description ? (
-              <p className="mt-4 max-w-[38rem] t-body text-white/80">
-                {description}
-              </p>
-            ) : null}
-            {link ? (
-              <Link
-                href={link.href}
-                target={link.target}
-                data-cta-name={link.label}
-                data-cta-location="segment_proof"
-                className="bc-arrow-action bc-arrow-action--dark mt-6 t-action-label focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bc-dark"
-              >
-                {link.label}
-              </Link>
-            ) : null}
-          </div>
-
-          {data.length ? (
-            <dl className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-3 lg:col-span-7">
-              {data.map((item, index) => (
-                <div key={`${item.title}-${index}`}>
-                  <dt className="t-metric-md text-bc-cyan">
-                    {item.title}
-                  </dt>
-                  <dd className="mt-2 t-body-sm leading-snug text-white/80">{item.subtitle}</dd>
-                </div>
-              ))}
-            </dl>
-          ) : null}
-        </div>
-      </SegmentSection>
+      <ProofBand
+        id={id}
+        title={title}
+        description={description}
+        link={link}
+        ctaLocation="segment_proof"
+        items={data}
+      />
 
       {/* Mesma faixa institucional de clientes do restante do site. */}
       <section className="bc-client-strip bc-level-support bg-surface">

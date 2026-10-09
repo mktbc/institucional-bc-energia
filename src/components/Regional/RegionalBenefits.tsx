@@ -1,4 +1,4 @@
-import { EditorialIndex } from '@/components/Editorial'
+import { EditorialIndex, ItemGrid } from '@/components/Editorial'
 
 import RegionalSection, { type RegionalSectionTone } from './RegionalSection'
 
@@ -36,18 +36,7 @@ const RegionalBenefits = ({
     <RegionalSection tone={tone} id={id}>
       <EditorialIndex eyebrow={eyebrow} title={title} description={description}>
 
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 lg:gap-5">
-          {items.map((item) => (
-            <li key={item.title} className="rounded-card bg-surface-muted p-5 lg:p-6">
-              <h3 className="t-h4 text-text-primary">{item.title}</h3>
-              {item.description ? (
-                <p className="mt-1.5 t-body-sm text-text-secondary">
-                  {item.description}
-                </p>
-              ) : null}
-            </li>
-          ))}
-        </ul>
+        <ItemGrid items={items} />
       </EditorialIndex>
     </RegionalSection>
   )

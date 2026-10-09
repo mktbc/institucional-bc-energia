@@ -66,7 +66,7 @@ export const howItWorks: HowItWorksProps = {
   ],
   checkItem:
     'Este mercado está crescendo rapidamente em muitas partes do mundo, impulsionada pela queda nos custos das tecnologias renováveis, pelo desejo de maior independência energética e pela necessidade de reduzir as emissões de carbono e o Grupo BC Energia irá liderar esses avanços no Brasil.',
-  imgUrl: '/img/pages/consorcio-de-energia-o-que-e.webp'
+  imgUrl: '/img/pages/FOTO_BANNER_02.webp'
 }
 
 const Title = () => (

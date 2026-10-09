@@ -148,18 +148,18 @@
 .hx-home .hx-index-all { margin-top: 40px; }
 
 /* ---------- Resultados: verde institucional ---------- */
-.hx-home .hx-results { position: relative; overflow: hidden; color: #fff; background: linear-gradient(115deg, #157a73 0%, var(--hx-green) 45%, var(--hx-green-2) 100%); }
-.hx-home .hx-results::before { content: ''; position: absolute; right: -6%; bottom: -18%; width: 46%; aspect-ratio: 16 / 9; background: url('/img/brand/bc-elemento-01.svg') center / contain no-repeat; opacity: .16; pointer-events: none; }
+.hx-home .hx-results { position: relative; overflow: hidden; color: #fff; background: linear-gradient(115deg, #0d4a47 0%, #11605b 55%, #14706a 100%); }
+.hx-home .hx-results::before { content: ''; position: absolute; right: -6%; bottom: -18%; width: 46%; aspect-ratio: 16 / 9; background: url('/img/brand/bc-elemento-01.svg') center / contain no-repeat; opacity: .12; pointer-events: none; }
 .hx-home .hx-results .hx-wrap { position: relative; }
 .hx-home .hx-results .hx-eyebrow { color: #fff; }
 .hx-home .hx-results .hx-eyebrow::before { filter: brightness(0) invert(1); opacity: .8; }
-.hx-home .hx-results .hx-h2 em { color: #fff; }
+.hx-home .hx-results .hx-h2 em { color: var(--hx-cyan); }
 .hx-home .hx-row-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px 48px; }
 .hx-home .hx-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 88px; }
 .hx-home .hx-metrics > div { padding-right: 40px; }
 .hx-home .hx-metrics > div + div { padding-left: 40px; border-left: 1px solid rgb(255 255 255 / .22); }
 .hx-home .hx-metrics dt { font-size: .8125rem; letter-spacing: .04em; color: rgb(255 255 255 / .82); }
-.hx-home .hx-metric-value { margin: 20px 0 18px; font: 700 clamp(3.25rem, 4.6vw, 4.75rem)/.95 'Barlow Condensed', sans-serif; white-space: nowrap; }
+.hx-home .hx-metric-value { margin: 20px 0 18px; font: 700 clamp(3.25rem, 4.6vw, 4.75rem)/.95 'Barlow Condensed', sans-serif; color: var(--hx-yellow); white-space: nowrap; }
 .hx-home .hx-metric-text { max-width: 30ch; font-size: .9375rem; line-height: 1.6; color: rgb(255 255 255 / .78); }
 
 /* ---------- Institucional ---------- */

@@ -174,7 +174,7 @@ const FreeEnergyMarket = () => (
       steps={steps}
       image={{
         src: howItWorks.imgUrl,
-        alt: 'Como funciona o Mercado Livre de Energia'
+        alt: 'Usina solar do Grupo BC Energia vista do alto'
       }}
       note={howItWorks.checkItem}
     />

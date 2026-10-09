@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { EditorialIndex } from '@/components/Editorial'
+import { EditorialIndex, ItemGrid } from '@/components/Editorial'
 
 import InstitutionalSection, { type InstitutionalSectionTone } from './InstitutionalSection'
 
@@ -52,34 +52,23 @@ const InstitutionalList = ({
       >
         {children}
 
-        <ul
-          className={
-            columns === 3
-              ? 'grid grid-cols-1 items-start gap-x-9 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10'
-              : columns === 2
-                ? 'grid grid-cols-1 gap-x-10 sm:grid-cols-2'
-                : 'measure-body'
-          }
-        >
-          {items.map((item, index) => (
-            <li
-              key={item.title}
-              className={`border-t ${columns === 3 ? 'pt-4' : 'pt-6'} ${index > 0 && columns === 1 ? 'mt-8' : ''} ${ columns === 2 && index > 1 ? 'mt-8' : '' } ${columns === 2 && index === 1 ? 'sm:mt-0 mt-8' : ''} ${ isDark ? 'border-text-inverse/20' : 'border-border-subtle' }`}
-            >
-              <h3
-                className={`t-h4 ${isDark ? 'text-text-inverse' : 'text-text-primary'}`}
+        {columns === 1 ? (
+          <ul className="measure-body">
+            {items.map((item, index) => (
+              <li
+                key={item.title}
+                className={`border-t pt-6 ${index > 0 ? 'mt-8' : ''} ${isDark ? 'border-text-inverse/20' : 'border-border-subtle'}`}
               >
-                {item.title}
-              </h3>
-
-              <p
-                className={`${columns === 3 ? 'mt-2.5 t-body-sm' : 'mt-3 measure-body t-body'} ${ isDark ? 'text-text-inverse/75' : 'text-text-secondary' }`}
-              >
-                {item.description}
-              </p>
-            </li>
-          ))}
-        </ul>
+                <h3 className={`t-h4 ${isDark ? 'text-text-inverse' : 'text-text-primary'}`}>{item.title}</h3>
+                <p className={`mt-3 measure-body t-body ${isDark ? 'text-text-inverse/75' : 'text-text-secondary'}`}>
+                  {item.description}
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <ItemGrid items={items} columns={columns === 2 ? 2 : 3} />
+        )}
       </EditorialIndex>
     </InstitutionalSection>
   )

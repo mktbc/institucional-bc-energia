@@ -1,2 +1,4 @@
 export { default as EditorialIndex } from './EditorialIndex'
 export type { EditorialIndexProps } from './EditorialIndex'
+export { ItemGrid, CheckList } from './ItemGrid'
+export type { ItemGridItem } from './ItemGrid'

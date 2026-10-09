@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 
+import ProofBand from '@/components/Product/ProofBand'
 import SectionHeader from '@/components/SectionHeader/SectionHeader'
 import type { BCIconName } from '@/config/icons'
 
@@ -45,6 +46,19 @@ const InstitutionalHighlights = ({
   id
 }: InstitutionalHighlightsProps) => {
   const isDark = tone === 'dark' || tone === 'brand'
+
+  // Faixas escuras de números seguem o padrão único do site (ProofBand).
+  if (isDark) {
+    return (
+      <ProofBand
+        id={id}
+        eyebrow={eyebrow}
+        title={title}
+        description={description}
+        items={items.map((item) => ({ title: item.value, label: item.label, subtitle: item.description }))}
+      />
+    )
+  }
 
   return (
     <InstitutionalSection graphic={graphic} tone={tone} id={id}>
