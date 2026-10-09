@@ -30,14 +30,22 @@
 .bc-hero-description { max-width: 46ch; margin-top: 24px; color: hsl(var(--bc-white) / 92%); }
 .bc-hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px 28px; margin-top: 32px; }
 .bc-hero-secondary { min-height: 48px; color: var(--bc-color-white); font-weight: 600; }
-.bc-editorial .bc-hero-trust { border-top: 1px solid hsl(var(--bc-white) / 24%); padding-top: 20px; margin-top: 32px; font-size: .8125rem; color: hsl(var(--bc-white) / 85%); }
+/* Sem filete: a separação vem do espaço e da escala tipográfica (§17). */
+.bc-editorial .bc-hero-trust { margin-top: 28px; font-size: .8125rem; letter-spacing: .01em; color: hsl(var(--bc-white) / 78%); }
 .bc-editorial #home_slider a:focus-visible, .bc-editorial #home_slider button:focus-visible { outline-color: var(--bc-color-yellow); }
+/* Controles reunidos num único grupo alinhado à coluna de texto — setas e
+   indicadores lado a lado, nunca espalhados pelos cantos da viewport. */
+#home_slider { --hero-gutter: max(24px, calc((100vw - 1280px) / 2)); }
 #home_slider .swiper { position: relative; }
-#home_slider .swiper-button-prev, #home_slider .swiper-button-next { inset-block: auto 28px; width: 48px; height: 48px; border: 1px solid hsl(var(--bc-white) / 45%); border-radius: 50%; background: transparent; }
-#home_slider .swiper-button-prev { left: max(24px, calc((100vw - 1280px) / 2)); }
-#home_slider .swiper-button-next { left: max(84px, calc((100vw - 1280px) / 2 + 60px)); right: auto; }
-#home_slider .swiper-horizontal > .swiper-pagination-bullets { bottom: 30px; }
-.bc-carousel-toggle { position: absolute; right: max(24px, calc((100vw - 1280px) / 2)); bottom: 30px; z-index: 5; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; color: var(--bc-color-white); background: transparent; border: 1px solid hsl(var(--bc-white) / 45%); border-radius: 4px; font: 500 .8125rem/1.4 Onest,sans-serif; }
+#home_slider .swiper-button-prev, #home_slider .swiper-button-next { inset-block: auto 28px; width: 48px; height: 48px; border: 1px solid hsl(var(--bc-white) / 32%); border-radius: 50%; background: transparent; transition: border-color .2s, background-color .2s; }
+#home_slider .swiper-button-prev:hover, #home_slider .swiper-button-next:hover { border-color: hsl(var(--bc-white) / 70%); background: hsl(var(--bc-white) / 10%); }
+#home_slider .swiper-button-prev { left: var(--hero-gutter); }
+#home_slider .swiper-button-next { left: calc(var(--hero-gutter) + 60px); right: auto; }
+#home_slider .swiper-horizontal > .swiper-pagination-bullets { left: calc(var(--hero-gutter) + 136px); right: auto; bottom: 48px; width: auto; text-align: left; }
+/* WCAG 2.2.2 — o autoplay passa de 5s, então o controle de pausa continua
+   existindo para teclado e leitor de tela, mas fora da composição visual. */
+#home_slider .bc-carousel-toggle { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+#home_slider .bc-carousel-toggle:focus-visible { left: var(--hero-gutter); bottom: 92px; z-index: 5; display: flex; align-items: center; gap: 10px; width: auto; height: auto; min-height: 44px; padding: 8px 12px; margin: 0; overflow: visible; clip-path: none; color: var(--bc-color-white); background: hsl(var(--bc-dark) / 90%); border: 1px solid hsl(var(--bc-white) / 45%); border-radius: 4px; font: 500 .8125rem/1.4 Onest,sans-serif; }
 /* Benefícios: fotografia e texto em proporções distintas. */
 .be-movement { display: grid; grid-template-columns: .9fr 1.1fr; align-items: center; gap: clamp(32px, 6vw, 88px); padding-block: var(--home-space); }
 .be-movement-photo { position: relative; margin: 0; }
@@ -189,11 +197,12 @@
   .bc-editorial .bc-hero-eyebrow { margin-bottom: 16px; }
   .bc-hero-description { margin-top: 20px; }
   .bc-hero-actions { gap: 12px; margin-top: 24px; align-items: start; flex-direction: column; }
-  .bc-editorial .bc-hero-trust { margin-top: 20px; padding-top: 16px; }
-  #home_slider .swiper-button-prev { left: 20px; }
-  #home_slider .swiper-button-next { left: 76px; }
-  #home_slider .swiper-horizontal > .swiper-pagination-bullets { left: auto; right: 20px; transform: none; width: 132px; }
-  .bc-carousel-toggle { bottom: 84px; right: 20px; }
+  .bc-editorial .bc-hero-trust { margin-top: 20px; }
+  #home_slider { --hero-gutter: 20px; }
+  #home_slider .swiper-button-prev, #home_slider .swiper-button-next { width: 44px; height: 44px; inset-block: auto 24px; }
+  #home_slider .swiper-button-next { left: calc(var(--hero-gutter) + 54px); }
+  #home_slider .swiper-horizontal > .swiper-pagination-bullets { left: calc(var(--hero-gutter) + 122px); right: auto; transform: none; bottom: 42px; width: auto; text-align: left; }
+  #home_slider .bc-carousel-toggle:focus-visible { bottom: 84px; left: var(--hero-gutter); }
   .be-movement, .be-operation-layout, .be-about-layout, .be-content-layout, .be-faq-layout { grid-template-columns: 1fr; gap: 32px; }
   .be-movement-photo img { aspect-ratio: 4/3; }
   .be-pillar-narrative { grid-template-columns: 1fr 1fr; }
