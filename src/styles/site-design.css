@@ -68,3 +68,9 @@
 .bc-range-control::-moz-range-track { height: 8px; border-radius: 6px; background: var(--bc-surface-soft); }
 .bc-range-control::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 24px; height: 24px; margin-top: -8px; border-radius: 50%; background: var(--bc-color-primary); border: 2px solid var(--bc-color-white); box-shadow: 0 1px 3px hsl(var(--bc-dark) / 25%); }
 .bc-range-control::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--bc-color-primary); border: 2px solid var(--bc-color-white); }
+
+/* Cabeçalho transparente sobre os heros navy das páginas internas, como na
+   Home: ganha fundo ao rolar (data-solid vem do Navbar). */
+.bc-site-shell--internal:has(.bc-page-hero) .bc-navbar { transition: background-color .4s, border-color .4s; }
+.bc-site-shell--internal:has(.bc-page-hero) .bc-navbar:not([data-solid]) { background: transparent; border-color: transparent; box-shadow: none; }
+.bc-site-shell--internal:has(.bc-page-hero) .bc-navbar[data-solid] { background: rgb(27 36 51 / .88); backdrop-filter: blur(14px); border-color: rgb(255 255 255 / .08); }

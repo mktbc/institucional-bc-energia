@@ -9,8 +9,8 @@
      nomes, mas eles nunca tinham sido declarados: o font-size ficava inválido
      e todo H2 de seção, título de item e métrica caía para 16px herdado. */
   --be-type-display: clamp(2.75rem, 5vw, 4.75rem);
-  --be-type-section: clamp(2rem, 3.1vw, 3rem);
-  --be-type-feature: clamp(1.375rem, 1.7vw, 1.75rem);
+  --be-type-section: clamp(2rem, 3.1vw, 3.125rem);
+  --be-type-feature: clamp(1.25rem, 1.6vw, 1.5rem);
   --be-type-supporting: clamp(1.0625rem, 1.1vw, 1.1875rem);
   --be-type-metric: clamp(2.5rem, 4vw, 3.75rem);
   /* Escala de espaçamento interna: seção → cabeçalho → bloco → item. */
@@ -87,7 +87,7 @@
 .bc-inner-editorial .bc-media-composition .bc-offset-sm { margin-top: 0; }
 .bc-inner-editorial .bc-media-composition img {
   width: 100%; height: auto; min-height: 0; max-height: none;
-  aspect-ratio: 3 / 2; object-fit: cover; border-radius: 0;
+  aspect-ratio: 3 / 2; object-fit: cover; border-radius: 16px;
 }
 .bc-inner-editorial .bc-media-composition figure { align-self: start; }
 .bc-inner-editorial .bc-media-composition blockquote > span[aria-hidden] { display: none; }
@@ -104,12 +104,12 @@
 .bc-inner-editorial .bc-territory-composition > div:last-child .text-text-primary { color: var(--bc-color-white); }
 .bc-inner-editorial .bc-territory-composition > div:last-child :is(.text-bc-primary, a) { color: var(--bc-color-cyan); }
 
-.bc-inner-editorial .bc-legacy-section:not(.bc-reference-banner):not(.bg-bc-dark):not(.bg-surface-dark) { padding-block: 48px; background: var(--bc-color-white); }
-.bc-inner-editorial .bc-legacy-section:is(.bg-bc-dark,.bg-surface-dark) { padding-block: 48px; background: var(--bc-color-dark); }
+.bc-inner-editorial .bc-legacy-section:not(.bc-reference-banner):not(.bg-bc-dark):not(.bg-surface-dark) { padding-block: var(--site-section-space); background: var(--bc-color-white); }
+.bc-inner-editorial .bc-legacy-section:is(.bg-bc-dark,.bg-surface-dark) { padding-block: var(--site-section-space); background: var(--bc-color-dark); }
 .bc-inner-editorial .bc-legacy-media { display: grid; grid-template-columns: minmax(0, .6fr) minmax(0, .4fr); gap: var(--editorial-gap); align-items: start; }
 .bc-inner-editorial .bc-legacy-media > * { width: 100%; min-width: 0; flex-basis: auto; order: 1; }
 .bc-inner-editorial .bc-legacy-media > div:has(img) { order: -1; }
-.bc-inner-editorial .bc-legacy-media img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 0; }
+.bc-inner-editorial .bc-legacy-media img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 16px; }
 
 /* Benefits: compact horizontal narrative, rather than a title above cards. */
 .bc-inner-editorial .bc-benefits-composition > .bc-container {
@@ -259,25 +259,27 @@
 /* Unified internal-page styling. Order here replaces the former global
    standardization, brand-alignment and approved-direction cascade. */
 .bc-inner-editorial :is(.bc-section-heading h2, .t-h2, .t-h2-lead, .t-h2-mid):not(.bc-reference-banner *) {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
+  font-family: Onest, sans-serif;
+  font-weight: 300;
   font-size: var(--be-type-section);
-  line-height: 1.04;
-  letter-spacing: -0.01em;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
   text-transform: none;
+  text-wrap: balance;
 }
 .bc-inner-editorial :is(.t-body, .t-body-lg, .t-body-sm, .t-action-label, .t-label):not(.bc-reference-banner *) { font-family: Onest, sans-serif; }
 .bc-inner-editorial :is(.t-body, .t-body-lg):not(.bc-reference-banner *) { font-size: 1rem; line-height: 1.65; }
-.bc-inner-editorial :is(.bc-card, .bc-form-surface):not(.bc-reference-banner *) { border-radius: 8px; box-shadow: none; }
+.bc-inner-editorial :is(.bc-card, .bc-form-surface):not(.bc-reference-banner *) { border-radius: 16px; box-shadow: none; }
 .bc-inner-editorial .bc-card:hover { transform: none; }
 .bc-inner-editorial .bc-form-surface { max-width: 650px; overflow: visible; }
 .bc-inner-editorial .bc-form :is(input:not([type=checkbox]):not([type=radio]):not([type=hidden]), select, textarea) { font-family: Onest, sans-serif; font-size: 1rem; min-height: 48px; }
 .bc-inner-editorial .bc-form :is(input[type=checkbox], input[type=radio]) { accent-color: var(--bc-color-primary); }
 .bc-inner-editorial :is(.t-action-label, .flow-final-cta a, .bcf-submit):not(.bc-reference-banner *) { min-height: 44px; font-family: Onest, sans-serif; }
 .bc-inner-editorial :is(.t-action-label.bg-bc-yellow, .t-action-label.bg-bc-primary, .t-action-label.bg-bc-dark, .t-action-label.bg-bc-gray, .t-action-label.bg-white, .flow-final-cta a.bg-bc-accent, .bcf-submit):not(.bc-reference-banner *) {
-  min-height: 48px;
-  border-radius: 6px;
-  font-size: 1rem;
+  min-height: 52px;
+  border-radius: 999px;
+  padding-inline: 28px;
+  font-size: .9375rem;
   font-weight: 600;
   line-height: 1.35;
   letter-spacing: normal;
@@ -329,7 +331,7 @@
 .bc-inner-editorial :is(a, button, summary) { min-width: 44px; min-height: 44px; }
 .bc-inner-editorial a:not(.flex):not(.inline-flex):not(.grid):not(.block) { display: inline-flex; align-items: center; }
 .bc-inner-editorial :is(h2, h3, h4) a { font: inherit; letter-spacing: inherit; text-transform: inherit; }
-.bc-inner-editorial :is(.t-h3, .t-h3-editorial):not(.bc-reference-banner *) { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: var(--be-type-feature); line-height: 1.1; }
+.bc-inner-editorial :is(.t-h3, .t-h3-editorial):not(.bc-reference-banner *) { font-family: Onest, sans-serif; font-weight: 400; font-size: var(--be-type-feature); line-height: 1.2; letter-spacing: -.02em; }
 .bc-inner-editorial :is(.t-h4, .t-h4-display):not(.bc-reference-banner *) { font-family: Onest, sans-serif; font-weight: 600; font-size: var(--be-type-supporting); line-height: 1.35; }
 .bc-inner-editorial :is(.t-metric-xl, .t-metric-lg) { font-family: 'Barlow Condensed', sans-serif; font-size: var(--be-type-metric); line-height: 1.05; }
 .bc-inner-editorial .bc-reference-banner .hero-title { font-family: 'Barlow Condensed', sans-serif; font-size: var(--be-type-display); }
@@ -379,8 +381,8 @@
 .bc-inner-editorial :is(.bc-management-approved, .bc-leasing-approved, .bc-consortium-approved, .bc-irec-approved) .bc-proof-composition .t-metric-md { color: var(--bc-color-yellow); }
 .bc-inner-editorial :is(.bc-products-approved, .bc-content-approved, .bc-blog-approved, .bc-management-related, .bc-management-contact) .bc-arrow-action--row .text-text-secondary { font-weight: 400; }
 
-.bc-inner-editorial :is(.bc-card, .bc-operation-gallery article) { border-radius: 8px; }
-.bc-inner-editorial .bc-media-composition img { border-radius: 8px; }
+.bc-inner-editorial :is(.bc-card, .bc-operation-gallery article) { border-radius: 16px; }
+.bc-inner-editorial .bc-media-composition img { border-radius: 16px; }
 .bc-inner-editorial .bc-results h2 { font-family: Onest, sans-serif; }
 .bc-inner-editorial .bc-proof-composition { position: relative; isolation: isolate; }
 .bc-inner-editorial .bc-proof-composition::before {
@@ -397,15 +399,18 @@
 .bc-inner-editorial .bc-proof-composition > .bc-container { position: relative; z-index: 1; }
 .bc-inner-editorial .flow-final-cta a.bg-bc-accent:hover { background: var(--bc-color-dark); color: var(--bc-color-white); }
 
-.bc-site-shell .bc-inner-editorial .bc-reference-banner { position: relative; min-height: 540px; display: flex; align-items: center; background-color: var(--bc-color-dark); }
-.bc-site-shell .bc-inner-editorial .bc-reference-banner > .bc-container { padding-top: 152px; padding-bottom: 80px; }
+.bc-site-shell .bc-inner-editorial .bc-reference-banner { position: relative; min-height: 560px; display: flex; align-items: center; background-color: var(--bc-color-dark); }
+.bc-site-shell .bc-inner-editorial .bc-reference-banner > .bc-container { padding-top: 152px; padding-bottom: 96px; }
 .bc-site-shell .bc-inner-editorial .bc-reference-banner .bc-banner-copy,
 .bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-panel { max-width: 680px; }
-.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-title { font: 700 clamp(3.25rem, 5.2vw, 5.25rem) / 1.02 'Barlow Condensed', sans-serif; letter-spacing: -.025em; max-width: 20ch; }
-.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-eyebrow { font: 600 .8125rem/1.5 Onest, sans-serif; letter-spacing: .12em; margin-top: 32px; text-transform: uppercase; }
-.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-description { max-width: 52ch; margin-top: 24px; font-size: 1.0625rem; line-height: 1.7; }
-.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 32px; }
-.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-actions a { min-height: 52px; }
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-title { font: 700 clamp(3rem, 4.4vw, 4.25rem) / 1.02 'Barlow Condensed', sans-serif; letter-spacing: -.015em; max-width: 20ch; text-wrap: balance; }
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-eyebrow { display: flex; align-items: center; gap: 12px; font: 500 .75rem/1.5 Onest, sans-serif; letter-spacing: .18em; margin-top: 32px; text-transform: uppercase; }
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-eyebrow > span[aria-hidden] { display: none; }
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-eyebrow::before { content: ''; flex: none; width: 28px; height: 10px; background: url('/img/brand/bc-elemento-chevrons-teal.svg') left center / auto 100% no-repeat; transform: scaleX(-1); }
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-title-accent { color: var(--bc-color-cyan); }
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-description { max-width: 46ch; margin-top: 24px; font-size: 1.125rem; line-height: 1.7; color: rgb(255 255 255 / .78) !important; }
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 40px; }
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-actions a { min-height: 56px; }
 .bc-site-shell .bc-inner-editorial .bc-reference-banner :is(a, button):focus-visible { outline-color: var(--bc-color-yellow); }
 .bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-eyebrow { color: var(--bc-color-cyan); }
 .bc-site-shell .bc-inner-editorial .bc-reference-banner nav[aria-label="Breadcrumb"] {
@@ -426,20 +431,19 @@
   color: var(--bc-color-white);
   text-decoration-color: currentColor;
 }
-.bc-site-shell .bc-inner-editorial .bc-reference-banner .bc-ovl-readable-left {
-  background: linear-gradient(90deg, hsl(var(--bc-dark) / .94), hsl(var(--bc-dark) / .75) 35%, hsl(var(--bc-dark) / .14) 80%);
-}
 .bc-site-shell .bc-inner-editorial :is(.bc-section, .bc-section-md, .bc-section-lg, .bc-level-lead, .bc-level-mid, .bc-level-support) { padding-block: var(--site-section-space); }
-.bc-site-shell .bc-inner-editorial :is(.t-h2, .t-h2-lead, .t-h2-mid) { font: 700 clamp(2.3rem, 3.8vw, 3.75rem) / 1.08 'Barlow Condensed', sans-serif; letter-spacing: -.02em; }
-.bc-site-shell .bc-inner-editorial .t-h2-support { font: 700 clamp(2rem, 3vw, 2.75rem) / 1.12 'Barlow Condensed', sans-serif; }
+.bc-site-shell .bc-inner-editorial :is(.t-h2, .t-h2-lead, .t-h2-mid, .bc-section-heading h2):not(.bc-reference-banner *) { font: 300 var(--be-type-section) / 1.1 Onest, sans-serif; letter-spacing: -.035em; }
+.bc-site-shell .bc-inner-editorial .t-h2-support { font: 300 clamp(1.875rem, 2.6vw, 2.5rem) / 1.12 Onest, sans-serif; letter-spacing: -.03em; }
+/* Destaques dentro dos títulos (span/strong/em): Onest médio verde, como na Home. */
+.bc-site-shell .bc-inner-editorial :is(.t-h2, .t-h2-lead, .t-h2-mid, .t-h2-support, .bc-section-heading h2):not(.bc-reference-banner *) :is(strong, em, b, .text-bc-primary, .text-text-accent) { font-style: normal; font-weight: 500; color: var(--bc-color-primary); }
 .bc-site-shell .bc-inner-editorial :is(.t-body, .t-body-lg) { font-size: 1rem; line-height: 1.75; }
 .bc-site-shell .bc-inner-editorial .bc-media-composition:has(img) { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: clamp(32px, 5vw, 72px); }
-.bc-site-shell .bc-inner-editorial .bc-media-composition img { border-radius: 4px; }
-.bc-site-shell .bc-inner-editorial .bc-card { border-radius: 4px; box-shadow: none; border-color: var(--bc-border-subtle); }
-.bc-site-shell .bc-inner-editorial .bc-card:hover { border-color: var(--bc-color-primary); box-shadow: var(--shadow-sm); }
+.bc-site-shell .bc-inner-editorial .bc-media-composition img { border-radius: 16px; }
+.bc-site-shell .bc-inner-editorial .bc-card { border-radius: 16px; box-shadow: none; border-color: #e4e7e9; }
+.bc-site-shell .bc-inner-editorial .bc-card:hover { border-color: var(--bc-color-primary); box-shadow: none; }
 .bc-site-shell .bc-inner-editorial :is(input:not([type=checkbox]):not([type=radio]):not([type=file]), select, textarea) {
   border: 1px solid var(--bc-border-subtle);
-  border-radius: 6px;
+  border-radius: 12px;
   transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 .bc-site-shell .bc-inner-editorial :is(input, select, textarea)[aria-invalid='true'],
@@ -458,20 +462,131 @@
   opacity: 0.72;
 }
 @media (max-width: 1023px) {
-  .bc-site-shell .bc-inner-editorial .bc-reference-banner { min-height: 500px; }
   .bc-site-shell .bc-inner-editorial .bc-media-composition:has(img) { grid-template-columns: 1fr; gap: 32px; }
 }
 @media (max-width: 767px) {
-  .bc-site-shell .bc-inner-editorial .bc-reference-banner { min-height: 500px; }
-  .bc-site-shell .bc-inner-editorial .bc-reference-banner > .bc-container { padding-block: 128px 48px; }
-  .bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-title { font-size: clamp(2.5rem, 10.5vw, 3.5rem); }
+  .bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-title { font-size: clamp(2.5rem, 10.5vw, 3.25rem); }
   .bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-description { font-size: 1rem; }
-  .bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-actions { align-items: start; flex-direction: column; gap: 12px; }
-  .bc-site-shell .bc-inner-editorial .bc-reference-banner .bc-ovl-readable-left { background: linear-gradient(90deg, hsl(var(--bc-dark) / .9), hsl(var(--bc-dark) / .65)); }
+  .bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-actions { align-items: stretch; flex-direction: column; gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .bc-site-shell .bc-inner-editorial .bc-reference-banner nav[aria-label="Breadcrumb"] a,
   .bc-site-shell .bc-inner-editorial :is(input:not([type=checkbox]):not([type=radio]):not([type=file]), select, textarea) {
     transition: none;
   }
+}
+
+/* =====================================================================
+   Linguagem da Home nas páginas internas.
+   Mesmo vocabulário de `pages/home/editorial/home-design.css`: largura de
+   1280px, ritmo amplo, eyebrow com os chevrons da marca, títulos em Onest
+   Light, botões em pílula, fotos com cantos de 16px, números sobre o
+   degradê verde, fechamento navy com o elemento 04 e FAQ em lista. Apenas
+   composição: textos, links, dados e rastreamento vêm dos componentes.
+   ===================================================================== */
+.bc-site-shell .bc-inner-editorial {
+  --site-section-space: clamp(64px, 7vw, 112px);
+  --hx-line: #e4e7e9;
+}
+.bc-site-shell .bc-inner-editorial :is(.bc-container, .bc-container-editorial, .bc-legacy-section > .container, nav.container) {
+  width: min(100% - 80px, 1280px) !important; max-width: 1280px !important; margin-inline: auto; padding-inline: 0 !important;
+}
+
+/* Eyebrow de seção: chevrons + caixa alta espaçada (mesmo da Home). */
+.bc-site-shell .bc-inner-editorial :is(.t-eyebrow:has(+ :is(h1, h2)), .bc-section-heading > .t-eyebrow, div:has(> .t-eyebrow):has(+ h2) > .t-eyebrow, .flow-final-cta .t-eyebrow) {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+  font: 500 .75rem/1.5 Onest, sans-serif; letter-spacing: .18em; text-transform: uppercase;
+}
+.bc-site-shell .bc-inner-editorial :is(.t-eyebrow:has(+ :is(h1, h2)), .bc-section-heading > .t-eyebrow, div:has(> .t-eyebrow):has(+ h2) > .t-eyebrow, .flow-final-cta .t-eyebrow)::before {
+  content: ''; flex: none; width: 28px; height: 10px;
+  background: url('/img/brand/bc-elemento-chevrons-teal.svg') left center / auto 100% no-repeat; transform: scaleX(-1);
+}
+.bc-site-shell .bc-inner-editorial span[aria-hidden]:has(+ .t-eyebrow) { display: none; }
+.bc-site-shell .bc-inner-editorial div:has(> .t-eyebrow) + h2 { margin-top: 0; }
+
+/* Hero: eyebrow sem caixa e ação secundária em pílula contornada. */
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-eyebrow {
+  width: auto; padding: 0; border: 0; border-radius: 0; background: none; color: var(--bc-color-cyan) !important;
+}
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-actions a { padding-inline: 28px; border-radius: 999px; font-size: .9375rem; }
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-actions a.bc-arrow-action {
+  border-color: rgb(255 255 255 / .38); color: #fff; font-weight: 500;
+}
+.bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-actions a.bc-arrow-action:hover { border-color: #fff; background: rgb(255 255 255 / .06); }
+
+/* Listas de links (RelatedLinks, próximos passos): linhas com filete, sem
+   caixa, como o índice de soluções da Home. */
+.bc-site-shell .bc-inner-editorial li > .bc-arrow-action--row {
+  border: 0; border-radius: 0; background: transparent; box-shadow: none; padding: 20px 0; color: var(--bc-color-dark);
+}
+.bc-site-shell .bc-inner-editorial li > .bc-arrow-action--row:hover { background: transparent; color: var(--bc-text-accent); transform: none; }
+.bc-site-shell .bc-inner-editorial li:has(> .bc-arrow-action--row) { border-top: 1px solid var(--hx-line); border-bottom: 0; }
+.bc-site-shell .bc-inner-editorial li > .bc-arrow-action--row:is(.flex-col, [class*='flex-col']) { justify-content: flex-start; gap: 8px; min-height: 0; }
+.bc-site-shell .bc-inner-editorial .bc-form .bcf-submit { min-height: 56px; text-transform: none; letter-spacing: normal; }
+.bc-site-shell .bc-inner-editorial :is(.bc-page-section--dark, .bg-bc-dark, .bg-surface-dark) li > .bc-arrow-action--row { color: #fff; }
+
+/* Cantos: um só raio para fotos, mídias e blocos de apoio. */
+.bc-site-shell .bc-inner-editorial :is([class*='rounded-[6px]'], [class*='rounded-[8px]'], [class*='rounded-[10px]'], [class*='rounded-[12px]'], .bc-fmt-landscape, .bc-photo, .bc-photo img) { border-radius: 16px; }
+.bc-site-shell .bc-inner-editorial :is([data-layout='portfolio'] img, .bc-segment-showcase .rounded-card, .bc-blog-composition article > div:has(img), .bc-knowledge-composition .aspect-video, .bc-operation-gallery article, .bc-territory-composition > div:last-child) { border-radius: 16px; overflow: hidden; }
+.bc-site-shell .bc-inner-editorial :is(.bc-media-composition img, [data-layout='portfolio'] img, .bc-segment-showcase img, .bc-photo img, .bc-legacy-media img, .bc-blog-composition img) { filter: saturate(.88) contrast(1.04); }
+.bc-site-shell .bc-inner-editorial .bc-form-surface { border-radius: 24px; border-color: var(--hx-line); }
+
+/* Números: faixa em degradê verde com o elemento 01, como "Resultados". */
+.bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: linear-gradient(115deg, #157a73 0%, var(--bc-color-primary) 45%, var(--bc-color-support) 100%);
+  --inner-link-color: #fff;
+}
+.bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md))::before {
+  content: ''; display: block; position: absolute; z-index: 0; right: -6%; bottom: -18%; width: 46%; height: auto; aspect-ratio: 16 / 9;
+  background: url('/img/brand/bc-elemento-01.svg') center / contain no-repeat; opacity: .16; pointer-events: none;
+}
+.bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) > * { position: relative; z-index: 1; }
+.bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) :is(.bg-bc-cyan, .bc-brand-graphic) { display: none; }
+.bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) dl > div {
+  border: 0; border-radius: 0; background: transparent; padding: 0 24px 0 0;
+}
+.bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) dl > div + div { padding-left: 28px; border-left: 1px solid rgb(255 255 255 / .22); }
+.bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) .t-metric-md {
+  font: 700 clamp(2.25rem, 2.8vw, 2.875rem) / 1 'Barlow Condensed', sans-serif; color: #fff !important;
+}
+.bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) dd { margin-top: 14px; color: rgb(255 255 255 / .82); }
+.bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) a.bc-arrow-action { border-color: rgb(255 255 255 / .5); color: #fff; }
+.bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) a.bc-arrow-action:hover { border-color: #fff; background: rgb(255 255 255 / .08); }
+.bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) :is(a, button):focus-visible { outline-color: var(--bc-color-yellow); }
+
+/* Fechamento: navy com brilho turquesa e os raios (elemento 04) da Home. */
+.bc-site-shell .bc-inner-editorial .flow-final-cta {
+  position: relative; overflow: hidden; isolation: isolate; padding-block: clamp(96px, 9vw, 144px);
+  background: radial-gradient(80% 120% at 100% 100%, rgb(36 210 200 / .34), transparent 62%), var(--bc-color-dark);
+}
+.bc-site-shell .bc-inner-editorial .flow-final-cta::after {
+  content: ''; position: absolute; z-index: 0; right: -90px; top: -90px; width: 420px; height: 420px;
+  background: url('/img/brand/bc-elemento-04-yellow.svg') center / 170% no-repeat; opacity: .2; pointer-events: none;
+}
+.bc-site-shell .bc-inner-editorial .flow-final-cta > .bc-container { position: relative; z-index: 1; }
+.bc-site-shell .bc-inner-editorial .flow-final-cta .bc-container > div { padding: 0; border-radius: 0; background: transparent; }
+.bc-site-shell .bc-inner-editorial .flow-final-cta h2.t-h2-lead { max-width: 24ch; font-size: clamp(2rem, 3vw, 2.875rem); color: #fff; }
+.bc-site-shell .bc-inner-editorial .flow-final-cta h2.t-h2-lead > span { font-weight: 500; color: var(--bc-color-cyan); }
+.bc-site-shell .bc-inner-editorial .flow-final-cta a.bg-bc-accent {
+  min-height: 56px; border-radius: 999px; padding-inline: 28px; font: 600 .9375rem/1.3 Onest, sans-serif; letter-spacing: normal; text-transform: none;
+}
+.bc-site-shell .bc-inner-editorial .flow-final-cta a.bg-bc-accent:hover { background: #f5cc55; color: var(--bc-color-dark); }
+.bc-site-shell .bc-inner-editorial .flow-final-cta a.bc-arrow-action { min-height: 56px; border-color: rgb(255 255 255 / .38); color: #fff; font-weight: 500; }
+.bc-site-shell .bc-inner-editorial .flow-final-cta a.bc-arrow-action:hover { border-color: #fff; background: rgb(255 255 255 / .06); }
+
+/* FAQ: lista com filete navy no topo e perguntas em Onest regular. */
+.bc-site-shell .bc-inner-editorial .bc-faq-composition > div:last-child { border-top: 1px solid var(--bc-color-dark); }
+.bc-site-shell .bc-inner-editorial h3:has(> button[aria-controls^='accordion-panel']) { font: 400 1.0625rem/1.45 Onest, sans-serif; color: var(--bc-color-dark); }
+.bc-site-shell .bc-inner-editorial div:has(> h3 > button[aria-controls^='accordion-panel']) { border-color: #dadfdd; }
+
+@media (max-width: 1023px) {
+  .bc-site-shell .bc-inner-editorial :is(.bc-container, .bc-container-editorial, .bc-legacy-section > .container, nav.container) { width: min(100% - 48px, 1280px) !important; }
+}
+@media (max-width: 767px) {
+  .bc-site-shell .bc-inner-editorial { --site-section-space: 64px; }
+  .bc-site-shell .bc-inner-editorial :is(.bc-container, .bc-container-editorial, .bc-legacy-section > .container, nav.container) { width: min(100% - 40px, 1280px) !important; }
+  .bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) dl > div,
+  .bc-site-shell .bc-inner-editorial :is(.bc-proof-composition, .bc-page-section--dark:has(dl .t-metric-md)) dl > div + div { padding: 20px 0 0; border-left: 0; border-top: 1px solid rgb(255 255 255 / .22); }
+  .bc-site-shell .bc-inner-editorial .flow-final-cta::after { width: 260px; height: 260px; right: -80px; top: -80px; }
 }

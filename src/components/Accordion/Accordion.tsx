@@ -26,7 +26,7 @@ const Accordion: React.FC<AccordionType> = ({ title, content, open, variant = 'd
   const buttonId = `accordion-button-${reactId}`
 
   return (
-    <div className={`w-full border-b border-border-subtle transition-colors duration-200 ${isOpen ? 'border-l-2 border-l-bc-primary bg-bc-primary/[0.04]' : ''} ${variant === 'faq' ? 'border-border-subtle/80' : ''}`}>
+    <div className={`w-full border-b border-border-subtle transition-colors duration-200 ${variant === 'faq' ? 'border-border-subtle/80' : ''}`}>
       {/* ETAPA SEO 08: pergunta como H3 (subordinada ao H2 da seção de FAQ)
           envolvendo o controle real <button>. Visual padronizado no DS. */}
       <h3 className="t-h4 text-text-primary">
@@ -36,12 +36,12 @@ const Accordion: React.FC<AccordionType> = ({ title, content, open, variant = 'd
           onClick={toggleAccordion}
           aria-expanded={isOpen}
           aria-controls={panelId}
-          className={`bc-focus-ring group flex w-full cursor-pointer items-center justify-between gap-4 rounded-md px-4 py-4 text-left transition-colors duration-fast ease-bc hover:bg-surface-muted ${variant === 'faq' ? 'px-5 py-5 hover:bg-surface-card/70 sm:px-6' : ''}`}
+          className={`bc-focus-ring group flex w-full cursor-pointer items-center justify-between gap-6 py-5 text-left font-normal transition-colors duration-fast ease-bc hover:text-text-accent ${isOpen ? 'text-text-accent' : ''}`}
         >
           <span>{title}</span>
           <span
             aria-hidden="true"
-            className={`shrink-0 t-h3-editorial font-normal text-bc-primary transition-[transform,color] duration-normal ease-bc ${isOpen ? 'rotate-45' : ''} ${variant === 'faq' ? 'text-bc-dark group-hover:text-bc-primary' : ''}`}
+            className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border-subtle text-lg font-light leading-none text-bc-primary transition-[transform,border-color] duration-normal ease-bc group-hover:border-bc-primary ${isOpen ? 'rotate-45 border-bc-primary' : ''}`}
           >
             +
           </span>
@@ -53,10 +53,10 @@ const Accordion: React.FC<AccordionType> = ({ title, content, open, variant = 'd
         aria-labelledby={buttonId}
         hidden={!isOpen}
         ref={contentRef}
-        className={`overflow-hidden transition-[max-height] duration-slow ease-bc motion-reduce:transition-none ${variant === 'faq' ? 'bg-surface-card/35' : ''}`}
+        className="overflow-hidden transition-[max-height] duration-slow ease-bc motion-reduce:transition-none"
         style={{ maxHeight }}
       >
-        <div className={`px-4 pb-5 t-body leading-relaxed text-text-secondary ${variant === 'faq' ? 'max-w-[68ch] px-5 pb-6 sm:px-6' : ''}`}>{content}</div>
+        <div className="max-w-[68ch] pb-6 pr-14 t-body leading-relaxed text-text-secondary">{content}</div>
       </div>
     </div>
   )

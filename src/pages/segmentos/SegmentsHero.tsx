@@ -5,16 +5,14 @@ import { Helmet } from 'react-helmet-async'
 const SEGMENTOS_HERO_BG = '/img/pages/segmentos/hero-segmentos.webp'
 
 /**
- * Hero full-width de /segmentos.
- * Imagem de fundo em largura total (lâmpada ao pôr do sol), texto à
- * esquerda com overlay direcional suave — mais denso atrás do conteúdo,
- * mais leve no restante, para preservar o impacto do laranja e da luz.
+ * Hero de /segmentos, na mesma composição dos demais heros do site:
+ * texto à esquerda sobre o campo navy e a fotografia (lâmpada ao pôr do
+ * sol) à direita, recortada na diagonal do símbolo BC.
  */
 const SegmentsHero = () => (
   <section
     aria-label="Segmentos atendidos"
-    className="bc-reference-banner relative overflow-hidden bg-bc-dark bg-cover bg-center bg-no-repeat"
-    style={{ backgroundImage: `url(${SEGMENTOS_HERO_BG})` }}
+    className="bc-reference-banner bc-page-hero bc-page-hero--photo relative overflow-hidden"
   >
     <Helmet>
       <link
@@ -25,15 +23,14 @@ const SegmentsHero = () => (
       />
     </Helmet>
 
-    {/* Overlay direcional: leitura confortável à esquerda, lâmpada visível à direita */}
+    {/* Composição do hero da Home: fotografia à direita, recortada na
+        diagonal, com o filete turquesa; texto sobre o campo navy. */}
     <div
       aria-hidden="true"
-      className="bc-ovl bc-ovl-readable-left"
+      className="bc-page-hero-media bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${SEGMENTOS_HERO_BG})` }}
     />
-    <div
-      aria-hidden="true"
-      className="bc-ovl bc-ovl-dark"
-    />
+    <span aria-hidden="true" className="bc-page-hero-line" />
 
     <div className="bc-container relative">
       <div className="bc-banner-copy measure-intro pb-14 pt-20 sm:pt-24 lg:pb-20 lg:pt-32">
