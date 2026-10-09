@@ -269,7 +269,7 @@
   .hx-home .hx-feature > .hx-ph { height: 240px; }
   .hx-home .hx-index { margin-top: 56px; }
   .hx-home .hx-index a { grid-template-columns: 88px minmax(0, 1fr); gap: 4px 16px; padding: 12px; }
-  .hx-home .hx-index-thumb { width: 88px; aspect-ratio: 1; }
+  .hx-home .hx-index-thumb { width: 88px; aspect-ratio: 1; grid-row: 1 / span 2; align-self: start; }
   .hx-home .hx-index h3 { font-size: 1.1875rem; }
   .hx-home .hx-index p { font-size: .875rem; }
   .hx-home .hx-index-go { display: none; }
@@ -288,6 +288,8 @@
   .hx-home .hx-content { margin-top: 48px; }
 }
 @media (max-width: 399px) {
+  .hx-home .hx-index a { grid-template-columns: 64px minmax(0, 1fr); gap: 4px 14px; }
+  .hx-home .hx-index-thumb { width: 64px; }
   .hx-home .hx-portraits { grid-template-columns: 1fr; }
   .hx-home .hx-portrait:first-child, .hx-home .hx-portrait:last-child { grid-column: auto; }
   .hx-home .hx-pillars { grid-template-columns: 1fr; }
