@@ -3,7 +3,7 @@
  *
  * Executado após o `vite build` (script `postbuild`):
  *  1. compila o bundle de servidor (src/entry-server.tsx) em `dist-ssr/`;
- *  2. renderiza cada rota de INDEXABLE_ROUTES para HTML;
+ *  2. renderiza cada rota de PRERENDER_ROUTES para HTML;
  *  3. escreve `dist/<rota>/index.html` com o HTML e o <head> reais.
  *
  * O `dist/index.html` original é usado como template. As tags estáticas
@@ -19,7 +19,18 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { INDEXABLE_ROUTES } from '../src/config/routes'
+import { INDEXABLE_ROUTES, NOINDEX_ROUTES } from '../src/config/routes'
+
+/**
+ * Rotas que recebem HTML estático.
+ *
+ * As `NOINDEX_ROUTES` existem, são linkadas e precisam responder — entre elas
+ * o simulador e `/contato/enviado`, a confirmação pós-envio do formulário.
+ * Sem arquivo gerado elas caíam em 404 na hospedagem estática. A indexação
+ * continua barrada pelo `<meta name="robots" content="noindex">` que cada uma
+ * já emite por host, então gerar o HTML não as torna indexáveis.
+ */
+const PRERENDER_ROUTES = [...INDEXABLE_ROUTES, ...NOINDEX_ROUTES]
 
 const DIST = resolve('dist')
 const SSR_DIST = resolve('dist-ssr')
@@ -70,7 +81,7 @@ const run = async () => {
 
   const template = stripStaticHelmetTags(readFileSync(resolve(DIST, 'index.html'), 'utf-8'))
 
-  for (const route of INDEXABLE_ROUTES) {
+  for (const route of PRERENDER_ROUTES) {
     const { html, head } = await render(route)
 
     const page = template
@@ -106,7 +117,7 @@ const run = async () => {
   )
 
   rmSync(SSR_DIST, { recursive: true, force: true })
-  console.log(`pré-render concluído (${INDEXABLE_ROUTES.length} rotas + 404.html)`)
+  console.log(`pré-render concluído (${PRERENDER_ROUTES.length} rotas + 404.html)`)
 }
 
 
