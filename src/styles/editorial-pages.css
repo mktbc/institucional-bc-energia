@@ -802,7 +802,7 @@
 .bc-site-shell .bc-inner-editorial .bc-seg-body { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; width: 100%; padding: clamp(20px, 2vw, 28px); }
 .bc-site-shell .bc-inner-editorial .bc-seg-card h3 { font: 500 clamp(1.25rem, 1.6vw, 1.5rem)/1.2 Onest, sans-serif; letter-spacing: -.015em; color: #fff; }
 .bc-site-shell .bc-inner-editorial .bc-seg-feature .bc-seg-card h3 { font-size: clamp(1.5rem, 2.2vw, 2rem); }
-.bc-site-shell .bc-inner-editorial .bc-seg-card p { margin-top: 6px; max-width: 40ch; font-size: .9375rem; line-height: 1.5; color: rgb(255 255 255 / .82); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.bc-site-shell .bc-inner-editorial .bc-seg-card p { margin-top: 6px; max-width: 40ch; font-size: .9375rem; line-height: 1.5; color: rgb(255 255 255 / .82); }
 .bc-site-shell .bc-inner-editorial .bc-seg-go { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border: 1px solid rgb(255 255 255 / .5); border-radius: 50%; font-size: 1.125rem; color: #fff; transition: background-color .3s, border-color .3s, color .3s, transform .3s; }
 .bc-site-shell .bc-inner-editorial a.bc-seg-card:hover .bc-seg-go { background: var(--bc-color-yellow); border-color: var(--bc-color-yellow); color: var(--bc-color-dark); transform: translateX(3px); }
 .bc-site-shell .bc-inner-editorial a.bc-seg-card:focus-visible { outline: 3px solid var(--bc-color-yellow); outline-offset: 3px; }
@@ -817,7 +817,7 @@
 @media (max-width: 639px) {
   .bc-site-shell .bc-inner-editorial .bc-seg-grid { grid-template-columns: 1fr; gap: 10px; }
   .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:last-child:nth-child(odd) { grid-column: auto; }
-  .bc-site-shell .bc-inner-editorial .bc-seg-feature a.bc-seg-card { height: 240px; }
+  .bc-site-shell .bc-inner-editorial .bc-seg-feature a.bc-seg-card { height: auto; min-height: 280px; }
   .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:not(.bc-seg-feature) a.bc-seg-card {
     height: auto; grid-template-columns: 84px minmax(0, 1fr); align-items: center; gap: 14px; padding: 10px;
     border: 1px solid var(--hx-line); border-radius: 16px; background: #fff; color: var(--bc-color-dark);
