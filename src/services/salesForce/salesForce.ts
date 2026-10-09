@@ -6,7 +6,7 @@
  * responde 500. Nesse caso tentamos o contexto "home" e, por fim, o fallback
  * local — sem quebrar a página.
  */
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 
 type NumberItem = { title?: string; subtitle?: string }
 
@@ -18,6 +18,7 @@ const FALLBACK: NumberItem[] = [
 
 const fetchContext = async (context: string): Promise<NumberItem[] | null> => {
   try {
+    const supabase = await getSupabase()
     const { data, error } = await supabase.functions.invoke(
       `salesforce-numbers?context=${encodeURIComponent(context)}`,
       { method: 'GET' }
