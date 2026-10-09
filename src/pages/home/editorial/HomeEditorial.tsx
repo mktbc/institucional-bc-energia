@@ -20,12 +20,13 @@ import './home-design.css'
 const CONSORTIUM = '/produtos/consorcio-bc-energia'
 const ADHESION_URL = 'https://www.appenergia.com.br/Grupo_BC_Energia/'
 
-/** Fotografias já publicadas de cada solução (miniatura que surge no hover). */
+/** Fotografias já publicadas de cada solução (miniatura fixa em cada linha). */
 const SOLUTION_THUMBS: Record<string, string> = {
   '/produtos/mercado-livre-de-energia': '/img/global/mercado-livre-de-energia.webp',
   '/produtos/gestao-de-energia': '/img/global/gestao-de-energia.jpg',
   '/produtos/certificacao-renovavel-irec': '/img/pages/certificacao-renovavel-intro.webp',
-  '/produtos/arrendamento-de-usinas': '/img/global/arrendamento-de-usinas.webp'
+  '/produtos/arrendamento-de-usinas': '/img/global/arrendamento-de-usinas.webp',
+  'https://www.bced.com.br/': '/img/components/products-card/consultoria-juridica-thumb.webp'
 }
 
 const SOLUTION_ORDER = [
@@ -114,18 +115,17 @@ const HomeEditorial = () => {
             </Reveal>
           )}
 
-          <Reveal as="ol" className="hx-index">
-            {others.map((item, index) => (
+          <Reveal as="ul" className="hx-index">
+            {others.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} {...external(item.external)} data-cta-name={`home_solucoes_${item.title}`} data-cta-location="solutions">
-                  <span className="hx-index-n" aria-hidden="true">{String(index + 2).padStart(2, '0')}</span>
+                  <span className="hx-index-thumb hx-ph" aria-hidden="true">
+                    {SOLUTION_THUMBS[item.href] && (
+                      <img src={SOLUTION_THUMBS[item.href]} alt="" width={400} height={250} loading="lazy" decoding="async" />
+                    )}
+                  </span>
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
-                  {SOLUTION_THUMBS[item.href] ? (
-                    <span className="hx-index-thumb hx-ph" aria-hidden="true">
-                      <img src={SOLUTION_THUMBS[item.href]} alt="" width={400} height={250} loading="lazy" decoding="async" />
-                    </span>
-                  ) : <span aria-hidden="true" />}
                   <span className="hx-index-go" aria-hidden="true">{item.external ? '↗' : '→'}</span>
                 </Link>
               </li>
