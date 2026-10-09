@@ -108,7 +108,7 @@ const AboutTopics = ({ id, eyebrow, title, description, groups, legal }: AboutTo
     />
 
     <div className="bc-container relative bc-level-mid">
-      <div className="mx-auto max-w-[1180px]">
+      <div className="w-full">
         <header className="max-w-[58ch]">
           <p className="t-eyebrow mb-2 text-bc-primary">{eyebrow}</p>
           <h2 className="t-h2 text-text-primary">{title}</h2>

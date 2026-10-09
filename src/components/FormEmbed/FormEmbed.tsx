@@ -154,7 +154,7 @@ const FormEmbed = ({
       {/* VISUAL SYSTEM 02 — blocos de formulário permanecem sem grafismo
           (círculos e filete gradiente removidos: contrariavam esta regra). */}
 
-      <div className="relative z-10 mx-auto grid w-full max-w-[1180px] grid-cols-1 items-center gap-9 lg:grid-cols-12 lg:gap-10 xl:gap-10">
+      <div className="relative z-10 grid w-full grid-cols-1 items-center gap-9 lg:grid-cols-12 lg:gap-10 xl:gap-10">
         <div className="text-white lg:col-span-6 lg:pr-2">
           <span className="block t-label uppercase tracking-[0.24em] text-bc-cyan">
             Fale com nossa equipe

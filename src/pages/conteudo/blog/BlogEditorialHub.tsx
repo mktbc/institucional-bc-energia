@@ -63,7 +63,7 @@ const BlogEditorialHub = ({
       />
 
       <div className="bc-container relative bc-level-mid">
-        <div className="mx-auto max-w-[1180px]">
+        <div className="w-full">
           {/* Destaque editorial — sem card: imagem + texto sobre a página. */}
           <article className="grid grid-cols-1 gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-9">
             <div className="flex min-w-0 flex-col justify-center">

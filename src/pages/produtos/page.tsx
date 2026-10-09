@@ -93,7 +93,7 @@ const Page = () => (
 
             <article className="lg:col-span-5">
               <p className="t-eyebrow text-bc-primary">Solução em destaque</p>
-              <h3 className="t-h3 mt-3 text-text-primary">
+              <h3 className="t-h2 mt-3 text-text-primary">
                 <Link
                   href={featured.href}
                   target={featured.external ? '_blank' : undefined}
@@ -103,7 +103,7 @@ const Page = () => (
                   {featured.title}
                 </Link>
               </h3>
-              <p className="mt-3 t-body text-text-secondary">{featured.description}</p>
+              <p className="mt-4 t-body-lg text-text-secondary">{featured.description}</p>
               <Link
                 href={featured.href}
                 target={featured.external ? '_blank' : undefined}

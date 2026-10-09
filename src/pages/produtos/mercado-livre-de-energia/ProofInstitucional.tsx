@@ -42,7 +42,7 @@ const ProofInstitucional = ({
 
   return (
     <ProductSection graphic={graphic} tone="dark" id={id}>
-      <div className="mx-auto max-w-[1180px]">
+      <div className="w-full">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
           <div>
             <span aria-hidden="true" className="block h-[2px] w-8 bg-bc-cyan" />

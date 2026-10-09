@@ -43,7 +43,7 @@ const SegmentsSolutions = () => (
       className="-right-[12%] top-1/2 hidden h-[38rem] w-[38rem] -translate-y-1/2 bg-right opacity-[0.05] lg:block"
     />
 
-    <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-10">
+    <div className="bc-container">
       <div className="max-w-[58rem]">
         <p className="t-eyebrow">Portfólio</p>
         <h2 className="t-h2-mid mt-2 text-text-primary">

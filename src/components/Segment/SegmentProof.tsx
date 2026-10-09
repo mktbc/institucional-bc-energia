@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { logos } from '@/components/Customers/Customers.data'
-import Image from '@/components/Image'
+import LogoStrip from '@/components/Customers/LogoStrip'
 import Link from '@/components/Link'
 import { getNumbers } from '@/services'
 
@@ -97,27 +97,11 @@ const SegmentProof = ({
         </div>
       </SegmentSection>
 
-      {/* Faixa compacta de clientes reais — sem cards, sem carrossel. */}
-      <section className="bg-surface py-8 lg:py-10">
+      {/* Mesma faixa institucional de clientes do restante do site. */}
+      <section className="bc-client-strip bc-level-support bg-surface">
         <div className="bc-container">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-8">
-            <p className="t-eyebrow shrink-0 text-bc-primary">Empresas que confiam na BC</p>
-            <ul className="flex flex-wrap items-center gap-x-8 gap-y-4 sm:gap-x-8">
-              {selectLogos(logoLimit).map((logo) => (
-                <li key={logo.id} className="flex h-9 items-center lg:h-10">
-                  <Image
-                    src={`/img/components/customers/${logo.url}`}
-                    alt={logo.name ?? logo.title}
-                    width={200}
-                    height={200}
-                    loading="lazy"
-                    decoding="async"
-                    className="max-h-9 w-auto max-w-[110px] object-contain lg:max-h-10"
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
+          <p className="t-eyebrow text-bc-primary">Empresas que confiam na BC</p>
+          <LogoStrip logos={selectLogos(logoLimit)} label="Empresas que confiam na BC" />
         </div>
       </section>
     </>

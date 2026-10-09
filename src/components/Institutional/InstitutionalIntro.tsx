@@ -106,7 +106,9 @@ const InstitutionalIntro = ({
             style={{ aspectRatio: image.aspect ?? 'auto' }}
             className={[
               'flow-institutional-photo w-full object-cover object-center',
-              wideImage ? 'lg:sticky lg:top-24' : '',
+              // Sticky só sem conteúdo abaixo da foto: com `belowImage`, a imagem
+              // presa deslizava por cima da lista ao rolar.
+              wideImage && !belowImage ? 'lg:sticky lg:top-24' : '',
               'h-auto'
             ].join(' ')}
           />

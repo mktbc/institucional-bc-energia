@@ -47,7 +47,7 @@ export const BenefitsEditorial = ({
 
   return (
     <ProductSection tone={tone}>
-      <div className="mx-auto max-w-[1180px]">
+      <div className="w-full">
         <SectionHead eyebrow={eyebrow} title={title} />
 
         {lead ? (
@@ -105,7 +105,7 @@ export const MarketContext = ({
   tone?: ProductSectionTone
 }) => (
   <ProductSection tone={tone}>
-    <div className="mx-auto max-w-[1180px]">
+    <div className="w-full">
       <SectionHead eyebrow={eyebrow} title={title} titleWidth="measure-intro" />
 
       {description ? (
@@ -167,7 +167,7 @@ export const ProfilesEditorial = ({
   tone?: ProductSectionTone
 }) => (
   <ProductSection tone={tone}>
-    <div className="mx-auto max-w-[1180px]">
+    <div className="w-full">
       <SectionHead eyebrow={eyebrow} title={title} titleWidth="max-w-[500px]" />
 
       {requirements?.length ? (
@@ -238,7 +238,7 @@ export const PortfolioEditorial = ({
     tone={tone}
     graphic={{ variant: 'loops', tone: 'teal', size: 'large', position: 'bottom-right', opacity: 0.04 }}
   >
-    <div className="mx-auto max-w-[1180px]">
+    <div className="w-full">
       <SectionHead eyebrow={eyebrow} title={title} titleWidth="measure-intro" />
 
       {description ? (

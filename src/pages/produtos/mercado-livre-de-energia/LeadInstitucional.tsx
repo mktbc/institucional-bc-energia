@@ -35,7 +35,7 @@ const LeadInstitucional = ({
 }: LeadInstitucionalProps) => (
   <ProductSection graphic={graphic} tone="surface" id={id} flush>
     <div className="bc-level-mid">
-      <div className="mx-auto grid max-w-[1180px] grid-cols-1 items-center gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
         <div>
           <div className="flex items-center gap-3">
             <span aria-hidden className="h-0.5 w-7 shrink-0 bg-bc-primary" />

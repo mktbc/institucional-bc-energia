@@ -119,6 +119,9 @@
 @media (prefers-reduced-motion: reduce) {
   .bc-arrow-action { transition: none; }
 }
+/* No celular o border-box somava os 20px de proteção dentro dos 44px de altura
+   e a marca era desenhada com ~4px. A proteção continua por fora (content-box);
+   o limite de largura vale para a arte, descontada a área de proteção. */
 @media (max-width: 767px) {
-  .bc-footer-logo { box-sizing: border-box; max-width: calc(100% - 40px); }
+  .bc-site-shell .bc-footer-logo { box-sizing: content-box; max-width: calc(100% - 40px); }
 }

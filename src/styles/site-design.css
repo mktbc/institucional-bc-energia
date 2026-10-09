@@ -3,7 +3,7 @@
    então o vão entre duas seções é o dobro do valor. Em 96px isso resultava em
    até 192px de área vazia entre blocos — a origem do ritmo "bloco pequeno,
    grande vazio". O respiro passa a vir do grid e da tipografia. */
-:root { --site-gutter: clamp(20px, 3.5vw, 56px); --site-section-space: clamp(36px, 3.6vw, 56px); }
+:root { --site-gutter: clamp(20px, 3.5vw, 56px); --site-section-space: clamp(32px, 3.4vw, 48px); }
 .bc-site-shell { color: var(--bc-color-dark); }
 .bc-site-shell .bc-container { width: 100%; max-width: 1392px; padding-inline: var(--site-gutter); }
 .bc-site-shell :is(button, a, input, select, textarea):focus-visible { outline: 3px solid var(--bc-color-primary); outline-offset: 4px; }
@@ -45,6 +45,17 @@
 @media(max-width:1023px) {
   .bc-site-shell .bc-navbar > .bc-container { min-height: 72px; }
 }
+/* Entre 1024 e 1279px menu e ações não cabiam na linha: o botão "Enviar minha
+   conta" ficava até 46px fora da tela (o cabeçalho é fixo, então era cortado,
+   sem rolagem). Só espaçamentos mudam — nenhum link é escondido. */
+@media(min-width:1024px) and (max-width:1279px) {
+  .bc-site-shell .bc-navbar > .bc-container { gap: 8px; padding-inline: 24px; }
+  .bc-navbar .bc-logo-clearspace { padding-right: 12px; }
+  .bc-navbar .bc-logo-clearspace img { height: 26px; }
+  .bc-navbar nav a { padding-inline: 5px; }
+  .bc-navbar nav a::after { inset-inline: 5px; }
+  .bc-navbar > .bc-container > div:last-of-type { gap: 12px; }
+}
 @media(max-width:767px) {
   .bc-site-shell footer .bc-footer-main { gap: 32px; }
 }
@@ -52,7 +63,6 @@
   .bc-site-shell *, .bc-site-shell *::before, .bc-site-shell *::after { scroll-behavior: auto !important; transition-duration: 0s !important; animation-duration: 0s !important; }
   .bc-route-loading::after { animation: none; }
 }
-.bc-carousel-shell:not(#home_slider .bc-carousel-shell) .bc-carousel-toggle { position: static; margin: 16px auto 0; color: var(--bc-color-dark); border-color: var(--bc-border-subtle); min-height: 44px; padding: 8px 16px; }
 
 /* Controle de faixa (simulador): área de toque de 44px com trilho visual de
    8px. Antes o próprio input tinha 8px de altura, abaixo do mínimo de toque. */

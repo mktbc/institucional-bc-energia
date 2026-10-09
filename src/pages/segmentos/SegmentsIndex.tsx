@@ -18,19 +18,13 @@ const EDITORIAL_SPAN_CLASSES = [
   'lg:col-span-4'
 ]
 
-const IMAGE_ASPECT_CLASSES = [
-  'aspect-[4/3] lg:aspect-[16/10]',
-  'aspect-[4/3] lg:aspect-[4/5]',
-  'aspect-[3/2]',
-  'aspect-[4/3]',
-  'aspect-[3/2]',
-  'aspect-[5/4]',
-  'aspect-[4/3]',
-  'aspect-[3/2]',
-  'aspect-[4/3]',
-  'aspect-[5/4]',
-  'aspect-[3/2]'
-]
+/**
+ * Mosaico: a variação vem da largura (spans acima), não da altura. Alturas
+ * diferentes dentro da mesma linha deixavam vãos de até ~100px sob as fotos
+ * menores. No desktop cada linha tem altura única; abaixo disso, 4:3.
+ */
+const imageFrameClass = (index: number) =>
+  index < 2 ? 'aspect-[4/3] lg:aspect-auto lg:h-[clamp(340px,30vw,440px)]' : 'aspect-[4/3] lg:aspect-auto lg:h-[clamp(240px,21vw,300px)]'
 
 const IMAGE_POSITION_CLASSES: Record<string, string> = {
   '/segmentos/condominio': 'object-[center_60%]',
@@ -56,7 +50,7 @@ const SegmentsIndex = () => (
       position="bottom-left"
       opacity={0.05}
     />
-    <div className="relative mx-auto w-full max-w-[1280px] px-6 lg:px-10">
+    <div className="bc-container relative">
       <div>
         {/* VISUAL SYSTEM 06 — cabeçalho no topo, índice logo abaixo. */}
         <header className="max-w-[46rem]">
@@ -91,7 +85,7 @@ const SegmentsIndex = () => (
                       <span
                         className={[
                           'relative block w-full overflow-hidden rounded-card border border-border-subtle bg-surface-muted transition-colors group-hover:border-bc-primary group-focus-visible:border-bc-primary',
-                          IMAGE_ASPECT_CLASSES[index] ?? 'aspect-[4/3]'
+                          imageFrameClass(index)
                         ].join(' ')}
                       >
                         <Image

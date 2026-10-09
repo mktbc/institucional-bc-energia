@@ -75,7 +75,7 @@ const RelatedLinks = ({
         className={`bg-surface-muted/60 py-[72px] ${className}`.trim()}
         data-testid="related-links"
       >
-        <div className="mx-auto w-full max-w-[1180px] px-6 lg:px-8">
+        <div className="bc-container">
           <div className="measure-intro">
             {eyebrow ? <p className="t-eyebrow">{eyebrow}</p> : null}
             <span aria-hidden="true" className="bc-accent-rule" />
