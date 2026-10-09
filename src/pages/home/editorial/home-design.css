@@ -95,9 +95,8 @@
 .hx-home .hx-slide.is-on > :nth-child(3) { transition-delay: .24s; }
 .hx-home .hx-slide.is-on > :nth-child(4) { transition-delay: .36s; }
 .hx-home .hx-hero-title { font: 700 clamp(3rem, 4.6vw, 4.75rem)/1 'Barlow Condensed', sans-serif; letter-spacing: -.015em; max-width: 18ch; color: #fff; text-wrap: balance; text-shadow: 0 2px 24px rgb(20 27 38 / .35); }
-/* Carrossel da Home: destaque em turquesa (fora da regra de amarelo dos
-   banners internos). */
-.hx-home .hx-hero-title :is(span, .text-bc-cyan, .flow-hero-accent) { color: var(--hx-cyan); }
+/* Carrossel da Home: destaque do título em amarelo, como nos banners internos. */
+.hx-home .hx-hero-title :is(span, .text-bc-cyan, .flow-hero-accent) { color: var(--hx-yellow); }
 .hx-home .hx-hero-lead { margin-top: 24px; max-width: 44ch; font-size: 1.1875rem; color: rgb(255 255 255 / .86); }
 .hx-home .hx-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
 .hx-home .hx-plant-pager button { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgb(255 255 255 / .25); border-radius: 50%; color: #fff; transition: border-color .3s, background-color .3s; }
