@@ -170,7 +170,6 @@
 .bc-inner-editorial .bc-segment-showcase .grid { gap: var(--editorial-gap); }
 .bc-inner-editorial .bc-segment-showcase .rounded-card { border-radius: 0; }
 .bc-inner-editorial .bc-segment-index li { border: 0; }
-.bc-inner-editorial .bc-segment-index a > span[aria-hidden] { display: none; }
 .bc-inner-editorial [data-layout='portfolio'] li { border: 0; }
 .bc-inner-editorial [data-layout='portfolio'] img { aspect-ratio: 3 / 2; border-radius: 0; }
 
@@ -786,3 +785,51 @@
 /* Destaque editorial: mesmo tratamento da declaração institucional da Home. */
 .bc-site-shell .bc-inner-editorial .bc-callout { max-width: 46rem; padding: 18px 24px; border-left: 3px solid var(--bc-color-cyan); border-radius: 0 14px 14px 0; background: rgb(36 210 200 / .08); }
 .bc-site-shell .bc-inner-editorial .bc-callout p { font: 500 clamp(1.0625rem, 1.3vw, 1.1875rem)/1.55 Onest, sans-serif; color: var(--bc-color-dark); }
+
+/* Índice de segmentos: 2 destaques + grade regular de 3 colunas. */
+.bc-site-shell .bc-inner-editorial .bc-seg-count { font: 600 .8125rem/1 Onest, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--bc-text-accent) !important; }
+.bc-site-shell .bc-inner-editorial .bc-seg-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 20px; margin: 0; padding: 0; list-style: none; }
+.bc-site-shell .bc-inner-editorial .bc-seg-grid > li { grid-column: span 2; }
+.bc-site-shell .bc-inner-editorial .bc-seg-grid > li.bc-seg-feature { grid-column: span 3; }
+.bc-site-shell .bc-inner-editorial a.bc-seg-card {
+  position: relative; isolation: isolate; overflow: hidden; align-items: end; width: 100%; height: clamp(260px, 21vw, 320px);
+  border-radius: 20px; background: var(--bc-color-dark); color: #fff; text-decoration: none;
+}
+.bc-site-shell .bc-inner-editorial .bc-seg-feature a.bc-seg-card { height: clamp(320px, 30vw, 440px); }
+.bc-site-shell .bc-inner-editorial .bc-seg-img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2, .7, .2, 1); }
+.bc-site-shell .bc-inner-editorial a.bc-seg-card::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgb(20 27 38 / .92) 0%, rgb(20 27 38 / .55) 38%, rgb(20 27 38 / .05) 72%); transition: background-color .4s; }
+.bc-site-shell .bc-inner-editorial a.bc-seg-card:hover .bc-seg-img { transform: scale(1.05); }
+.bc-site-shell .bc-inner-editorial .bc-seg-body { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; width: 100%; padding: clamp(20px, 2vw, 28px); }
+.bc-site-shell .bc-inner-editorial .bc-seg-card h3 { font: 500 clamp(1.25rem, 1.6vw, 1.5rem)/1.2 Onest, sans-serif; letter-spacing: -.015em; color: #fff; }
+.bc-site-shell .bc-inner-editorial .bc-seg-feature .bc-seg-card h3 { font-size: clamp(1.5rem, 2.2vw, 2rem); }
+.bc-site-shell .bc-inner-editorial .bc-seg-card p { margin-top: 6px; max-width: 40ch; font-size: .9375rem; line-height: 1.5; color: rgb(255 255 255 / .82); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.bc-site-shell .bc-inner-editorial .bc-seg-go { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border: 1px solid rgb(255 255 255 / .5); border-radius: 50%; font-size: 1.125rem; color: #fff; transition: background-color .3s, border-color .3s, color .3s, transform .3s; }
+.bc-site-shell .bc-inner-editorial a.bc-seg-card:hover .bc-seg-go { background: var(--bc-color-yellow); border-color: var(--bc-color-yellow); color: var(--bc-color-dark); transform: translateX(3px); }
+.bc-site-shell .bc-inner-editorial a.bc-seg-card:focus-visible { outline: 3px solid var(--bc-color-yellow); outline-offset: 3px; }
+@media (max-width: 1023px) {
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid > li, .bc-site-shell .bc-inner-editorial .bc-seg-grid > li.bc-seg-feature { grid-column: span 1; }
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:last-child:nth-child(odd) { grid-column: span 2; }
+  .bc-site-shell .bc-inner-editorial a.bc-seg-card, .bc-site-shell .bc-inner-editorial .bc-seg-feature a.bc-seg-card { height: 280px; }
+}
+/* Celular: os dois destaques seguem como foto; os demais viram linhas
+   compactas (miniatura + nome + descrição) para não alongar a página. */
+@media (max-width: 639px) {
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid { grid-template-columns: 1fr; gap: 10px; }
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:last-child:nth-child(odd) { grid-column: auto; }
+  .bc-site-shell .bc-inner-editorial .bc-seg-feature a.bc-seg-card { height: 240px; }
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:not(.bc-seg-feature) a.bc-seg-card {
+    height: auto; grid-template-columns: 84px minmax(0, 1fr); align-items: center; gap: 14px; padding: 10px;
+    border: 1px solid var(--hx-line); border-radius: 16px; background: #fff; color: var(--bc-color-dark);
+  }
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:not(.bc-seg-feature) a.bc-seg-card::before { display: none; }
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:not(.bc-seg-feature) .bc-seg-img { position: static; z-index: auto; width: 84px; height: 84px; border-radius: 12px; }
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:not(.bc-seg-feature) .bc-seg-body { padding: 0; }
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:not(.bc-seg-feature) h3 { font-size: 1.125rem; color: var(--bc-color-dark); }
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:not(.bc-seg-feature) p { margin-top: 2px; font-size: .875rem; color: var(--bc-text-secondary); }
+  .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:not(.bc-seg-feature) .bc-seg-go { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bc-site-shell .bc-inner-editorial :is(.bc-seg-img, .bc-seg-go) { transition: none; }
+  .bc-site-shell .bc-inner-editorial a.bc-seg-card:hover :is(.bc-seg-img, .bc-seg-go) { transform: none; }
+}
