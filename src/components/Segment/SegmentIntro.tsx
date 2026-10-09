@@ -34,18 +34,13 @@ export type SegmentIntroProps = {
 }
 
 /**
- * Destaque editorial interno — hairline vertical + texto semibold.
+ * Destaque editorial interno — bloco com filete turquesa, como a declaração
+ * institucional da Home.
  * Usado quando pullQuotePosition='inline'.
  */
 const InlinePullQuote = ({ text }: { text: string }) => (
-  <blockquote className="mt-5 flex gap-4 lg:mt-6 lg:gap-5">
-    <span
-      aria-hidden="true"
-      className="w-px shrink-0 self-stretch bg-bc-primary"
-    />
-    <p className="t-body-lg max-w-[44ch] font-semibold text-text-primary">
-      {text}
-    </p>
+  <blockquote className="bc-callout mt-6">
+    <p>{text}</p>
   </blockquote>
 )
 

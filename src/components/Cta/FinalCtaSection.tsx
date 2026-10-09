@@ -110,7 +110,7 @@ const FinalCtaSection = ({
                 rel={secondaryCta.rel}
                 aria-label={secondaryCta.ariaLabel}
                 data-cta-name={secondaryCta.label}
-                className="bc-arrow-action bc-arrow-action--dark mt-4"
+                className="bc-arrow-action bc-arrow-action--dark mt-3 w-full"
               >
                 {secondaryCta.label}
               </Link>

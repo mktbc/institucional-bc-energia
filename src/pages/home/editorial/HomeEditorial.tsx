@@ -175,9 +175,17 @@ const HomeEditorial = () => {
         </div>
         <div className="hx-wrap hx-about-body">
           <Reveal className="hx-about">
-            <p>O Grupo BC Energia desenvolve soluções em geração, gestão e comercialização de energia para empresas e consumidores que buscam economia, eficiência e sustentabilidade.</p>
+            <p className="hx-about-statement">O Grupo BC Energia desenvolve soluções em geração, gestão e comercialização de energia para empresas e consumidores que buscam economia, eficiência e sustentabilidade.</p>
             <div>
-              <p>Atuamos em {COVERAGE_TEXT}, com escritórios em Goiânia e São Paulo.</p>
+              <p className="hx-about-place">
+                <span className="hx-about-pin" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z" />
+                    <circle cx="12" cy="9.5" r="2.5" />
+                  </svg>
+                </span>
+                <span>Atuamos em {COVERAGE_TEXT}, com escritórios em Goiânia e São Paulo.</span>
+              </p>
               <div className="hx-actions">
                 <Link className="hx-btn hx-btn--navy" href="/sobre" data-cta-name="home_institucional_sobre">Conheça o Grupo BC Energia</Link>
                 <Link className="hx-link" href="/sobre/quem-somos" data-cta-name="home_institucional_quem_somos">Quem somos</Link>
@@ -192,8 +200,7 @@ const HomeEditorial = () => {
             {PILLARS.map((pillar, index) => (
               <Reveal key={pillar.title} delay={index * 0.1}>
                 <dt>
-                  <BCIcon name={pillar.icon} size={44} />
-                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="hx-pillar-icon" aria-hidden="true"><BCIcon name={pillar.icon} size={36} /></span>
                   {pillar.title}
                 </dt>
                 <dd>{pillar.text}</dd>

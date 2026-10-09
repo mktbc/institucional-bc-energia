@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { CSSProperties, ReactNode } from 'react'
 
 import SectionHeader from '@/components/SectionHeader/SectionHeader'
 
@@ -64,12 +64,15 @@ const ProductSteps = ({
         </div>
       ) : null}
 
-      <ol className={image ? 'flex flex-col gap-7 lg:col-span-7' : 'grid grid-cols-1 gap-6 lg:col-span-12 lg:grid-cols-2'}>
+      <ol
+        className={image ? 'flex flex-col gap-7 lg:col-span-7' : 'bc-steps lg:col-span-12'}
+        style={image ? undefined : ({ '--bc-steps': Math.min(steps.length, 4) } as CSSProperties)}
+      >
         {steps.map((step, index) => (
           <li key={step.title} className="flex gap-4">
             <span
               aria-hidden="true"
-              className="w-7 shrink-0 font-display text-[1.125rem] font-bold leading-[1.35] tabular-nums text-bc-primary"
+              className="bc-step-n w-7 shrink-0 font-display text-[1.125rem] font-bold leading-[1.35] tabular-nums text-bc-primary"
             >
               {String(index + 1).padStart(2, '0')}
             </span>
