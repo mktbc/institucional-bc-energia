@@ -68,6 +68,20 @@ export const ROUTE_META: Record<string, PageMeta> = {
       'Fale com o Grupo BC Energia. Preencha o formulário e um especialista entra em contato para entender seu consumo e indicar a melhor solução de energia.',
     breadcrumb: [{ name: 'Contato', path: '/contato' }]
   },
+  '/design-system': {
+    title: 'Design System | Grupo BC Energia',
+    description: 'Referência interna de componentes visuais do site do Grupo BC Energia.'
+  },
+  // Confirmação pós-envio (noindex): título próprio, sem herdar o da Home.
+  '/contato/enviado': {
+    title: 'Formulário enviado | Grupo BC Energia',
+    description:
+      'Formulário enviado com sucesso: seus dados serão analisados pela equipe do Grupo BC Energia o mais breve possível.',
+    breadcrumb: [
+      { name: 'Contato', path: '/contato' },
+      { name: 'Formulário enviado', path: '/contato/enviado' }
+    ]
+  },
 
   '/produtos': {
     title: 'Soluções em Energia | Grupo BC Energia',

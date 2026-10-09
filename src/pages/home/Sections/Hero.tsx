@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import { Helmet } from 'react-helmet-async'
+
 import Link from '@/components/Link'
 import { slidersData } from '../Sliders/Sliders.data'
 
@@ -63,6 +65,13 @@ const Hero = () => {
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false)
       }}
     >
+      {/* Pré-carrega só a foto do 1º slide (LCP da Home), por largura. As
+          demais rotas não pré-carregam nenhuma imagem do banner. */}
+      <Helmet>
+        <link rel="preload" as="image" href={slidersData[0].bgImageMobile ?? slidersData[0].bgImage} media="(max-width: 767px)" fetchPriority="high" />
+        <link rel="preload" as="image" href={tabletHeroImage(slidersData[0].bgImage)} media="(min-width: 768px) and (max-width: 1023px)" fetchPriority="high" />
+        <link rel="preload" as="image" href={slidersData[0].bgImage} media="(min-width: 1024px)" fetchPriority="high" />
+      </Helmet>
       <div className="hx-hero-media" aria-hidden="true">
         {slidersData.map((slide, index) => (
           <picture key={slide.id} className={`hx-ph${index === current ? ' is-on' : ''}`}>

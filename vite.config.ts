@@ -2,9 +2,15 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath, URL } from 'node:url'
 
+import { resolveSeoEnv } from './src/config/seoEnv'
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  // Ambiente de SEO resolvido no build (ver src/config/seoEnv.ts).
+  define: {
+    __SEO_ENV__: JSON.stringify(resolveSeoEnv(process.env))
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

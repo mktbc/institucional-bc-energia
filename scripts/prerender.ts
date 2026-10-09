@@ -20,6 +20,8 @@ import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
 import { INDEXABLE_ROUTES, NOINDEX_ROUTES } from '../src/config/routes'
+import { ARTICLES } from '../src/data/content/articles'
+import { EPISODES } from '../src/data/content/episodes'
 
 /**
  * Rotas que recebem HTML estático.
@@ -30,7 +32,18 @@ import { INDEXABLE_ROUTES, NOINDEX_ROUTES } from '../src/config/routes'
  * continua barrada pelo `<meta name="robots" content="noindex">` que cada uma
  * já emite por host, então gerar o HTML não as torna indexáveis.
  */
-const PRERENDER_ROUTES = [...INDEXABLE_ROUTES, ...NOINDEX_ROUTES]
+/**
+ * Artigos e episódios reais também recebem HTML próprio. Sem ele, a hospedagem
+ * entregava o HTML da Home (canonical "/", conteúdo e schema da Home) nessas
+ * URLs antes do JavaScript — e qualquer slug inventado respondia 200. Com os
+ * arquivos gerados, slugs inexistentes caem no 404.html com status 404.
+ */
+const CONTENT_ROUTES = [
+  ...ARTICLES.map((article) => `/conteudo/blog/${article.slug}`),
+  ...EPISODES.map((episode) => `/conteudo/bc-cast/${episode.slug}`)
+]
+
+const PRERENDER_ROUTES = [...INDEXABLE_ROUTES, ...NOINDEX_ROUTES, ...CONTENT_ROUTES]
 
 const DIST = resolve('dist')
 const SSR_DIST = resolve('dist-ssr')

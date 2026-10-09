@@ -25,7 +25,11 @@ export const NOINDEX_ROUTES: string[] = [
   '/sobre/condicoes-gerais-varejistas',
 
   // SIMULADOR 01 — a indexação será avaliada após QA e validação comercial.
-  '/simulador-de-economia'
+  '/simulador-de-economia',
+
+  // Página utilitária interna (referência do design system): responde 200 com
+  // HTML próprio e noindex, fora do sitemap.
+  '/design-system'
 ]
 
 /**

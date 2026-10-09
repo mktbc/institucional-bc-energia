@@ -6,58 +6,41 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
-    {
-      "source": "/contato/enviado",
-      "destination": "/"
-    },
-    {
-      "source": "/conteudo",
-      "destination": "/"
-    },
-    {
-      "source": "/conteudo/blog",
-      "destination": "/"
-    },
-    {
-      "source": "/conteudo/blog/:slug",
-      "destination": "/"
-    },
-    {
-      "source": "/conteudo/bc-cast",
-      "destination": "/"
-    },
-    {
-      "source": "/conteudo/bc-cast/:slug",
-      "destination": "/"
-    },
-    {
-      "source": "/simulador-de-economia",
-      "destination": "/"
-    },
-    {
-      "source": "/sobre/leilao",
-      "destination": "/"
-    },
-    {
-      "source": "/sobre/fator-de-alavancagem",
-      "destination": "/"
-    },
-    {
-      "source": "/sobre/condicoes-gerais-varejistas",
-      "destination": "/"
-    },
+  "redirects": [
     {
       "source": "/produtos/irec",
-      "destination": "/"
+      "destination": "/produtos/certificacao-renovavel-irec",
+      "statusCode": 301
     },
     {
-      "source": "/documentos/:arquivo",
-      "destination": "/"
+      "source": "/documentos/campanha_com_fidelidade_2anos",
+      "destination": "/docs/campanha_com_fidelidade_2anos.pdf",
+      "statusCode": 301
     },
     {
-      "source": "/design-system",
-      "destination": "/"
+      "source": "/documentos/campanha_sem_fidelidade",
+      "destination": "/docs/campanha_sem_fidelidade.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/documentos/condicoes_gerais_gd",
+      "destination": "/docs/condicoes_gerais_gd.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/documentos/condicoes_gerais_gd_v2",
+      "destination": "/docs/condicoes_gerais_gd_v2.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/documentos/condicoes_gerais_gd_alta_tensao",
+      "destination": "/docs/condicoes_gerais_gd_alta_tensao.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/documentos/condicoes_gerais_gd_externo",
+      "destination": "/docs/condicoes_gerais_gd_externo.pdf",
+      "statusCode": 301
     }
   ],
   "headers": [

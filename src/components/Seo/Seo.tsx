@@ -9,6 +9,7 @@ import {
 } from '@/config/site'
 
 import type { JsonLd } from './structuredDataBuilders'
+import { OG_SIZE } from '@/config/ogImages'
 
 /**
  * Define título, meta description, canonical, robots, Open Graph, Twitter Cards
@@ -78,6 +79,10 @@ const Seo = ({
       {socialDescription ? <meta property="og:description" content={socialDescription} /> : null}
       {canonical ? <meta property="og:url" content={canonical} /> : null}
       <meta property="og:image" content={socialImage} />
+      {/* Imagens de public/img/og/ têm 1200×630 garantidos (src/config/ogImages.ts). */}
+      {socialImage.includes('/img/og/') ? <meta property="og:image:width" content={String(OG_SIZE.width)} /> : null}
+      {socialImage.includes('/img/og/') ? <meta property="og:image:height" content={String(OG_SIZE.height)} /> : null}
+      {socialTitle ? <meta property="og:image:alt" content={socialTitle} /> : null}
 
       {/* Twitter Cards (sem @username — o projeto não declara perfil no X). */}
       <meta name="twitter:card" content={twitterCard} />

@@ -717,3 +717,7 @@
   .bc-site-shell .bc-inner-editorial :is(.bc-cast-card, .bc-cast-cta::after, .bc-cast-more::after) { transition: none; }
   .bc-site-shell .bc-inner-editorial .bc-cast-card:hover { transform: none; }
 }
+
+/* Banners (heros) de todas as páginas: destaque do título em amarelo, como o
+   banner da Home. Faixas de números e fechamentos mantêm o turquesa. */
+.bc-site-shell .bc-inner-editorial .bc-reference-banner :is(.bc-title-accent, .hero-title-accent) { color: var(--bc-color-yellow); }

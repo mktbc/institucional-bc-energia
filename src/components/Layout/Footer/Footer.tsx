@@ -10,6 +10,7 @@ import type { NavLink } from '@/config/navigation'
 
 import { FOOTER_GROUPS, FOOTER_GROUPS_MOBILE, FOOTER_LEGAL_LINKS } from './Footer.nav'
 import type { FooterGroup } from './Footer.nav'
+import { OFFICES } from '@/data/company'
 
 /**
  * Rodapé institucional — navegação secundária.
@@ -20,19 +21,8 @@ import type { FooterGroup } from './Footer.nav'
  * Divisórias reduzidas ao mínimo: apenas antes da faixa legal.
  */
 
-/** Endereços reais já publicados no site (nenhum dado novo foi criado). */
-const addresses = [
-  {
-    label: 'Goiânia (GO)',
-    value:
-      'Av. Dep. Jamel Cecílio, c/ rua 56, nº 2929, Salas 2802/2803, Ed. Brookfield Towers Torre B, Jardim Goiás, Goiânia (GO), 74810-240'
-  },
-  {
-    label: 'São Paulo (SP)',
-    value:
-      'Av. Pres. Juscelino Kubitschek, 360, 7º andar cj 71, Edifício JK 360, Vila Nova Conceição, São Paulo (SP), 04543-000'
-  }
-]
+/** Endereços reais já publicados no site — fonte única em src/data/company.ts. */
+const addresses = OFFICES.map((office) => ({ label: office.label, value: office.display }))
 
 const focusRing =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bc-yellow focus-visible:ring-offset-2 focus-visible:ring-offset-surface-dark'

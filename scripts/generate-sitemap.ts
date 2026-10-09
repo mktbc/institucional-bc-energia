@@ -10,10 +10,10 @@
  *    pelo Google. Sitemap simples e correto.
  *
  * robots.txt:
- *  - PRODUÇÃO (VITE_SEO_ENV=production): Allow: / + Sitemap: <domínio oficial>.
+ *  - PRODUÇÃO (padrão; ver src/config/seoEnv.ts): Allow: / + Sitemap: <domínio oficial>.
  *    Nenhum Disallow para páginas noindex (o crawler precisa ler o meta robots)
  *    e nenhum bloqueio de CSS/JS/imagens.
- *  - PREVIEW/STAGING (qualquer outro valor): Disallow: / como camada ADICIONAL
+ *  - PREVIEW (VITE_SEO_ENV=preview|staging ou VERCEL_ENV=preview): Disallow: / como camada ADICIONAL
  *    de proteção. A proteção principal continua sendo
  *    <meta name="robots" content="noindex,nofollow"> emitido em runtime por host
  *    (src/config/site.ts → isPreviewEnvironment()).
@@ -23,9 +23,10 @@ import { resolve } from 'path'
 
 import { getIndexableContentRoutes } from '../src/config/contentIndexing'
 import { INDEXABLE_ROUTES } from '../src/config/routes'
+import { resolveSeoEnv } from '../src/config/seoEnv'
 import { SITE_URL } from '../src/config/site'
 
-const isProduction = process.env.VITE_SEO_ENV === 'production'
+const isProduction = resolveSeoEnv(process.env) === 'production'
 
 /* ------------------------------- sitemap -------------------------------- */
 
@@ -66,7 +67,7 @@ Sitemap: ${SITE_URL}/sitemap.xml
 const robotsPreview = `# Grupo BC Energia — robots.txt (preview/staging)
 #
 # Gerado automaticamente por scripts/generate-sitemap.ts (predev/prebuild).
-# Não editar manualmente. Build de produção: VITE_SEO_ENV=production.
+# Não editar manualmente. Gerado assim só com VITE_SEO_ENV=preview ou VERCEL_ENV=preview.
 #
 # Camada ADICIONAL de proteção do ambiente duplicado. A proteção principal
 # continua sendo <meta name="robots" content="noindex,nofollow"> emitido em
