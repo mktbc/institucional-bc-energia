@@ -1,13 +1,12 @@
 import Link from '@/components/Link'
 import Accordion from '@/components/Accordion/Accordion'
-import { Container } from '@/components/Container'
 import StructuredData from '@/components/Seo/StructuredData'
 import { faqSchema } from '@/components/Seo/structuredDataBuilders'
 import Reveal from '@/components/Reveal/Reveal'
 import { faq } from '@/pages/produtos/mercado-livre-de-energia/data'
 
 /**
- * Home — FAQ interativo (REFORMULAÇÃO FINAL DA HOME).
+ * Home — FAQ interativo.
  *
  * As 5 principais dúvidas reais sobre energia sustentável e Mercado Livre de
  * Energia — mesmo conteúdo oficial já publicado na página de produto
@@ -23,31 +22,28 @@ const schemaItems = items.filter(
 )
 
 const HomeFaq = () => (
-  <section id="home_faq" className="bc-level-support bg-surface lg:py-[48px]">
+  <section id="home_faq" className="hx-section hx-soft" aria-labelledby="home-faq-title">
     <StructuredData schemas={[faqSchema(schemaItems)]} />
-    <Container width="editorial">
-      <div className="be-faq-layout">
-        <Reveal className="be-faq-intro">
-          <p className="t-eyebrow text-text-accent">Perguntas frequentes</p>
-          <h2 className="t-h2-mid text-text-primary">
-            Dúvidas sobre energia sustentável e Mercado Livre
-          </h2>
-          <p className="t-body-lg text-text-secondary">
-            As respostas diretas para as principais dúvidas de quem quer reduzir
-            o custo de energia com fontes renováveis.
-          </p>
-          <Link className="be-link bc-arrow-action" href="/contato" data-cta-name="home_faq_especialista" data-cta-location="faq">Falar com um especialista</Link>
-        </Reveal>
-        <div className="be-faq-columns">
-          <div className="be-faq-column">
-            {items.map(item => (
-              <Accordion key={item.title} open={false} variant="faq"
-                title={item.title} content={item.content}/>
-            ))}
-          </div>
-        </div>
-      </div>
-    </Container>
+    <div className="hx-wrap hx-faq">
+      <Reveal>
+        <p className="hx-eyebrow">Perguntas frequentes</p>
+        <h2 id="home-faq-title" className="hx-h2">
+          Dúvidas sobre energia sustentável e <em>Mercado Livre</em>
+        </h2>
+        <p className="hx-lead">
+          As respostas diretas para as principais dúvidas de quem quer reduzir
+          o custo de energia com fontes renováveis.
+        </p>
+        <Link className="hx-link" href="/contato" data-cta-name="home_faq_especialista" data-cta-location="faq">
+          Falar com um especialista
+        </Link>
+      </Reveal>
+      <Reveal className="hx-faq-list" delay={0.12}>
+        {items.map((item) => (
+          <Accordion key={item.title} open={false} variant="faq" title={item.title} content={item.content} />
+        ))}
+      </Reveal>
+    </div>
   </section>
 )
 

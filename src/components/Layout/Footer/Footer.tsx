@@ -105,14 +105,6 @@ const Footer: FC = () => {
   // Borda superior: na Home o rodapé vem logo abaixo do PreFooter, que também
   // é escuro — o filete deixa os dois blocos distinguíveis.
   <footer className={`mt-auto border-t border-white/[0.08] bg-surface-dark text-text-inverse ${isHome ? 'bc-home-footer' : ''}`}>
-    {isHome && <div className="be-wrap bc-footer-overview">
-      <nav aria-label="Navegação institucional">
-        {[
-          ['Grupo BC', '/sobre'], ['Soluções', '/produtos'], ['Segmentos', '/segmentos'],
-          ['Nossa estrutura', '/sobre/nossas-usinas'], ['Conteúdo', '/conteudo']
-        ].map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
-      </nav>
-    </div>}
     <Container className="py-10 lg:py-12">
       <div className="bc-footer-main grid grid-cols-1 gap-x-10 gap-y-10 lg:grid-cols-12 lg:gap-x-10">
         {/* Marca */}

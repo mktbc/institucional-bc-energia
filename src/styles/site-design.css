@@ -39,9 +39,6 @@
 }
 .bc-not-found .t-metric-xl { color: var(--bc-color-cyan); }
 @keyframes bc-route-loading-spin { to { transform: rotate(1turn); } }
-.bc-footer-overview { width: min(100% - 48px,1280px); margin-inline: auto; padding-block: 24px; border-bottom: 1px solid rgb(255 255 255 / 18%); }
-.bc-footer-overview nav { display: flex; flex-wrap: wrap; gap: 8px 32px; }
-.bc-footer-overview a { display: inline-flex; align-items: center; min-height: 44px; font-size: .9375rem; }
 @media(max-width:1023px) {
   .bc-site-shell .bc-navbar > .bc-container { min-height: 72px; }
 }
