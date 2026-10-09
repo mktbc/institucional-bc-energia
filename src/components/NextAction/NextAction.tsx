@@ -32,7 +32,7 @@ const NextAction = ({
   className = ''
 }: NextActionProps) => {
   const content = (
-    <div className={standalone ? '' : className}>
+    <div className={standalone ? 'bc-next-band' : className}>
       {prompt ? <p className="font-sans t-body-sm text-text-secondary">{prompt}</p> : null}
       <Link
         href={href}

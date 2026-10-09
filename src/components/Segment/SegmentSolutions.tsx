@@ -1,4 +1,4 @@
-import Link from '@/components/Link'
+import SolutionPick from '@/components/Editorial/SolutionPick'
 import SectionHeader from '@/components/SectionHeader/SectionHeader'
 import { PRODUCT_HUB_ITEMS } from '@/config/navigation'
 
@@ -21,7 +21,7 @@ export type SegmentSolutionsProps = {
 
 /**
  * Composição única: contexto ("Como ajudamos", 5/12) + solução principal em
- * destaque (7/12) e soluções complementares logo abaixo, claramente secundárias.
+ * cartão de destaque (7/12) e soluções complementares em linhas clicáveis.
  * Fonte única: `PRODUCT_HUB_ITEMS`.
  */
 const SegmentSolutions = ({
@@ -40,6 +40,17 @@ const SegmentSolutions = ({
 
   if (!items.length) return null
   const [lead, ...rest] = items
+  const toPick = (item: (typeof items)[number]) => ({
+    href: item.href,
+    title: item.title,
+    description: item.description,
+    target: item.external ? '_blank' : undefined,
+    tracking: {
+      'data-cta-name': item.title,
+      'data-cta-location': 'segment_solution',
+      'data-tracking-label': `segmento_${segmentSlug ?? 'geral'}_${item.title}`
+    }
+  })
 
   return (
     <SegmentSection tone={tone} id={id} className="bc-solutions-composition">
@@ -66,49 +77,11 @@ const SegmentSolutions = ({
         </div>
 
         <div className="lg:col-span-7">
-          <div className="border-l-2 border-bc-primary pl-5 lg:pl-7">
-            <p className="t-eyebrow text-bc-primary">Solução indicada</p>
-            <h3 className="t-h3 mt-2 text-text-primary">{lead.title}</h3>
-            {lead.description ? (
-              <p className="mt-3 max-w-[46rem] t-body-lg text-text-secondary">
-                {lead.description}
-              </p>
-            ) : null}
-            <Link
-              href={lead.href}
-              data-cta-name={lead.title}
-              data-cta-location="segment_solution"
-              data-tracking-label={`segmento_${segmentSlug ?? 'geral'}_${lead.title}`}
-              className={`bc-arrow-action mt-5 t-action-label focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 ${tone === 'dark' ? 'bc-arrow-action--dark' : tone === 'brand' ? 'bc-arrow-action--brand' : ''}`}
-            >
-              Ver a solução
-            </Link>
-          </div>
-
-          {rest.length ? (
-            <ul className="mt-7 grid grid-cols-1 gap-y-5 sm:grid-cols-2 sm:gap-x-10">
-              {rest.map((item) => (
-                <li key={item.href}>
-                  <h3 className="t-h4 text-text-primary">
-                    <Link
-                      href={item.href}
-                      data-cta-name={item.title}
-                      data-cta-location="segment_solution"
-                      data-tracking-label={`segmento_${segmentSlug ?? 'geral'}_${item.title}`}
-                      className={`bc-arrow-action t-action-label focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 ${tone === 'dark' ? 'bc-arrow-action--dark' : tone === 'brand' ? 'bc-arrow-action--brand' : ''}`}
-                    >
-                      {item.title}
-                    </Link>
-                  </h3>
-                  {item.description ? (
-                    <p className="mt-1 t-body-sm leading-[1.65] text-text-secondary/80">
-                      {item.description}
-                    </p>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-          ) : null}
+          <SolutionPick
+            dark={tone === 'dark' || tone === 'brand'}
+            lead={toPick(lead)}
+            rest={rest.map(toPick)}
+          />
         </div>
       </div>
     </SegmentSection>

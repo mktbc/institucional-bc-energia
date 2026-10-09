@@ -11,8 +11,8 @@ const plain = (node: ReactNode): string =>
   typeof node === 'string' || typeof node === 'number' ? String(node) : ''
 
 /**
- * Itens numerados com filete superior — mesma grade dos pilares da Home —,
- * cada um com um ícone da iconografia oficial e entrada escalonada ao rolar.
+ * Itens com filete superior — mesma grade dos pilares da Home —, cada um
+ * com um ícone em bloco turquesa claro da iconografia oficial e entrada escalonada ao rolar.
  * Usada por benefícios, desafios, perfis e aspectos em todas as rotas.
  */
 export const ItemGrid = ({ items, columns = 3 }: { items: Array<ItemGridItem>; columns?: 2 | 3 }) => {
@@ -27,8 +27,7 @@ export const ItemGrid = ({ items, columns = 3 }: { items: Array<ItemGridItem>; c
           delay={(index % columns) * 0.08}
         >
           <span className="bc-item-head" aria-hidden="true">
-            <BCIcon name={icons[index]} size={44} className="bc-item-icon" />
-            <span className="bc-item-n">{String(index + 1).padStart(2, '0')}</span>
+            <BCIcon name={icons[index]} size={36} className="bc-item-icon" />
           </span>
           <h3>{item.title}</h3>
           {item.description ? <p>{item.description}</p> : null}

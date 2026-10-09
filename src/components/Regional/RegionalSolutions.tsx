@@ -1,4 +1,4 @@
-import Link from '@/components/Link'
+import SolutionPick from '@/components/Editorial/SolutionPick'
 import { EditorialIndex } from '@/components/Editorial'
 import { PRODUCT_HUB_ITEMS } from '@/config/navigation'
 
@@ -47,53 +47,26 @@ const RegionalSolutions = ({
   if (!entries.length) return null
   const [lead, ...rest] = entries
   const trackingSlug = regionSlug ?? 'geral'
+  const toPick = ({ item, hub }: (typeof entries)[number]) => ({
+    href: item.href,
+    title: hub?.title ?? item.label,
+    description: item.description,
+    target: item.target,
+    ariaLabel: item.label,
+    tracking: {
+      'data-cta-name': `regional_${trackingSlug}_${hub?.title ?? item.href}`,
+      'data-cta-location': 'regional_solutions'
+    }
+  })
 
   return (
     <RegionalSection tone={tone} id={id} className="bc-solutions-composition">
       <EditorialIndex eyebrow={eyebrow} title={title} description={description}>
-        <div>
-          <div className="rounded-card bg-surface-card p-6 shadow-xs lg:p-7">
-            <p className="t-eyebrow text-bc-primary">Solução indicada</p>
-            <h3 className="t-h3 mt-2 text-text-primary">{lead.hub?.title ?? lead.item.label}</h3>
-            <p className="mt-2 max-w-[46rem] t-body-lg text-text-secondary">
-              {lead.item.description}
-            </p>
-            <Link
-              href={lead.item.href}
-              target={lead.item.target}
-              aria-label={lead.item.label}
-              data-cta-name={`regional_${trackingSlug}_${lead.hub?.title ?? lead.item.href}`}
-              data-cta-location="regional_solutions"
-              className={`bc-arrow-action bc-focus-ring mt-4 t-action-label ${tone === 'dark' ? 'bc-arrow-action--dark' : tone === 'brand' ? 'bc-arrow-action--brand' : ''}`}
-            >
-              Ver a solução
-            </Link>
-          </div>
-
-          {rest.length ? (
-            <ul className="mt-8 grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-2">
-              {rest.map(({ item, hub }) => (
-                <li key={item.href}>
-                  <h3 className="t-h4 text-text-primary">
-                    <Link
-                      href={item.href}
-                      target={item.target}
-                      aria-label={item.label}
-                      data-cta-name={`regional_${trackingSlug}_${hub?.title ?? item.href}`}
-                      data-cta-location="regional_solutions"
-                      className="bc-focus-ring underline-offset-4 transition-colors hover:text-bc-primary hover:underline"
-                    >
-                      {hub?.title ?? item.label}
-                    </Link>
-                  </h3>
-                  <p className="mt-1.5 max-w-[46rem] t-body-sm text-text-secondary">
-                    {item.description}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
+        <SolutionPick
+          dark={tone === 'dark' || tone === 'brand'}
+          lead={toPick(lead)}
+          rest={rest.map(toPick)}
+        />
       </EditorialIndex>
     </RegionalSection>
   )
