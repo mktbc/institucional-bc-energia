@@ -1,5 +1,9 @@
 /* Padrões compartilhados de composição e interação da marca. */
-:root { --site-gutter: clamp(20px, 3.5vw, 56px); --site-section-space: clamp(56px, 6vw, 96px); }
+/* `--site-section-space` é aplicado em cima E embaixo de cada seção interna,
+   então o vão entre duas seções é o dobro do valor. Em 96px isso resultava em
+   até 192px de área vazia entre blocos — a origem do ritmo "bloco pequeno,
+   grande vazio". O respiro passa a vir do grid e da tipografia. */
+:root { --site-gutter: clamp(20px, 3.5vw, 56px); --site-section-space: clamp(44px, 4.5vw, 72px); }
 .bc-site-shell { color: var(--bc-color-dark); }
 .bc-site-shell .bc-container { width: 100%; max-width: 1392px; padding-inline: var(--site-gutter); }
 .bc-site-shell :is(button, a, input, select, textarea):focus-visible { outline: 3px solid var(--bc-color-primary); outline-offset: 4px; }

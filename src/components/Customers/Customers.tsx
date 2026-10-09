@@ -29,10 +29,12 @@ const Customers = ({
     <Container>
       <SectionHeader eyebrow={eyebrow} title={title} description={description} />
 
+      {/* Faixa de confiança: menos colunas e logos maiores, para a seção ler
+          como prova institucional e não como uma grade de miniaturas. */}
       {variant === 'carousel' ? <LogoCarousel logos={selectLogos(limit)} label={title} /> : (
-      <ul className="mt-6 grid grid-cols-3 items-center gap-x-5 gap-y-5 sm:grid-cols-4 sm:gap-x-6 lg:grid-cols-6 lg:gap-x-8 lg:gap-y-6 xl:grid-cols-7">
+      <ul className="mt-8 grid grid-cols-3 items-center gap-x-6 gap-y-8 sm:grid-cols-4 sm:gap-x-8 lg:grid-cols-5 lg:gap-x-10 lg:gap-y-10 xl:grid-cols-6">
         {selectLogos(limit).map((logo) => (
-          <li key={logo.id} data-optical-size={largerLogoIds.has(logo.id) ? 'raised' : undefined} className="flex min-h-[56px] items-center justify-center lg:min-h-[64px]">
+          <li key={logo.id} data-optical-size={largerLogoIds.has(logo.id) ? 'raised' : undefined} className="flex min-h-[64px] items-center justify-center lg:min-h-[80px]">
             <Image
               src={`/img/components/customers/${logo.url}`}
               alt={logo.name ?? logo.title}
@@ -40,7 +42,7 @@ const Customers = ({
               height={200}
               loading="lazy"
               decoding="async"
-              className="h-auto max-h-10 w-auto max-w-full object-contain sm:max-h-12 lg:max-h-14"
+              className="h-auto max-h-12 w-auto max-w-full object-contain sm:max-h-14 lg:max-h-16"
             />
           </li>
         ))}

@@ -39,6 +39,15 @@ const featured =
   PRODUCT_HUB_ITEMS.find((item) => item.href === FEATURED_HREF) ?? PRODUCT_HUB_ITEMS[0]
 const others = PRODUCT_HUB_ITEMS.filter((item) => item !== featured)
 
+/**
+ * O portfólio visual usa só as soluções que já possuem fotografia própria
+ * publicada. As demais (hoje, a Consultoria Jurídica, que é um domínio
+ * externo) seguem como linha editorial — nenhuma imagem é reaproveitada de
+ * outra solução para preencher a grade.
+ */
+const othersWithImage = others.filter((item) => PRODUCT_IMAGES[item.href])
+const othersWithoutImage = others.filter((item) => !PRODUCT_IMAGES[item.href])
+
 const Page = () => (
   <div className="bc-products-approved">
     <PageHeader
@@ -66,60 +75,100 @@ const Page = () => (
           description="Reduzir custos, otimizar a gestão de energia e avançar em sustentabilidade — a escolha depende do perfil de ligação e do consumo."
         />
 
-        <div className="mt-7 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
-          {featured ? (
-            <article className="lg:col-span-7">
+        {/* Solução protagonista: fotografia grande ao lado do texto, em vez de
+            foto sobre um bloco estreito de parágrafos. */}
+        {featured ? (
+          <div className="mt-7 grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
+            {/* Fotografia decorativa: os dois links de texto ao lado já levam
+                à solução, então ela não vira um terceiro alvo redundante. */}
+            <img
+              src={PRODUCT_IMAGES[featured.href] ?? '/img/pages/mercado-livre-subestacao.webp'}
+              alt=""
+              width={1200}
+              height={800}
+              loading="lazy"
+              decoding="async"
+              className="aspect-[4/3] w-full rounded-[8px] object-cover lg:col-span-7"
+            />
+
+            <article className="lg:col-span-5">
+              <p className="t-eyebrow text-bc-primary">Solução em destaque</p>
+              <h3 className="t-h3 mt-3 text-text-primary">
+                <Link
+                  href={featured.href}
+                  target={featured.external ? '_blank' : undefined}
+                  data-cta-name={`hub_produtos_${featured.title}`}
+                  className="transition-colors duration-200 hover:text-bc-primary focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-bc-primary/40"
+                >
+                  {featured.title}
+                </Link>
+              </h3>
+              <p className="mt-3 t-body text-text-secondary">{featured.description}</p>
               <Link
                 href={featured.href}
                 target={featured.external ? '_blank' : undefined}
-                data-cta-name={`hub_produtos_${featured.title}`}
-                className="group block rounded-card focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-bc-primary/40"
+                data-cta-name={`hub_produtos_cta_${featured.title}`}
+                className="bc-arrow-action mt-5 w-fit t-action-label focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-bc-primary/40"
               >
-                <img
-                  src={PRODUCT_IMAGES[featured.href] ?? '/img/pages/mercado-livre-subestacao.webp'}
-                  alt=""
-                  width={1200}
-                  height={800}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-auto w-full rounded-[8px] object-cover"
-                />
-
-                <h3 className="t-h3 mt-6 text-text-primary group-hover:text-bc-primary">
-                  {featured.title}
-                </h3>
-                <p className="mt-2 max-w-[42rem] t-body text-text-secondary">
-                  {featured.description}
-                </p>
-                <span className="bc-arrow-action mt-4 w-fit t-action-label">
-                  Conhecer solução
-                </span>
+                Conhecer solução
               </Link>
             </article>
-          ) : null}
+          </div>
+        ) : null}
 
-          <ul className="lg:col-span-5 lg:self-start">
-            {others.map((item) => (
-              <li key={item.href} className="border-t border-border-subtle first:border-border-strong">
+        {/* Demais soluções: grade visual com a fotografia já publicada de cada
+            uma — sem cartões, sem borda e sem sombra. */}
+        {othersWithImage.length ? (
+          <ul className="mt-14 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+            {othersWithImage.map((item) => (
+              <li key={item.href}>
                 <Link
                   href={item.href}
                   target={item.external ? '_blank' : undefined}
                   data-cta-name={`hub_produtos_${item.title}`}
-                  className="bc-arrow-action bc-arrow-action--row group flex min-h-[64px] items-start justify-between gap-6 py-5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-bc-primary/40"
+                  className="group block focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-bc-primary/40"
                 >
-                  <span>
-                    <span className="t-h4 block text-text-primary group-hover:text-bc-primary">
-                      {item.title}
-                    </span>
-                    <span className="mt-1 block t-body-sm text-text-secondary">
-                      {item.description}
-                    </span>
+                  <img
+                    src={PRODUCT_IMAGES[item.href]}
+                    alt=""
+                    width={800}
+                    height={600}
+                    loading="lazy"
+                    decoding="async"
+                    className="aspect-[4/3] w-full rounded-[6px] object-cover"
+                  />
+                  <h3 className="t-h4 mt-4 text-text-primary transition-colors duration-200 group-hover:text-bc-primary">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 t-body-sm text-text-secondary">{item.description}</p>
+                  <span className="bc-arrow-action mt-3 w-fit t-action-label">
+                    Conhecer solução
                   </span>
                 </Link>
               </li>
             ))}
           </ul>
-        </div>
+        ) : null}
+
+        {othersWithoutImage.length ? (
+          <ul className="mt-12 border-t border-border-strong">
+            {othersWithoutImage.map((item) => (
+              <li key={item.href} className="border-b border-border-subtle">
+                <Link
+                  href={item.href}
+                  target={item.external ? '_blank' : undefined}
+                  data-cta-name={`hub_produtos_${item.title}`}
+                  className="bc-arrow-action bc-arrow-action--row group flex min-h-[64px] flex-col justify-center gap-1 py-5 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-bc-primary/40 sm:flex-row sm:items-baseline sm:gap-8"
+                >
+                  <span className="t-h4 text-text-primary group-hover:text-bc-primary sm:w-[22ch] sm:shrink-0">
+                    {item.title}
+                  </span>
+                  <span className="t-body-sm text-text-secondary">{item.description}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </Container>
     </section>
 
