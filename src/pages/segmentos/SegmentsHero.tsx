@@ -34,7 +34,7 @@ const SegmentsHero = () => (
     <span aria-hidden="true" className="bc-page-hero-line" />
 
     <div className="bc-container relative">
-      <div className="bc-banner-copy measure-intro pb-14 pt-20 sm:pt-24 lg:pb-20 lg:pt-32">
+      <div className="bc-banner-copy measure-intro">
         <div className="hero-panel hero-panel--wide">
           <Breadcrumbs title="Segmentos atendidos" parent="Segmentos" variant="plain" />
 

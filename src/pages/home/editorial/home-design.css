@@ -20,7 +20,7 @@
   --hx-soft: #f5f6f5;
   --hx-muted: #5e6876;
   --hx-wrap: min(100% - 80px, 1280px);
-  --hx-space: clamp(88px, 10vw, 152px);
+  --hx-space: clamp(80px, 8vw, 120px);
   --hx-radius: 16px;
   --hx-ease: cubic-bezier(.2, .7, .2, 1);
   color: var(--hx-navy);
@@ -169,7 +169,7 @@
 .hx-home .hx-about-place { display: flex; align-items: flex-start; gap: 16px; font-size: 1.0625rem; line-height: 1.6; color: var(--hx-muted); }
 .hx-home .hx-about-pin { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border-radius: 50%; background: rgb(36 210 200 / .12); color: var(--hx-green-text); }
 .hx-home .hx-about .hx-actions { margin-top: 32px; padding-left: 60px; }
-.hx-home .hx-pillars-head { margin: 112px 0 0; }
+.hx-home .hx-pillars-head { margin: clamp(64px, 7vw, 96px) 0 0; }
 .hx-home .hx-pillars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px; margin: 64px 0 0; padding-top: 48px; border-top: 1px solid var(--hx-line); }
 .hx-home .hx-pillars dt { display: flex; flex-direction: column; gap: 0; font-weight: 500; font-size: 1.125rem; }
 .hx-home .hx-pillar-icon { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 22px; border-radius: 18px; background: rgb(36 210 200 / .12); transition: transform .45s var(--hx-ease); }
@@ -270,7 +270,7 @@
   .hx-home .hx-pillars dd { padding-left: 68px; }
   .hx-home .hx-about .hx-actions { padding-left: 0; }
   .hx-home .hx-about-statement { padding-left: 20px; }
-  .hx-home { --hx-wrap: min(100% - 40px, 1280px); --hx-space: 80px; }
+  .hx-home { --hx-wrap: min(100% - 40px, 1280px); --hx-space: 72px; }
   .hx-home .hx-hero { height: auto; min-height: 640px; display: flex; flex-direction: column; }
   .hx-home .hx-hero-media .hx-ph::after { background: linear-gradient(180deg, rgb(20 27 38 / .55) 0%, rgb(20 27 38 / .72) 45%, rgb(20 27 38 / .92) 100%); }
   .hx-home .hx-hero-copy { flex: 1; height: auto; display: flex; align-items: flex-end; padding: 128px 0 56px; }
@@ -292,7 +292,7 @@
   .hx-home .hx-cinema { height: 460px; }
   .hx-home .hx-cinema-copy { bottom: 40px; }
   .hx-home .hx-about { gap: 16px; padding-top: 48px; }
-  .hx-home .hx-pillars-head { margin-top: 72px; }
+  .hx-home .hx-pillars-head { margin-top: 56px; }
   .hx-home .hx-pillars { grid-template-columns: 1fr; gap: 28px; }
   .hx-home .hx-portrait { height: 220px; }
   .hx-home .hx-panorama-grid { padding-block: 80px; }
