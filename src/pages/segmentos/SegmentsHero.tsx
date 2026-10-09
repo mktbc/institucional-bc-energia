@@ -1,4 +1,5 @@
 import { Breadcrumbs } from '@/components'
+import { accentTitle } from '@/components/Editorial/accentTitle'
 import Link from '@/components/Link'
 import { Helmet } from 'react-helmet-async'
 
@@ -38,7 +39,7 @@ const SegmentsHero = () => (
           <Breadcrumbs title="Segmentos atendidos" parent="Segmentos" variant="plain" />
 
           <h1 className="hero-title mt-5">
-            Soluções de energia para diferentes perfis de negócio
+            {accentTitle('Soluções de energia para diferentes perfis de negócio')}
           </h1>
 
           <p className="hero-description max-w-[48ch] !text-white/85">

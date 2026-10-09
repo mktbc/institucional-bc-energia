@@ -2,6 +2,7 @@ import React from 'react'
 import './page-header-reference.css'
 
 import { Breadcrumbs, Section } from '@/components'
+import { accentTitle } from '@/components/Editorial/accentTitle'
 import { buttonStyles } from '@/components/Button/Button.style'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
@@ -49,7 +50,7 @@ const PageHeader = ({
         )}
 
         <h1 className={`hero-title mt-2.5 ${isSplit ? 'measure-title' : ''}`}>
-          {title}
+          {titleLine2 ? title : accentTitle(title)}
           {titleLine2 && (
             <>
               {' '}

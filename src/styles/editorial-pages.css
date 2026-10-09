@@ -636,3 +636,9 @@
   .bc-site-shell .bc-inner-editorial .bc-item-icon { transition: none; }
   .bc-site-shell .bc-inner-editorial .bc-item-grid > li:hover .bc-item-icon { transform: none; }
 }
+
+/* Destaque de cor nos títulos grandes brancos (heros, faixas de números,
+   fechamentos, formulário): o complemento do título em turquesa, como os
+   títulos da Home. */
+.bc-site-shell .bc-inner-editorial .bc-title-accent { color: var(--bc-color-cyan); }
+.bc-site-shell .bc-inner-editorial :is(.t-h2, .t-h2-lead, .t-h2-mid) .bc-title-accent { font-weight: 500; }

@@ -12,7 +12,8 @@ const tabletHeroImage = (src: string) => {
 }
 
 /**
- * Home — hero em carrossel com o corte diagonal do símbolo BC.
+ * Home — hero em carrossel com a fotografia em largura total e um filtro
+ * escuro (mais denso à esquerda e na base) para o texto ficar sobre a imagem.
  *
  * Os três slides, textos, CTAs e fotos são os de `Sliders.data`. A troca é
  * feita por fusão das fotos (com zoom lento) e entrada em cascata do texto; a
@@ -80,7 +81,6 @@ const Hero = () => {
           </picture>
         ))}
       </div>
-      <span className="hx-hero-line" aria-hidden="true" />
 
       <div className="hx-hero-copy">
         <div className="hx-wrap hx-hero-slides">

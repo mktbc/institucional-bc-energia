@@ -1,3 +1,4 @@
+import { accentTitle } from '@/components/Editorial/accentTitle'
 import Link from '@/components/Link'
 import Reveal from '@/components/Reveal/Reveal'
 
@@ -75,7 +76,7 @@ const FinalCtaSection = ({
             {eyebrow ? <p className="t-eyebrow text-bc-cyan">{eyebrow}</p> : null}
 
             <h2 className="t-h2-lead mt-3 max-w-[26ch] text-balance text-text-inverse">
-              {title}
+              {titleLine2 ? title : accentTitle(title)}
               {titleLine2 ? <span className="block">{titleLine2}</span> : null}
             </h2>
 

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 import { Section } from '@/components'
+import { accentTitle } from '@/components/Editorial/accentTitle'
 import { FORM_WIDGET_THEME } from '@/config/formWidgetTheme'
 import { SIMULATOR_FORM_URL } from '@/helpers'
 
@@ -161,7 +162,7 @@ const FormEmbed = ({
           </span>
 
           <h2 className="t-h2 mt-4 measure-title-tight text-white">
-            {title || 'Entre em contato'}
+            {accentTitle(title || 'Entre em contato')}
           </h2>
 
           <span aria-hidden="true" className="bc-accent-rule mt-6" />

@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 
+import { accentTitle } from '@/components/Editorial/accentTitle'
 import Link from '@/components/Link'
 
 import CountUp from './CountUp'
@@ -44,7 +45,7 @@ const ProofBand = ({
       <div className="bc-split-head bc-split-head--dark">
         <div>
           {eyebrow ? <p className="t-eyebrow">{eyebrow}</p> : null}
-          <h2 className="t-h2 text-white">{title}</h2>
+          <h2 className="t-h2 text-white">{accentTitle(title)}</h2>
         </div>
         {description || link ? (
           <div className="bc-split-aside">
