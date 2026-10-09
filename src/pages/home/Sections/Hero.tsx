@@ -16,12 +16,12 @@ const tabletHeroImage = (src: string) => {
  * escuro (mais denso à esquerda e na base) para o texto ficar sobre a imagem.
  *
  * Os três slides, textos, CTAs e fotos são os de `Sliders.data`. A troca é
- * feita por fusão das fotos (com zoom lento) e entrada em cascata do texto; a
- * navegação fica em abas numeradas com barra de progresso. Todos os slides
+ * feita por fusão das fotos (com zoom lento) e entrada em cascata do texto,
+ * sem barra de navegação visível. Todos os slides
  * ficam no DOM (prerender e SEO), mas só o ativo é exposto a leitores de tela
  * e ao teclado. Pausa com mouse ou foco dentro do hero, e não avança sozinho
  * com `prefers-reduced-motion`. O controle de pausa (WCAG 2.2.2) fica fora da
- * composição visual e aparece ao receber foco do teclado.
+ * composição visual e aparece, com anterior/próximo, ao receber foco do teclado.
  */
 const Hero = () => {
   const [current, setCurrent] = useState(0)
@@ -131,35 +131,20 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="hx-tabs">
-        <div className="hx-wrap hx-tabs-row">
-          {slidersData.map((slide, index) => (
-            <button
-              key={slide.id}
-              type="button"
-              className={`hx-tab${index === current ? ' is-on' : ''}`}
-              aria-controls={`${slide.id}-panel`}
-              aria-current={index === current ? 'true' : undefined}
-              onClick={() => go(index)}
-            >
-              <i aria-hidden="true">{index === current && <span key={`${current}-${running}`} />}</i>
-              <b aria-hidden="true">{String(index + 1).padStart(2, '0')}</b>
-              {slide.eyebrow}
-            </button>
-          ))}
-          <div className="hx-arrows">
-            <button type="button" className="hx-pause" aria-pressed={paused || reducedMotion} disabled={reducedMotion}
-              onClick={() => setPaused((value) => !value)}>
-              {reducedMotion ? 'Troca automática desativada' : paused ? 'Retomar troca automática' : 'Pausar troca automática'}
-            </button>
-            <button type="button" onClick={() => go(current - 1)} aria-label="Destaque anterior">
-              <span aria-hidden="true">←</span>
-            </button>
-            <button type="button" onClick={() => go(current + 1)} aria-label="Próximo destaque">
-              <span aria-hidden="true">→</span>
-            </button>
-          </div>
-        </div>
+      {/* Sem barra de abas: os slides trocam sozinhos. Os controles (pausa,
+          anterior e próximo) ficam fora da composição e aparecem ao receber
+          foco do teclado — pausa exigida pela WCAG 2.2.2. */}
+      <div className="hx-controls" role="group" aria-label="Controles do carrossel">
+        <button type="button" className="hx-pause" aria-pressed={paused || reducedMotion} disabled={reducedMotion}
+          onClick={() => setPaused((value) => !value)}>
+          {reducedMotion ? 'Troca automática desativada' : paused ? 'Retomar troca automática' : 'Pausar troca automática'}
+        </button>
+        <button type="button" onClick={() => go(current - 1)} aria-label="Destaque anterior">
+          <span aria-hidden="true">←</span>
+        </button>
+        <button type="button" onClick={() => go(current + 1)} aria-label="Próximo destaque">
+          <span aria-hidden="true">→</span>
+        </button>
       </div>
     </section>
   )

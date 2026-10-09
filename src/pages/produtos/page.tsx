@@ -24,10 +24,10 @@ import BrandGraphic from '@/components/BrandGraphic/BrandGraphic'
 
 /** Imagens reais já publicadas, por destino. */
 const PRODUCT_IMAGES: Record<string, string> = {
-  '/produtos/mercado-livre-de-energia': '/img/pages/produtos-lampada-energia.webp',
+  '/produtos/mercado-livre-de-energia': '/img/pages/mercado-livre-torre-transmissao.webp',
   '/produtos/consorcio-bc-energia': '/img/pages/consorcio-intro.webp',
   // gestao-de-energia-intro.webp tem texto embutido ("até 26%"): não usar.
-  '/produtos/gestao-de-energia': '/img/pages/gestao-de-energia-lead.webp',
+  '/produtos/gestao-de-energia': '/img/global/gestao-de-energia.jpg',
   '/produtos/certificacao-renovavel-irec': '/img/pages/certificacao-renovavel-intro.webp',
   '/produtos/arrendamento-de-usinas': '/img/pages/arrendamento-de-usinas-intro.webp'
 }

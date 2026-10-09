@@ -37,7 +37,7 @@ const BcCast = () => {
         description="Conversas do Grupo BC Energia com lideranças sobre energia, mercado e desenvolvimento econômico."
         category="Conteúdo"
         align="left"
-        bgImage="/img/pages/contact.webp"
+        bgImage="/img/pages/slider-bc-consorcio.webp"
       />
 
       {episodes.length === 0 ? (

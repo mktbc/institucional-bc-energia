@@ -178,8 +178,8 @@ const SubscriptionEnergy = () => (
       title={howItWorks.title}
       description={howItWorks.description}
       image={{
-        src: '/img/global/energia-por-assinatura.webp',
-        alt: 'Painéis solares em campo aberto gerando energia renovável'
+        src: '/img/pages/consorcio-solucao.webp',
+        alt: 'Técnica com equipamento de segurança diante de painéis solares'
       }}
       items={howItWorks.itens.map((item) => ({
         title: item.title,

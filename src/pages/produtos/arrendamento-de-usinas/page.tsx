@@ -98,8 +98,8 @@ const PlantLeasing = () => (
         description: item.description
       }))}
       image={{
-        src: '/img/pages/arendamento-de-usinas-intro.webp',
-        alt: 'Operação de usina solar arrendada'
+        src: '/img/pages/FOTO_BANNER_02.webp',
+        alt: 'Usina solar fotovoltaica vista do alto'
       }}
       note="Aumente sua rentabilidade com segurança e sem complicações."
     />

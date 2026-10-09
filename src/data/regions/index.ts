@@ -186,7 +186,7 @@ export const REGIONS: Record<string, Region> = {
     place: 'Anápolis',
     uf: 'GO',
     h1: 'Energia solar por assinatura para Anápolis',
-    coverImage: '/img/pages/2147948282.webp',
+    coverImage: '/img/pages/sobre-cta.webp',
     heroDescription:
       'Indústria, logística e comércio têm perfis de consumo diferentes: a recomendação começa pela leitura da sua conta, não por uma oferta pronta.',
     intro: [

@@ -26,7 +26,7 @@ const Blog = () => {
         description="Conteúdos sobre mercado livre de energia, geração distribuída, gestão de energia e redução de custo na conta de luz."
         category="Conteúdo"
         align="left"
-        bgImage="/img/pages/contact.webp"
+        bgImage="/img/global/mercado-livre-de-energia.webp"
       />
 
       {articles.length === 0 ? (

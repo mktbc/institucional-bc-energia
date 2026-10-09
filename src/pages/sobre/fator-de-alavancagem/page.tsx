@@ -14,7 +14,7 @@ const LeverageFactor = () => (
       eyebrow="Informação regulatória"
       title="Fator de Alavancagem"
       description="Indicador financeiro divulgado conforme os processos de transparência da CCEE."
-      bgImage="/img/pages/contact.webp"
+      bgImage="/img/pages/mercado-livre-torre-transmissao.webp"
       category="Sobre"
     />
 

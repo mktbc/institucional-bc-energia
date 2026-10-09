@@ -15,7 +15,7 @@ const RetailConditions = () => (
       title="Condições Gerais da"
       titleLine2="Comercialização Varejista"
       description="Informações publicadas em conformidade com a REN ANEEL 1110/2024."
-      bgImage="/img/global/energia-por-assinatura.webp"
+      bgImage="/img/pages/sobre-cta.webp"
       category="Sobre"
     />
 
