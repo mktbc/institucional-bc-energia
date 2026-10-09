@@ -11,6 +11,7 @@ import { heroMobileVariant } from '@/config/heroVariants'
 import { PageHeaderProps } from './PageHeader.type'
 
 const PageHeader = ({
+  className = '',
   icon,
   title,
   titleLine2,
@@ -104,7 +105,7 @@ const PageHeader = ({
                 } as React.CSSProperties)
               : {}
           }
-          className={`bc-reference-banner relative bg-cover bg-no-repeat ${bgImage ? 'hero-bg' : 'bg-surface-dark'} ${
+          className={`bc-reference-banner ${className} relative bg-cover bg-no-repeat ${bgImage ? 'hero-bg' : 'bg-surface-dark'} ${
             isBanner
               ? `flex flex-col justify-center ${
                   bgPosition ?? 'bg-[position:center_center] lg:bg-[position:center_right]'

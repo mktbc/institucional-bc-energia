@@ -14,6 +14,7 @@ import { COMPANY_METRICS } from '@/data/companyMetrics'
 import { POWER_PLANT_COUNT } from '@/data/powerPlants'
 
 import { content, features, resources } from './data'
+import './page.css'
 
 /**
  * /sobre/quem-somos — principal página institucional (VISUAL 14).
@@ -30,9 +31,11 @@ const introParagraphs = String(intro?.description ?? '')
   .filter(Boolean)
 
 const WhoWeAre = () => (
-  <div className="min-h-screen">
+  <div className="who-we-are-page min-h-screen">
     <PageHeader
+      className="who-we-are-hero"
       align="left"
+      compact
       flush
       eyebrowRule={false}
       eyebrow="Quem somos"

@@ -6,6 +6,8 @@ export type PageHeaderCta = {
 }
 
 export type PageHeaderProps = {
+  /** Classe opcional para ajustes de composição específicos de uma página. */
+  className?: string
   icon?: string
   title: string
   /** Segunda linha do H1 (apenas na variante `align="left"`). */
@@ -54,6 +56,5 @@ export type PageHeaderProps = {
     height?: number
   }
 }
-
 
 
