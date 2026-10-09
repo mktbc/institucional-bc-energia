@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { FORM_WIDGET_THEME } from '@/config/formWidgetTheme'
-import { SIMULATOR_WIDGET_URL } from '@/helpers'
+import { buildSimulatorUrl } from '@/helpers/utm'
 import Image from '@/components/Image'
 
 type WidgetState = 'closed' | 'widget' | 'modal'
@@ -145,7 +145,7 @@ const SimuleAgora = () => {
             </button>
             <iframe
               ref={iframeRef}
-              src={SIMULATOR_WIDGET_URL}
+              src={buildSimulatorUrl('Widget Site')}
               style={{
                 width: '100%',
                 height: `${iframeHeight}px`,

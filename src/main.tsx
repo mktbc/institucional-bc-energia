@@ -7,8 +7,13 @@ import App from './App'
 import '@/styles/globals.css'
 import '@/styles/energy-flow.css'
 import { loadAppConfig } from '@/config/integrations'
+import { ensureDefaultUtms } from '@/helpers/utm'
 import { initUtmSession, initWebVitals } from '@/lib/analytics'
 import { initThirdPartyScripts } from '@/lib/integrations'
+
+// Aplica UTMs padrão de trackeamento quando o visitante chega sem nenhum utm_*
+// (regra do projeto publicado). Antes da captura de sessão abaixo.
+ensureDefaultUtms()
 
 // Carrega config pública (WhatsApp, RD Station, vagas) do Supabase antes/junto do render.
 loadAppConfig()

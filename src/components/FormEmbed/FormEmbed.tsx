@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 import { Section } from '@/components'
 import { accentTitle } from '@/components/Editorial/accentTitle'
 import { FORM_WIDGET_THEME } from '@/config/formWidgetTheme'
-import { SIMULATOR_FORM_URL } from '@/helpers'
+import { buildSimulatorUrl } from '@/helpers/utm'
 
 const ORIGIN = 'https://simulador.bcenergiacomdesconto.com.br'
 
@@ -41,6 +41,11 @@ const FormEmbed = ({
   useEffect(() => {
     const iframe = iframeRef.current
     if (!iframe) return
+
+    // URL do simulador com as UTMs da visita (URL, sessão ou padrão). Definida
+    // só no cliente: no HTML pré-renderizado as UTMs do visitante não existem,
+    // e um src divergente na hidratação manteria o valor estático.
+    iframe.src = buildSimulatorUrl('Formulario Site')
 
     let themeIntervalId: ReturnType<typeof setInterval> | null = null
 
@@ -121,7 +126,6 @@ const FormEmbed = ({
   const embed = (
     <iframe
       ref={iframeRef}
-      src={SIMULATOR_FORM_URL}
       // Altura inicial = piso de setHeight (400px): evita o salto a partir dos
       // 150px padrão do iframe até a altura real chegar por postMessage.
       height={400}
