@@ -9,22 +9,30 @@ const Button = ({
   block,
   size = 'md',
   className,
-  disabled
-}: ButtonProps) => (
-  <div>
+  disabled,
+  loading,
+  type = 'button',
+  ...rest
+}: ButtonProps) => {
+  const isDisabled = disabled || loading
+
+  return (
     <button
-      disabled={disabled}
-      className={`${className} ${buttonStyles({
-        variant,
-        outline,
-        block,
-        size,
-        disabled
-      })}`}
+      {...rest}
+      type={type}
+      disabled={isDisabled}
+      aria-busy={loading || undefined}
+      className={`${buttonStyles({ variant, outline, block, size, loading, disabled: isDisabled })} ${className ?? ''}`}
     >
+      {loading && (
+        <span
+          aria-hidden="true"
+          className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+        />
+      )}
       {children}
     </button>
-  </div>
-)
+  )
+}
 
 export default Button

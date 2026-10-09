@@ -34,7 +34,7 @@ const Numbers = ({
   return (
     <>
       <Section bgImage={bgImage || ''} id="home_numeros" className="bg-teal-600" arrowMask>
-        <div className="m-auto mb-12 flex w-full flex-col gap-12 text-center lg:w-3/4">
+        <div className="m-auto mb-8 flex w-full flex-col gap-9 text-center lg:w-3/4">
           <Image
             className="mx-auto"
             src={`/img/global/grupo-bc-logo-solo-branca.svg`}
@@ -45,18 +45,18 @@ const Numbers = ({
           <Heading className="mb-0 text-white">{children}</Heading>
         </div>
 
-        <div className="mb-20 text-center">
+        <div className="mb-12 text-center">
           {subTitle && (
-            <h4 className="mb-10 mt-16 text-3xl uppercase text-white lg:mb-16 lg:mt-20 lg:text-4xl">
+            <h3 className="mb-7 mt-10 t-h2 text-white lg:mb-10 lg:mt-12">
               {subTitle}
-            </h4>
+            </h3>
           )}
-          <div className="flex flex-col justify-center gap-20 text-white lg:flex-row">
+          <div className="flex flex-col justify-center gap-12 text-white lg:flex-row">
             {!!data.length &&
               data.map((item, index) => (
                 <div key={index} className="flex flex-col gap-2">
-                  <h5 className="text-4xl text-amber-400 lg:text-5xl">{item.title}</h5>
-                  <p className="text-lg lg:text-xl">{item.subtitle}</p>
+                  <p className="t-metric-lg text-bc-yellow">{item.title}</p>
+                  <p className="t-body-lg">{item.subtitle}</p>
                 </div>
               ))}
           </div>

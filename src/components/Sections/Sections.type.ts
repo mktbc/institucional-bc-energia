@@ -19,6 +19,9 @@ export type AboutProps = {
   className?: string
   imgLink?: string
   target?: string
+  imgSrcSet?: string
+  imgSizes?: string
+  imgAlt?: string
 }
 
 export type AboutSegmentProps = Omit<AboutProps, 'features'>

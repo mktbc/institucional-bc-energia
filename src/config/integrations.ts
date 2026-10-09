@@ -11,7 +11,7 @@
  *   `public.app_config` no Supabase (RLS de leitura pública). São lidos no
  *   boot da app (loadAppConfig) e ficam disponíveis em INTEGRATIONS.
  */
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 
 type IntegrationsShape = {
   WHATSAPP_LINK: string
@@ -29,7 +29,9 @@ export const INTEGRATIONS: IntegrationsShape = {
   WHATSAPP_LINK_PARCERIAS: 'https://wa.me/5562981632741',
   RDSTATION_TRACKING_SCRIPT_URL: 'https://d335luupugsy2.cloudfront.net/js/loader-scripts/3f36aaee-f131-4207-a336-e111e60483a3-loader.js',
   VAGAS_URL: 'https://grupobcenergia.vagas.solides.com.br',
-  GTM_ID: ''
+  // PERFORMANCE 04: ID único do container, antes hardcoded no index.html.
+  // O carregamento acontece em src/lib/integrations/thirdParty.ts.
+  GTM_ID: 'GTM-KWRL7CWP'
 }
 
 const REMOTE_KEYS: Array<keyof IntegrationsShape> = [
@@ -52,7 +54,7 @@ export const loadAppConfig = (): Promise<void> => {
   if (loaded) return loaded
   loaded = (async () => {
     try {
-      const { data, error } = await supabase.from('app_config').select('key,value')
+      const { data, error } = await (await getSupabase()).from('app_config').select('key,value')
       if (error) {
         console.warn('[app_config] erro ao carregar:', error.message)
         return

@@ -1,13 +1,13 @@
-import { ButtonHTMLAttributes } from 'react'
+import { ButtonHTMLAttributes, ReactNode } from 'react'
 
 import { type VariantProps } from 'tailwind-variants'
 
 import { buttonStyles } from './Button.style'
 
-export type ButtonProps = VariantProps<typeof buttonStyles> &
+export type ButtonProps = Omit<VariantProps<typeof buttonStyles>, 'disabled' | 'loading'> &
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
     block?: boolean
     loading?: boolean
-    children?: string
-    size?: 'sm' | 'md' | 'lg'
+    children?: ReactNode
+    size?: 'sm' | 'md' | 'lg' | 'xl'
   }

@@ -31,10 +31,10 @@ const FormWrap = ({ title }: Props) => {
             width={130}
             height={130}
           />{' '}
-          <h2 className="mb-3 text-center text-3xl uppercase text-white">
+          <h2 className="mb-3 text-center t-h2 text-white">
             Formulário enviado com sucesso!
           </h2>
-          <p className="text-center text-lg text-white">
+          <p className="text-center t-body-lg text-white">
             Seus dados foram enviados e serão analisados pela nossa equipe o mais breve possível.
             Obrigado.
           </p>

@@ -6,9 +6,9 @@ import { HowItWorksProps } from './Sections.type'
 const HowItWorks = ({ title, description, itens, checkItem, imgUrl }: HowItWorksProps) => (
   <Section className="bg-gray-100 px-6">
     <Heading center>{title}</Heading>
-    <p className="mb-16 text-center text-lg">{description}</p>
+    <p className="mb-10 text-center t-body-lg">{description}</p>
 
-    <div className="grid gap-12 lg:grid-cols-2">
+    <div className="grid gap-9 lg:grid-cols-2">
       <div>
         <ul className="mb-6 flex flex-col gap-6">
           {itens.map((item, index) => (

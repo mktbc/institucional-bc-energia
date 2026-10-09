@@ -1,0 +1,11 @@
+# Redirecionamentos 301 no formato _redirects (Netlify / Cloudflare Pages).
+# Espelham os redirects de vercel.json. Se a hospedagem não ler este arquivo,
+# ele é ignorado e vale o fallback da SPA (Navigate / PdfRedirect), que NÃO
+# é um 301 HTTP. Ver docs/HOSPEDAGEM-LOVABLE.md.
+/produtos/irec                                   /produtos/certificacao-renovavel-irec              301
+/documentos/campanha_com_fidelidade_2anos        /docs/campanha_com_fidelidade_2anos.pdf            301
+/documentos/campanha_sem_fidelidade              /docs/campanha_sem_fidelidade.pdf                  301
+/documentos/condicoes_gerais_gd                  /docs/condicoes_gerais_gd.pdf                      301
+/documentos/condicoes_gerais_gd_v2               /docs/condicoes_gerais_gd_v2.pdf                   301
+/documentos/condicoes_gerais_gd_alta_tensao      /docs/condicoes_gerais_gd_alta_tensao.pdf          301
+/documentos/condicoes_gerais_gd_externo          /docs/condicoes_gerais_gd_externo.pdf              301

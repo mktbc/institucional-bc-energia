@@ -8,16 +8,16 @@ interface BcFormSectionProps {
 
 const BcFormSection = ({ title, description, children }: BcFormSectionProps) => (
   <Section id="contato" className="bg-teal-600 pb-0 pt-0">
-    {title && <h2 className="px-6 py-6 text-center text-3xl uppercase text-white">{title}</h2>}
+    {title && <h2 className="px-6 py-6 text-center t-h2 text-white">{title}</h2>}
     {description && (
-      <p className="mx-auto mb-6 w-2/3 text-center text-xl text-white">{description}</p>
+      <p className="mx-auto mb-6 w-2/3 text-center t-h4 text-white">{description}</p>
     )}
     <div
       style={{
         width: '100%',
         maxWidth: '650px',
         margin: '0 auto',
-        overflow: 'hidden',
+        overflow: 'visible',
         borderRadius: '10px'
       }}
     >

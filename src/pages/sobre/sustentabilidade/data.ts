@@ -1,4 +1,5 @@
 import { FeatureV2Props } from '@/components/FeatureV2/FeatureV2.type'
+import { getBCIcon } from '@/config/icons'
 import { AboutContent, ResourcesProps } from '@/components/Sections/Sections.type'
 
 export const content: AboutContent = [
@@ -11,12 +12,14 @@ export const content: AboutContent = [
 
 export const features: Array<FeatureV2Props> = [
   {
-    icon: '/img/icons/fonte-renovavel.svg',
+    // Ícone de usina solar: o grupo opera geração solar e hídrica, não eólica.
+    icon: getBCIcon('usina-solar'),
     title: '+ de 200 mil MWh',
     description: 'gerados através de fontes renováveis'
   },
   {
-    icon: '/img/icons/no-co2.svg',
+    // Eficiência no lugar do planeta com folhas (clichê ecológico genérico).
+    icon: getBCIcon('eficiencia-energetica'),
     title: '+ de 15 mil',
     description: 'toneladas de CO2 evitados na atmosfera'
   }
@@ -41,5 +44,5 @@ export const resources: ResourcesProps = {
         'Cada unidade de energia gerada por nossas usinas solares é uma contribuição para um mundo mais sustentável.'
     }
   ],
-  img: '/img/pages/2147948282.jpg'
+  img: '/img/pages/2147948282.webp'
 }

@@ -32,12 +32,12 @@ const produtos: Array<NavbarSubItems> = [
   },
   {
     id: '1.4',
-    title: 'Certificação Renovável - IREC',
+    title: 'Certificação Renovável I-REC',
     icon: {
       url: 'irec.svg',
       size: [27, 34]
     },
-    url: '/produtos/irec'
+    url: '/produtos/certificacao-renovavel-irec'
   },
   {
     id: '1.5',
@@ -230,20 +230,20 @@ export const itemsData: Array<NavbarItems> = [
   {
     id: '2',
     title: 'Segmentos',
-    url: '#',
+    url: '/segmentos',
     column: 2,
     subItems: segmentos
   },
   {
     id: '3',
     title: 'Sobre nós',
-    url: '#',
+    url: '/sobre',
     subItems: sobre
   },
   {
     id: '4',
     title: 'Conteúdo',
-    url: '#',
+    url: '/conteudo',
     subItems: [
       {
         id: '4.1',
@@ -288,6 +288,6 @@ export const itemsData: Array<NavbarItems> = [
         url: INTEGRATIONS.WHATSAPP_LINK_COMPRAS || '/contato'
       }
     ],
-    url: '#'
+    url: '/contato'
   }
 ]

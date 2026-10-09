@@ -18,9 +18,9 @@ const ButtonLink = ({
 }: ButtonLinkProps) => (
   <div className={buttonWrapperStyles({ center })}>
     <Link
-      href={href}
-      className={`${buttonStyles({ block, variant, outline, size, rounded })} ${rest.className}`}
       {...rest}
+      href={href}
+      className={`${buttonStyles({ block, variant, outline, size, rounded })} ${rest.className ?? ''}`}
     >
       {icon ? (
         <span className="flex flex-row justify-center gap-3">

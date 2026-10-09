@@ -3,6 +3,10 @@ export type UtmChannel = 'Formulario Site' | 'Widget Site'
 /**
  * UTMs padrão de trackeamento: aplicadas quando o visitante entra no site
  * sem nenhum parâmetro utm_* na URL (tráfego orgânico/direto).
+ *
+ * Portado do projeto publicado no Lovable (edições de 22/09/2026: "Adicionou
+ * UTMs auto em URL", "Removeu utm_link_id padrão", "Persistiu UTMs em toda
+ * navegação"), sem alterar valores nem regras.
  */
 export const DEFAULT_UTMS: Record<string, string> = {
   utm_lp: 'grupobcenergia-com-br',
@@ -87,7 +91,6 @@ export const getUtmParams = (): Record<string, string> => {
   const stored = readStoredUtms()
   return Object.keys(stored).length > 0 ? stored : { ...DEFAULT_UTMS }
 }
-
 
 /**
  * Constrói a URL do simulador BC Energia com os UTMs da página atual

@@ -20,13 +20,13 @@ export const checklistItems: Array<string> = [
 
 const Title = () => (
   <>
-    Somos a maior <span className="text-amber-400">comercializadora de energia</span> do
+    Somos a maior <span className="text-bc-yellow">comercializadora de energia</span> do
     Centro-Oeste e uma das principais independentes do país.
   </>
 )
 
 export const cta: CtaProps = {
-  bgImage: '/img/global/arrendamento-de-usinas.jpg',
+  bgImage: '/img/global/arrendamento-de-usinas.webp',
   title: <Title />,
   link: '#contato',
   linkText: 'Quero economizar'

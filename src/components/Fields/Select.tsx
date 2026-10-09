@@ -3,19 +3,25 @@ import { RequestStatus } from '@/components/Form/Form.type'
 import { styles } from './Fields.style'
 import { InputProps } from './Fields.type'
 
-const Select = ({ status, ...rest }: InputProps) => (
-  <div
-    style={{ gridColumn: rest.configuration && rest.configuration?.columns === 1 ? '1 / -1' : '' }}
-  >
+const Select = ({ status, label, description, configuration, options, ...rest }: InputProps) => (
+  <div style={{ gridColumn: configuration?.columns === 1 ? '1 / -1' : '' }}>
+    <label htmlFor={rest.name} className={styles.label}>
+      {label || rest.placeholder}
+      {rest.required && <span aria-hidden="true"> *</span>}
+    </label>
     <select
-      required
+      id={rest.name}
+      name={rest.name}
+      required={rest.required || undefined}
+      defaultValue=""
       disabled={status === RequestStatus.Pending}
-      className={`${styles.input} bg-white py-[0.63rem]`}
+      className={`${styles.input} bg-surface py-[0.63rem]`}
     >
-      <option value="" disabled selected>
+
+      <option value="" disabled>
         {rest.placeholder}
       </option>
-      {rest?.options?.map((state) => (
+      {options?.map((state) => (
         <option key={state.value} value={state.value}>
           {state.label}
         </option>

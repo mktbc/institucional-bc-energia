@@ -30,13 +30,13 @@ export const features: Array<FeaturesProps> = [
 const Title = () => (
   <>
     Contamos com{' '}
-    <span className="text-amber-400">mais de 70 parceiros em projetos de usinas arrendadas</span> em
+    <span className="text-bc-yellow">mais de 70 parceiros em projetos de usinas arrendadas</span> em
     diversos estados
   </>
 )
 
 export const cta: CtaProps = {
-  bgImage: '/img/global/arrendamento-de-usinas.jpg',
+  bgImage: '/img/global/arrendamento-de-usinas.webp',
   title: <Title />,
   link: '#contato',
   linkText: 'Quero economizar'

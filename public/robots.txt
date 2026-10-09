@@ -1,0 +1,13 @@
+# Grupo BC Energia — robots.txt (produção)
+#
+# Gerado automaticamente por scripts/generate-sitemap.ts (predev/prebuild).
+# Não editar manualmente.
+#
+# CSS, JavaScript e imagens permanecem liberados (necessários para renderização).
+# Páginas noindex NÃO são bloqueadas aqui: o crawler precisa acessá-las para
+# ler <meta name="robots" content="noindex,follow">.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://grupobcenergia.com.br/sitemap.xml

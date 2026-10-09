@@ -2,11 +2,11 @@
  * Busca posts do blog via Edge Function `blog-posts` (Supabase externo).
  * Secret usado pela function: BLOG_API (base URL do WordPress REST).
  */
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 
 export const getBlogPosts = async (): Promise<any[]> => {
   try {
-    const { data, error } = await supabase.functions.invoke('blog-posts', {
+    const { data, error } = await (await getSupabase()).functions.invoke('blog-posts', {
       method: 'GET'
     })
     if (error) {

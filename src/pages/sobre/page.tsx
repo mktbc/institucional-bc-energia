@@ -1,49 +1,100 @@
-import { Section, Heading, PageHeader, ButtonLink } from '@/components'
-import Image from '@/components/Image'
+import {
+  InstitutionalCta,
+  InstitutionalHighlights,
+  InstitutionalIntro,
+  PageHeader
+} from '@/components'
+import { ABOUT_HUB_ITEMS } from '@/config/navigation'
+import { COMPANY_METRICS } from '@/data/companyMetrics'
+import { POWER_PLANT_COUNT } from '@/data/powerPlants'
+
+import AboutTopics from './AboutTopics'
+import { INSTITUTIONAL_GRAPHIC } from '@/config/brandGraphics'
+
+/**
+ * Hub institucional /sobre.
+ *
+ * Não é uma landing comercial: apresenta quem é o grupo, organiza os temas
+ * institucionais em categorias e encerra com um CTA discreto de contato.
+ */
+const INSTITUCIONAL = ['/sobre/quem-somos', '/sobre/nossas-usinas']
+const RESPONSABILIDADE = ['/sobre/sustentabilidade', '/sobre/social']
+
+const byHref = (hrefs: Array<string>) =>
+  hrefs
+    .map((href) => ABOUT_HUB_ITEMS.find((item) => item.href === href))
+    .filter((item): item is (typeof ABOUT_HUB_ITEMS)[number] => Boolean(item))
+
+const LEGAL_ITEMS = ABOUT_HUB_ITEMS.filter(
+  (item) => ![...INSTITUCIONAL, ...RESPONSABILIDADE].includes(item.href)
+)
 
 const Page = () => (
-  <div>
+  <div className="min-h-screen">
     <PageHeader
-      title="Sobre"
-      bgImage="/img/global/arrendamento-de-usinas.jpg"
-      category="Segmentos"
+      align="left"
+      eyebrow="O Grupo BC Energia"
+      title="Quem é o Grupo"
+      titleLine2="BC Energia"
+      description="Um conjunto de empresas do setor elétrico com estrutura própria de geração, atuação no mercado livre e em geração distribuída, e informação regulatória aberta."
+      bgImage="/img/pages/FOTO_SOBRE_NOS_01.webp"
+      category="Sobre"
     />
-    <Section className="px-6 pt-0 lg:pt-10">
-      <Heading>
-        <Image
-          className="mx-auto mb-8"
-          src="/img/global/grupo-bc-logo-solo-color.svg"
-          alt="Grupo BC Energia"
-          width={64}
-          height={46}
-        />
-        O Grupo BC Energia entrega soluções para redução na conta de energia a todos os perfis de
-        clientes, no Mercado Livre de Energia e na Geração Distribuída.
-      </Heading>
-      <div className="mt-12 grid gap-8 lg:grid-cols-2">
-        <ButtonLink href="/sobre/quem-somos" variant="gray" block size="xl" rounded>
-          Quem Somos
-        </ButtonLink>
-        <ButtonLink href="/sobre/nossas-usinas" variant="gray" block size="xl" rounded>
-          Nossas Usinas
-        </ButtonLink>
-        <ButtonLink href="/sobre/lgpd" variant="gray" block size="xl" rounded>
-          LGPD
-        </ButtonLink>
-        <ButtonLink href="/sobre/leilao" variant="gray" block size="xl" rounded>
-          Leilão
-        </ButtonLink>
-        <ButtonLink href="/sobre/fator-de-alavancagem" variant="gray" block size="xl" rounded>
-          Fator de Alavancagem
-        </ButtonLink>
-        <ButtonLink href="/sobre/esg" variant="gray" block size="xl" rounded>
-          ESG
-        </ButtonLink>
-        <ButtonLink href="/sobre/social" variant="gray" block size="xl" rounded>
-          Social
-        </ButtonLink>
-      </div>
-    </Section>
+
+    <InstitutionalIntro
+      graphic={INSTITUTIONAL_GRAPHIC.sobreIntro}
+      eyebrow="Institucional"
+      title="Soluções de energia para todos os perfis de consumo"
+      paragraphs={[
+        'O Grupo BC Energia entrega soluções para redução na conta de energia a todos os perfis de clientes, no Mercado Livre de Energia e na Geração Distribuída.',
+        `Por meio da BC Renováveis, o grupo opera ${POWER_PLANT_COUNT} complexos de geração próprios, solares fotovoltaicos e hidrelétricos, distribuídos em locais estratégicos.`
+      ]}
+      image={{
+        src: '/img/pages/irec1.webp',
+        alt: 'Profissionais analisando documentos de consumo de energia em ambiente corporativo',
+        width: 1380,
+        height: 920
+      }}
+    />
+
+    {/* Seção limpa entre dois grafismos (ritmo VISUAL SYSTEM 03). */}
+    <InstitutionalHighlights
+      graphic={INSTITUTIONAL_GRAPHIC.sobreHighlights}
+      items={COMPANY_METRICS.map((metric) => ({ ...metric }))}
+    />
+
+    <AboutTopics
+      id="temas"
+      eyebrow="Navegação institucional"
+      title="Onde aprofundar"
+      description="Cada tema institucional tem uma página própria, com o conteúdo oficial do grupo."
+      groups={[
+        {
+          title: 'Institucional e estrutura',
+          description: 'Quem é o grupo e a estrutura própria de geração por trás das soluções.',
+          items: byHref(INSTITUCIONAL)
+        },
+        {
+          title: 'Sustentabilidade e social',
+          description: 'Práticas ambientais, certificação de energia renovável e atuação nas comunidades.',
+          items: byHref(RESPONSABILIDADE)
+        }
+      ]}
+      legal={{
+        title: 'Legal e regulatório',
+        description:
+          'Documentos e informações publicados em atendimento à regulação do setor e à LGPD.',
+        items: LEGAL_ITEMS
+      }}
+    />
+
+    <InstitutionalCta
+      eyebrow="Fale com a BC"
+      title="Quer entender como o grupo pode atender a sua operação?"
+      description="Conheça as soluções disponíveis ou fale diretamente com o nosso time."
+      cta={{ label: 'Conhecer nossas soluções', href: '/produtos' }}
+      secondaryCta={{ label: 'Falar com a BC Energia', href: '/contato' }}
+    />
   </div>
 )
 

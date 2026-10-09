@@ -1,52 +1,85 @@
+import { COMPANY_METRICS } from '@/data/companyMetrics'
+
 import { WrapperProps } from './Sliders.type'
 
-const TileSlider1 = () => (
+/**
+ * Slides do banner inicial da Home.
+ * Textos, CTAs, links, imagens e ordenação são os originais do projeto.
+ * A linha de prova social é a mesma em todos os slides e vem das métricas
+ * institucionais centralizadas (nenhum número novo foi criado).
+ */
+
+const metric = (id: string) => COMPANY_METRICS.find((item) => item.id === id)
+
+const TRUST_LINE = [
+  `${metric('clientes')?.value ?? '+ de 5 mil'} clientes atendidos`,
+  `${metric('economia')?.value ?? '+ de R$ 400M'} de economia gerada`
+].join(' · ')
+
+const TitleSlider1 = () => (<>{'Geramos valor com a nossa '}<span className="text-bc-cyan">energia.</span></>)
+
+const TitleSlider2 = () => (
   <>
-    Migre sua empresa para o <span className="text-amber-400">Mercado Livre</span> e economize na
-    conta de energia
+    Faça sua adesão sem custos e tenha{' '}
+    <span className="flow-hero-accent">até 25% de economia</span>
   </>
 )
 
-const TileSlider2 = () => (
+const TitleSlider3 = () => (
   <>
-    Faça sua adesão sem custos e economize até{' '}
-    <span className="text-amber-400">26% na energia</span>
-  </>
-)
-
-const TileSlider3 = () => (
-  <>
-    Mais de <span className="text-amber-400">R$ 400 milhões de economia</span> aos nossos clientes
+    Mais de <span className="flow-hero-accent">R$ 400 milhões de economia</span> aos nossos clientes
   </>
 )
 
 export const slidersData: Array<WrapperProps> = [
   {
     id: 'slider_home_1',
-    bgImage: '/bg-home.jpg',
-    title: <TileSlider1 />,
+    bgImage: '/img/hero/hero-mercado-livre.webp',
+    bgImageMobile: '/img/hero/hero-mercado-livre-mobile.webp',
+    bgPosition: 'md:object-[62%_center]',
+    bgPositionMobile: 'object-[68%_top]',
+    eyebrow: 'Grupo BC Energia',
+    primary: true,
+    title: <TitleSlider1 />,
     description:
-      'Solução para empresas com contas acima de R$10 mil. Nossa atuação vai além da migração para o Mercado Livre de Energia. Ajudamos empresas na tomada de decisões e na gestão eficiente de energia.',
-    textLink: 'Saiba Mais',
-    link: '/produtos/mercado-livre-de-energia'
+      'Comercialização, gestão e geração distribuída de energia para empresas com contas acima de R$ 10 mil.',
+    cta: { label: 'Enviar minha conta para análise', href: '/contato' },
+    secondaryCta: { label: 'Conhecer soluções', href: '/produtos' },
+    trust: TRUST_LINE,
+    overlay: 'medium',
+    alt: 'Equipe do Grupo BC Energia em operação corporativa de soluções em energia'
   },
   {
     id: 'slider_home_2',
-    bgImage: '/img/pages/banner2.webp',
-    title: <TileSlider2 />,
+    bgImage: '/img/hero/hero-consorcio.webp',
+    bgPosition: 'md:object-[54%_top]',
+    bgPositionMobile: 'object-[52%_top]',
+    eyebrow: 'Consórcio BC Energia',
+    title: <TitleSlider2 />,
     description:
-      'Por meio do consórcio BC Energia, consumidores com contas de energia a partir de R$250,00 economizam na conta de energia sem precisar fazer investimentos em placas solares.',
-    textLink: 'ADESÃO GRATUITA',
-    link: 'http://www.appenergia.com.br/Grupo_BC_Energia',
-    target: '_blank'
+      'Consumidores com contas a partir de R$ 700 economizam por meio do consórcio, sem investir em placas solares.',
+    cta: {
+      label: 'Fazer adesão gratuita',
+      href: 'https://www.appenergia.com.br/Grupo_BC_Energia',
+      target: '_blank'
+    },
+    secondaryCta: { label: 'Como funciona', href: '/produtos/consorcio-bc-energia' },
+    trust: TRUST_LINE,
+    overlay: 'soft',
+    alt: 'Consumidores economizando na conta de luz com o Consórcio BC Energia'
   },
   {
     id: 'slider_home_3',
-    bgImage: '/img/pages/nossas-usinas2.webp',
-    title: <TileSlider3 />,
+    bgImage: '/img/hero/hero-resultados.webp',
+    bgPosition: 'md:object-[78%_center]',
+    eyebrow: 'Resultados',
+    title: <TitleSlider3 />,
     description:
       'Soluções sustentáveis e inteligentes que reduzem os custos com energia e aumentam a competitividade de mercado.',
-    textLink: 'Saiba Mais',
-    link: '/sobre/quem-somos'
+    cta: { label: 'Conhecer o Grupo BC Energia', href: '/sobre/quem-somos' },
+    secondaryCta: { label: 'Falar com especialista', href: '/contato' },
+    trust: TRUST_LINE,
+    overlay: 'strong',
+    alt: 'Resultados do Grupo BC Energia em economia gerada para clientes'
   }
 ]

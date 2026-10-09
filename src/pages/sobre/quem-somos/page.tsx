@@ -1,121 +1,192 @@
 import {
-  PageHeader,
-  Cta,
-  Features,
-  Section,
-  Resources,
   Customers,
-  Heading,
-  Numbers
+  InstitutionalCta,
+  InstitutionalHighlights,
+  InstitutionalIntro,
+  InstitutionalSection,
+  InstitutionalValues,
+  PageHeader,
+  RelatedLinks,
+  SectionHeader
 } from '@/components'
-import Image from '@/components/Image'
-import Link from '@/components/Link'
+import YouTubeEmbed from '@/components/YouTubeEmbed'
+import { COMPANY_METRICS } from '@/data/companyMetrics'
+import { POWER_PLANT_COUNT } from '@/data/powerPlants'
 
 import { content, features, resources } from './data'
+import './page.css'
+
+/**
+ * /sobre/quem-somos — principal página institucional (VISUAL 14).
+ *
+ * Narrativa em macroblocos: quem somos → estrutura e números → propósito,
+ * missão e visão → pessoas e cultura → prova → fechamento. Todo o texto,
+ * o vídeo e as imagens já existiam: apenas hierarquia, ritmo e transições
+ * foram refinados.
+ */
+const [intro] = content
+const introParagraphs = String(intro?.description ?? '')
+  .split('\n \n')
+  .map((paragraph: string) => paragraph.trim())
+  .filter(Boolean)
 
 const WhoWeAre = () => (
-  <div>
+  <div className="who-we-are-page min-h-screen">
     <PageHeader
+      className="who-we-are-hero"
+      align="left"
+      compact
+      flush
+      eyebrowRule={false}
+      eyebrow="Quem somos"
       title="O Grupo BC Energia"
-      description="Excelência em Comercialização de Energia Elétrica no Brasil."
-      bgImage="/img/global/arrendamento-de-usinas.jpg"
+      description="Excelência em comercialização de energia elétrica no Brasil."
+      bgImage="/img/global/arrendamento-de-usinas.webp"
       category="Sobre"
     />
 
-    <Section className="px-6 pt-0">
-      <div>
-        <div className="flex flex-col items-center gap-12 lg:flex-row">
-          <div className="lg:basis-2/5">
-            <Heading center={true} full>
-              {content[0]?.title}
-            </Heading>
-            <p className="whitespace-pre-line text-justify text-lg">{content[0]?.description}</p>
-          </div>
-          <div className="lg:basis-3/5">
-            <Link href="#contato">
-              <Image
-                className="ml-auto w-full rounded-lg"
-                src="/img/pages/FOTO_SOBRE_NOS_01.webp"
-                alt="Grupo BC Energia"
-                width={1100}
-                height={1500}
+    <InstitutionalIntro
+      graphic={{ variant: 'loops', tone: 'teal', size: 'small', position: 'right', opacity: 0.035 }}
+      eyebrow="Institucional"
+      title={intro?.title ?? 'Conheça mais sobre nós'}
+      paragraphs={introParagraphs}
+      wideImage
+      image={{
+        src: '/img/pages/sobre-nos-equipe.webp',
+        alt: 'Equipe do Grupo BC Energia reunida em encontro interno',
+        width: 1600,
+        height: 1000,
+        aspect: '1600 / 773'
+      }}
+      belowImage={
+      <ul className="grid grid-cols-2 gap-x-5 gap-y-4 xl:grid-cols-4 xl:gap-x-6">
+        {features.map((feature) => (
+          <li key={feature.id} className="flex min-h-[28px] items-center gap-3">
+            <span
+              aria-hidden="true"
+              className="flex h-[22px] w-[22px] shrink-0 items-center justify-center"
+            >
+              <img
+                src={typeof feature.icon === 'string' ? feature.icon : feature.icon.url}
+                alt=""
+                width={48}
+                height={48}
+                className="h-full w-full object-contain"
+                loading="lazy"
+                decoding="async"
               />
-            </Link>
+            </span>
+            <span className="t-label leading-[1.35] text-text-primary">
+              {feature.title}
+            </span>
+          </li>
+        ))}
+      </ul>
+      }
+    />
+
+
+    {/* Estrutura e números: prova antes da narrativa de propósito. */}
+    <InstitutionalSection tone="soft" id="estrutura">
+      <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10">
+        <div className="lg:col-span-7">
+          <SectionHeader
+            eyebrow="Estrutura"
+            title="Geração própria e atuação no mercado livre"
+            description={`Além da comercialização, o grupo opera ${POWER_PLANT_COUNT} complexos de geração renovável por meio da BC Renováveis.`}
+          />
+
+          <p className="mt-5 max-w-[56ch] t-body-sm text-text-secondary">
+            Usinas fotovoltaicas de estrutura fixa e tracker e centrais geradoras hidrelétricas,
+            detalhadas na página Nossas Usinas.
+          </p>
+        </div>
+
+        <div className="lg:col-span-5">
+          <div className="mx-auto aspect-[4/5] w-full max-w-[320px] overflow-hidden rounded-[12px] bg-surface-muted sm:max-w-[340px]">
+            <YouTubeEmbed
+              className="h-full w-full"
+              height="100%"
+              thumbnailSrc="https://i.ytimg.com/vi/Qb5nHG5VBTc/oardefault.jpg"
+              url="https://www.youtube.com/embed/Qb5nHG5VBTc"
+              title="Vídeo institucional do Grupo BC Energia"
+            />
           </div>
         </div>
+
       </div>
+    </InstitutionalSection>
 
-      <div className="flex justify-center">
-        {features?.length ? (
-          <div className="mt-10 grid items-center justify-between gap-8 align-middle lg:grid-cols-3">
-            {features.map((feature) => (
-              <Features key={feature.id} {...feature} />
-            ))}
-          </div>
-        ) : null}
-      </div>
-    </Section>
+    <InstitutionalHighlights
+      eyebrow="Resultados"
+      title="A dimensão da nossa operação"
+      items={COMPANY_METRICS.map((metric) => ({ ...metric }))}
+      tone="dark"
+    />
 
-    <Section className="px-6 pt-0">
-      <iframe
-        className="rounded-lg"
-        width="100%"
-        height="750"
-        src="https://www.youtube.com/embed/gebh7iMoS9w?si=IS7HiOP5EFCbSzgh"
-        title="Vídeo Institucional"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerPolicy="strict-origin-when-cross-origin"
-        allowFullScreen
-      ></iframe>
-    </Section>
-    <Numbers
-      btnText="Quero Economizar"
-      btnLink="/contato"
-      context="home"
-      subTitle=""
-      bgImage="/img/components/numbers/fundo-numeros.jpg"
-    >
-      <span className="text-xl font-normal normal-case">
-        Escolher o Grupo BC Energia, uma distinta comercializadora de energia elétrica, significa
-        optar por uma parceria baseada em valores fundamentais como respeito, comprometimento,
-        transparência e aprendizagem. Somos mais do que uma empresa de energia elétrica; somos um
-        grupo movido pela inovação responsável, pela segurança e pelo trabalho coletivo. A nossa
-        energia gera valor porque acreditamos no poder do conhecimento compartilhado e na força da
-        unidade.
-      </span>
-    </Numbers>
+    <InstitutionalValues
+      eyebrow={resources.subtitle}
+      title={resources.title}
+      description={resources.description}
+      items={resources.items
+        .filter((item) => item.title !== 'Valores')
+        .map((item) => ({ title: item.title, description: item.description }))}
+      values={(resources.items.find((item) => item.title === 'Valores')?.description ?? '')
+        .split(';')
+        .map((value) => value.replace('.', '').trim())
+        .filter(Boolean)}
+      tone="surface"
+    />
 
-    <Resources {...resources} />
+    <InstitutionalIntro
+      graphic={{ variant: 'diagonal', tone: 'teal', size: 'small', position: 'bottom-left', opacity: 0.05 }}
+      eyebrow="Pessoas e cultura"
+      title="Uma parceria construída sobre valores"
+      paragraphs={[
+        'Escolher o Grupo BC Energia significa optar por uma parceria baseada em valores fundamentais como respeito, comprometimento, transparência e aprendizagem. Somos mais do que uma empresa de energia elétrica: somos um grupo movido pela inovação responsável, pela segurança e pelo trabalho coletivo.',
+        'A nossa energia gera valor porque acreditamos no poder do conhecimento compartilhado e na força da unidade.'
+      ]}
+      image={{
+        src: resources.img,
+        alt: 'Time do Grupo BC Energia em reunião de trabalho',
+        width: 1200,
+        height: 800
+      }}
+      imagePosition="left"
+      tone="soft"
+    />
 
-    <Cta
-      title="O Grupo Bc Energia chegou para revolucionar o comércio de energia no Brasil"
-      className="bg-teal-900"
-    >
-      <>
-        <p>
-          Ao eleger a BC Energia como sua comercializadora de energia elétrica, você escolhe um
-          parceiro comprometido com a excelência, a inovação e a sustentabilidade. Estamos aqui para
-          criar um futuro onde a energia é não apenas mais acessível e eficiente, mas também um
-          pilar para um mundo mais sustentável. Não deixe de conferir nossos serviços inovadores e
-          revolucionários, como{' '}
-          <Link className="font-semibold text-amber-400" href="/produtos/consorcio-bc-energia">
-            Geração distribuída de energia
-          </Link>
-          ,{' '}
-          <Link className="font-semibold text-amber-400" href="/produtos/mercado-livre-de-energia">
-            Mercado Livre de Energia
-          </Link>{' '}
-          e{' '}
-          <Link className="font-semibold text-amber-400" href="/produtos/gestao-de-energia">
-            Consultoria e gestão de energia
-          </Link>
-          .
-        </p>
-      </>
-    </Cta>
+    <Customers variant="grid" />
 
-    <Customers />
+    <RelatedLinks
+      variant="editorial"
+      eyebrow="Continue navegando"
+      title="Continue conhecendo o grupo"
+      items={[
+        {
+          label: 'Conheça a nossa estrutura de geração',
+          href: '/sobre/nossas-usinas',
+          description: `Os ${POWER_PLANT_COUNT} complexos operados pela BC Renováveis.`
+        },
+        {
+          label: 'Veja nossas práticas de sustentabilidade',
+          href: '/sobre/sustentabilidade',
+          description: 'Energia renovável, conservação ambiental e impacto evitado.'
+        },
+        {
+          label: 'Conheça as nossas ações sociais',
+          href: '/sobre/social',
+          description: 'A parceria com a Associação Bloomy e o Projeto SER.'
+        }
+      ]}
+    />
+
+    <InstitutionalCta
+      eyebrow="Fale com a BC"
+      title="Quer conversar com o nosso time?"
+      cta={{ label: 'Conhecer nossas soluções', href: '/produtos' }}
+      secondaryCta={{ label: 'Falar com a BC Energia', href: '/contato' }}
+    />
   </div>
 )
 

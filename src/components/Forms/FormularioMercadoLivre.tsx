@@ -1,8 +1,10 @@
+import FormAccessibilityWrapper from './FormAccessibilityWrapper'
 import { useEffect, useRef, useState } from 'react'
 
 import './bc-form.css'
 
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
+import { getFormUtms, useFormTracking } from '@/lib/analytics'
 
 type FormState = {
   nome: string
@@ -93,7 +95,12 @@ const FormularioMercadoLivre = ({
     }
   }, [success])
 
+  // Tracking do formulário (form_start / form_error / form_submit + lead_generated)
+  const { onFormStart, onValidationError, onSubmitError, onSubmitSuccess } =
+    useFormTracking('mercado_livre')
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    onFormStart()
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
     if (errors[name as keyof FormState]) {
@@ -102,6 +109,7 @@ const FormularioMercadoLivre = ({
   }
 
   const handleValorFaturaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onFormStart()
     const raw = e.target.value.replace(/[^\d.,]/g, '')
     setForm((prev) => ({ ...prev, valorFatura: raw }))
     if (errors.valorFatura) setErrors((prev) => ({ ...prev, valorFatura: null }))
@@ -125,21 +133,30 @@ const FormularioMercadoLivre = ({
         newErrors.valorFatura = 'Informe um valor válido.'
     }
     setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+    const invalidFields = Object.keys(newErrors)
+    if (invalidFields.length > 0) onValidationError(invalidFields)
+    return invalidFields.length === 0
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!validate()) return
+    if (!validate()) {
+      // Acessibilidade: leva o foco para o primeiro campo com erro
+      window.setTimeout(() => {
+        const first = document.querySelector<HTMLElement>(
+          '.bc-form .bcf-input.error, .bc-form .bcf-select.error, .bc-form .bcf-textarea.error'
+        )
+        first?.focus()
+        first?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+      }, 0)
+      return
+    }
 
     setLoading(true)
     setSubmitError(false)
     try {
-      const urlParams = new URLSearchParams(window.location.search)
-      const utms: Record<string, string> = {}
-      Object.entries(UTM_DEFAULTS).forEach(([key, def]) => {
-        utms[key] = urlParams.get(key) ?? def
-      })
+      // Origem: URL atual > UTMs persistidas na sessão > padrão do site.
+      const utms = getFormUtms(UTM_DEFAULTS)
 
       const payload = {
         ...form,
@@ -150,14 +167,16 @@ const FormularioMercadoLivre = ({
         dataHoraEnvio: new Date().toISOString()
       }
 
-      const { error } = await supabase.functions.invoke('form-webhook', {
+      const { error } = await (await getSupabase()).functions.invoke('form-webhook', {
         body: payload
       })
       if (error) throw error
 
       setSuccess(true)
+      onSubmitSuccess()
     } catch {
       setSubmitError(true)
+      onSubmitError()
     } finally {
       setLoading(false)
     }
@@ -165,9 +184,9 @@ const FormularioMercadoLivre = ({
 
   if (success) {
     return (
-      <div ref={successRef} className="mx-4 mb-8 rounded-lg bg-white p-8 text-center">
-        <p className="text-xl font-bold text-teal-700">Mensagem enviada com sucesso!</p>
-        <p className="mt-2 text-gray-600">Em breve, um de nossos consultores entrará em contato.</p>
+      <div ref={successRef} className="mx-4 mb-6 rounded-card border border-border-subtle bg-surface-card p-8 text-center">
+        <p className="t-h4 font-bold text-bc-primary">Mensagem enviada com sucesso!</p>
+        <p className="mt-2 t-body text-text-secondary">Em breve, um de nossos consultores entrará em contato.</p>
       </div>
     )
   }
@@ -177,122 +196,109 @@ const FormularioMercadoLivre = ({
       {showIntro && <p className="bcf-intro">{introText}</p>}
 
       {submitError && (
-        <p className="mb-4 text-center text-sm font-semibold text-yellow-300">
+        <p role="alert" className="mb-4 text-center t-label text-error">
           Ocorreu um erro ao enviar. Por favor, tente novamente ou fale conosco pelo WhatsApp.
         </p>
       )}
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="ml-nome">
+        <FormAccessibilityWrapper id="ml-nome" label={<>
             Nome completo<span className="bcf-required">*</span>
-          </label>
-          <input
-            id="ml-nome"
+          </>} required error={errors.nome}>
+          {attributes => (<input
+            {...attributes}
             name="nome"
             type="text"
             className={`bcf-input${errors.nome ? ' error' : ''}`}
             value={form.nome}
             onChange={handleChange}
-          />
-          {errors.nome && <span className="bcf-error-text">{errors.nome}</span>}
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="ml-email">
+        <FormAccessibilityWrapper id="ml-email" label={<>
             E-mail corporativo<span className="bcf-required">*</span>
-          </label>
-          <input
-            id="ml-email"
+          </>} required error={errors.email}>
+          {attributes => (<input
+            {...attributes}
             name="email"
             type="email"
             className={`bcf-input${errors.email ? ' error' : ''}`}
             value={form.email}
             onChange={handleChange}
-          />
-          {errors.email && <span className="bcf-error-text">{errors.email}</span>}
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="ml-whatsapp">
+        <FormAccessibilityWrapper id="ml-whatsapp" label={<>
             WhatsApp<span className="bcf-required">*</span>
-          </label>
-          <input
-            id="ml-whatsapp"
+          </>} required error={errors.whatsapp}>
+          {attributes => (<input
+            {...attributes}
             name="whatsapp"
             type="tel"
             className={`bcf-input${errors.whatsapp ? ' error' : ''}`}
             placeholder="(XX) XXXXX-XXXX"
             value={form.whatsapp}
             onChange={handleChange}
-          />
-          {errors.whatsapp && <span className="bcf-error-text">{errors.whatsapp}</span>}
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="ml-empresa">
+        <FormAccessibilityWrapper id="ml-empresa" label={<>
             Empresa<span className="bcf-required">*</span>
-          </label>
-          <input
-            id="ml-empresa"
+          </>} required error={errors.empresa}>
+          {attributes => (<input
+            {...attributes}
             name="empresa"
             type="text"
             className={`bcf-input${errors.empresa ? ' error' : ''}`}
             value={form.empresa}
             onChange={handleChange}
-          />
-          {errors.empresa && <span className="bcf-error-text">{errors.empresa}</span>}
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="ml-cnpj">
+        <FormAccessibilityWrapper id="ml-cnpj" label={<>
             CNPJ<span className="bcf-required">*</span>
-          </label>
-          <input
-            id="ml-cnpj"
+          </>} required error={errors.cnpj}>
+          {attributes => (<input
+            {...attributes}
             name="cnpj"
             type="text"
             className={`bcf-input${errors.cnpj ? ' error' : ''}`}
             placeholder="XX.XXX.XXX/XXXX-XX"
             value={form.cnpj}
             onChange={handleChange}
-          />
-          {errors.cnpj && <span className="bcf-error-text">{errors.cnpj}</span>}
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="ml-cargo">
+        <FormAccessibilityWrapper id="ml-cargo" label={<>
             Cargo<span className="bcf-required">*</span>
-          </label>
-          <input
-            id="ml-cargo"
+          </>} required error={errors.cargo}>
+          {attributes => (<input
+            {...attributes}
             name="cargo"
             type="text"
             className={`bcf-input${errors.cargo ? ' error' : ''}`}
             value={form.cargo}
             onChange={handleChange}
-          />
-          {errors.cargo && <span className="bcf-error-text">{errors.cargo}</span>}
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="ml-estado">
+        <FormAccessibilityWrapper id="ml-estado" label={<>
             Estado<span className="bcf-required">*</span>
-          </label>
-          <select
-            id="ml-estado"
+          </>} required error={errors.estado}>
+          {attributes => (<select
+            {...attributes}
             name="estado"
             className="bcf-select"
             value={form.estado}
@@ -303,35 +309,32 @@ const FormularioMercadoLivre = ({
                 {label}
               </option>
             ))}
-          </select>
-        </div>
+          </select>)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="ml-distribuidora">
+        <FormAccessibilityWrapper id="ml-distribuidora" label={<>
             Distribuidora atual<span className="bcf-required">*</span>
-          </label>
-          <input
-            id="ml-distribuidora"
+          </>} required error={errors.distribuidora}>
+          {attributes => (<input
+            {...attributes}
             name="distribuidora"
             type="text"
             className={`bcf-input${errors.distribuidora ? ' error' : ''}`}
             placeholder="Ex: Equatorial, Cemig, Energisa"
             value={form.distribuidora}
             onChange={handleChange}
-          />
-          {errors.distribuidora && <span className="bcf-error-text">{errors.distribuidora}</span>}
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="ml-situacaoAtual">
+        <FormAccessibilityWrapper id="ml-situacaoAtual" label={<>
             Situação atual<span className="bcf-required">*</span>
-          </label>
-          <select
-            id="ml-situacaoAtual"
+          </>} required error={errors.situacaoAtual}>
+          {attributes => (<select
+            {...attributes}
             name="situacaoAtual"
             className={`bcf-select${errors.situacaoAtual ? ' error' : ''}`}
             value={form.situacaoAtual}
@@ -341,18 +344,16 @@ const FormularioMercadoLivre = ({
             <option value="Cativo">Ainda no mercado cativo</option>
             <option value="MercadoLivre">Já estou no Mercado Livre</option>
             <option value="Migracao">Em processo de migração</option>
-          </select>
-          {errors.situacaoAtual && <span className="bcf-error-text">{errors.situacaoAtual}</span>}
-        </div>
+          </select>)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="ml-valorFatura">
+        <FormAccessibilityWrapper id="ml-valorFatura" label={<>
             Valor médio da fatura de energia (R$)<span className="bcf-required">*</span>
-          </label>
-          <input
-            id="ml-valorFatura"
+          </>} required error={errors.valorFatura}>
+          {attributes => (<input
+            {...attributes}
             name="valorFatura"
             type="text"
             inputMode="decimal"
@@ -360,13 +361,12 @@ const FormularioMercadoLivre = ({
             placeholder="Ex: 50.000,00"
             value={form.valorFatura}
             onChange={handleValorFaturaChange}
-          />
-          {errors.valorFatura && <span className="bcf-error-text">{errors.valorFatura}</span>}
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-submit-wrap">
-        <button type="submit" className="bcf-submit" disabled={loading}>
+        <button type="submit" className="bcf-submit" disabled={loading} aria-busy={loading} data-cta-location="form">
           {loading ? 'ENVIANDO...' : 'ENVIAR'}
         </button>
       </div>

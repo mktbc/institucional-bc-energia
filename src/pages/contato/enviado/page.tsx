@@ -1,28 +1,30 @@
-import { PageHeader, Section } from '@/components'
-import Image from '@/components/Image'
+import { PageHeader } from '@/components'
 
-const Blog = () => (
+/**
+ * /contato/enviado — confirmação de envio (pageType 'success' no tracking).
+ *
+ * Antes: hero centralizado legado (Section `first`, 176px de padding no topo)
+ * com H1 "Contato", mensagem como H2 numa segunda seção e nenhum próximo
+ * passo. Agora: um único cabeçalho compacto, no mesmo sistema de /contato,
+ * com a mensagem de confirmação como H1 e dois próximos passos para páginas
+ * que já existem. Texto da confirmação preservado. Fora do sitemap.
+ */
+const ContatoEnviado = () => (
   <div>
-    <PageHeader title="Contato" bgImage="/img/pages/contact.jpeg" category="Contato Enviado " />
-    <Section className="bg-white pt-0">
-      <div className="flex flex-col items-center">
-        <Image
-          className=""
-          src="/img/icons/mail-sent.svg"
-          alt="BC Energia"
-          width={130}
-          height={130}
-        />{' '}
-        <h2 className="mb-3 text-center text-3xl uppercase text-teal-900">
-          Formulário enviado com sucesso!
-        </h2>
-        <p className="text-center text-lg text-teal-900">
-          Seus dados foram enviados e serão analisados pela nossa equipe o mais breve possível.
-          Obrigado.
-        </p>
-      </div>
-    </Section>
+    <PageHeader
+      align="left"
+      compact
+      flush
+      eyebrowRule={false}
+      eyebrow="Mensagem recebida"
+      title="Formulário enviado com sucesso!"
+      description="Seus dados foram enviados e serão analisados pela nossa equipe o mais breve possível. Obrigado."
+      bgImage="/img/pages/FOTO_SOBRE_NOS_02.webp"
+      category="Contato"
+      cta={{ label: 'Simular minha economia', href: '/simulador-de-economia' }}
+      secondaryCta={{ label: 'Conhecer nossas soluções', href: '/produtos' }}
+    />
   </div>
 )
 
-export default Blog
+export default ContatoEnviado

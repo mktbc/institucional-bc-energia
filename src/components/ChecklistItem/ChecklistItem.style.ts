@@ -14,7 +14,7 @@ export const checklistItemStyles = tv({
 })
 
 export const checklistItemIconStyles = tv({
-  base: 'px-3 py-1 text-center text-xl font-bold',
+  base: 'px-3 py-1 text-center t-h3 font-bold',
   variants: {
     box: {
       true: 'mt-1 text-white',
@@ -31,8 +31,8 @@ export const checklistItemTitleStyles = tv({
   base: 'text-teal-900',
   variants: {
     box: {
-      true: 'text-lg font-semibold',
-      false: 'text-lg font-bold lg:text-xl'
+      true: 't-h4 font-semibold',
+      false: 't-h4-display'
     },
     uppercase: {
       true: 'uppercase'

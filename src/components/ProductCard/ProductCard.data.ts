@@ -3,7 +3,7 @@ import { ProductCardProps } from './ProductCard.type'
 export const productCardData: Array<ProductCardProps> = [
   {
     id: 'mercado-livre-de-energia',
-    img: '/img/components/products-card/mercado-livre-de-energia-thumb.png',
+    img: '/img/components/products-card/mercado-livre-de-energia-thumb.webp',
     icon: '/img/icons/icon-mercado-energia.svg',
     iconSize: [106, 104],
     title: 'Mercado Livre de Energia',
@@ -13,17 +13,17 @@ export const productCardData: Array<ProductCardProps> = [
   },
   {
     id: 'consorcio-bc-energia',
-    img: '/img/components/products-card/energia-por-assinatura-thumb.png',
+    img: '/img/components/products-card/energia-por-assinatura-thumb.webp',
     icon: '/img/icons/icon-energia-assinatura.svg',
     iconSize: [106, 104],
     title: 'Consórcio BC Energia',
     description:
-      'Para contas a partir de R$ 300,00. Solução sem investimento para consumidores conectados em baixa tensão terem acesso a energia solar sem a necessidade de construir usina.',
+      'Para contas a partir de R$ 700,00. Solução sem investimento para consumidores conectados em baixa tensão terem acesso a energia solar sem a necessidade de construir usina.',
     url: '/produtos/consorcio-bc-energia'
   },
   {
     id: 'gestao-de-energia',
-    img: '/img/components/products-card/gestao-de-energia-thumb.png',
+    img: '/img/components/products-card/gestao-de-energia-thumb.webp',
     icon: '/img/icons/icon-gestao-de-energia.svg',
     iconSize: [106, 104],
     title: 'Gestão de Energia',
@@ -36,14 +36,14 @@ export const productCardData: Array<ProductCardProps> = [
     img: '/img/components/products-card/certificacao-renovavel-thumb.png',
     icon: '/img/icons/irec.svg',
     iconSize: [106, 104],
-    title: 'Certificação Renovável - IREC',
+    title: 'Certificação Renovável I-REC',
     description:
       'Comprovação de consumo renovável. Certificação internacional que permite a rastreabilidade do consumo através das fontes renováveis, como solar, eólica, hídrica e biomassa.',
-    url: '/produtos/irec'
+    url: '/produtos/certificacao-renovavel-irec'
   },
   {
     id: 'arrendamento-de-usinas',
-    img: '/img/components/products-card/arrendamento-de-usinas-thumb.png',
+    img: '/img/components/products-card/arrendamento-de-usinas-thumb.webp',
     icon: '/img/icons/icon-arrendamento-de-usinas.svg',
     iconSize: [106, 104],
     title: 'Arrendamento de Usinas',

@@ -1,5 +1,6 @@
 import { FeaturesProps } from '@/components/Features/Features.type'
 import { AboutContent, ResourcesProps } from '@/components/Sections/Sections.type'
+import { getBCIcon } from '@/config/icons'
 
 export const content: AboutContent = [
   {
@@ -13,7 +14,7 @@ export const features: Array<FeaturesProps> = [
   {
     id: '1',
     icon: {
-      url: '/img/icons/expertise-icon.svg',
+      url: getBCIcon('gestao-energia-renovavel'),
       size: [36, 36]
     },
     title: 'Expertise'
@@ -21,7 +22,7 @@ export const features: Array<FeaturesProps> = [
   {
     id: '2',
     icon: {
-      url: '/img/icons/riscozero-icon.svg',
+      url: getBCIcon('planeta-sustentavel'),
       size: [36, 36]
     },
     title: 'Sustentabilidade'
@@ -29,15 +30,15 @@ export const features: Array<FeaturesProps> = [
   {
     id: '3',
     icon: {
-      url: '/img/icons/pioneirismo-icon.svg',
-      size: [27, 36]
+      url: getBCIcon('inovacao-sustentavel'),
+      size: [36, 36]
     },
     title: 'Pioneirismo'
   },
   {
     id: '4',
     icon: {
-      url: '/img/icons/infraestrutura-icon.svg',
+      url: getBCIcon('usina-solar'),
       size: [36, 36]
     },
     title: 'Infraestrutura'
@@ -48,7 +49,7 @@ export const resources: ResourcesProps = {
   title: 'Nossos Pilares: Fundamentos de uma Comercializadora de Energia Elétrica Visionária',
   subtitle: 'O que nos move',
   description:
-    'Em cada passo que damos, como uma influente comercializadora de energia elétrica no Brasil, nos guiamos por um propósito claro: gerar valor através de nossa energia. Nosso caminho é pavimentado pela missão de desenvolver negócios em energia que integrem pessoas, ideias e recursos, visando excelência para clientes, fornecedores, colaboradores e acionistas. Nossa visão é consolidar sua liderança em geração de energias renováveis e trading, reunindo clientes de todos os portes e investindo nas melhores pessoas e tecnologias. Nossos valores – respeito, comprometimento, confiança, aprendizagem e responsabilidade social – são os alicerces que sustentam cada projeto e cada parceria.',
+    'Em cada passo que damos, como uma influente comercializadora de energia elétrica no Brasil, nos guiamos por um propósito claro: gerar valor através de nossa energia. Nosso caminho é pavimentado pela missão de desenvolver negócios em energia que integrem pessoas, ideias e recursos, visando excelência para clientes, fornecedores, colaboradores e acionistas. Nossa visão é consolidar sua liderança em geração de energias renováveis e trading, reunindo clientes de todos os portes e investindo nas melhores pessoas e tecnologias. Nossos valores são os alicerces que sustentam cada projeto e cada parceria: respeito, comprometimento, confiança, aprendizagem e responsabilidade social.',
   items: [
     {
       title: 'Propósito',

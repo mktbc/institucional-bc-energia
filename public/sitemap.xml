@@ -1,172 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-
-
-<url>
-  <loc>https://grupobcenergia.com.br/</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/produtos</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/produtos/mercado-livre-de-energia</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/produtos/consorcio-bc-energia</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/produtos/gestao-de-energia</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/produtos/irec</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/produtos/arrendamento-de-usinas</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos/agronegocio</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos/bares-e-restaurantes</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos/condominio</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos/educacional</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos/turismo</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos/lazer</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos/religioso</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos/residencial</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos/saude</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos/servico</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos/varejo</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/sobre/quem-somos</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/sobre/nossas-usinas</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/sobre/lgpd</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/sobre/leilao</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/sobre/fator-de-alavancagem</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/sobre/sustentabilidade</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/sobre/social</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/sobre/condicoes-gerais-varejistas</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/contato</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/segmentos</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/sobre</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/wp-content/uploads/2022/07/formulrio__direito_dos_titulares__grupo_bc.pdf</loc>
-  <lastmod>2026-04-30T17:58:12+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/docs/modelo-contrato-varejista.pdf</loc>
-  <lastmod>2026-04-30T17:58:11+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-<url>
-  <loc>https://grupobcenergia.com.br/docs/nota-explicativa-prc.pdf</loc>
-  <lastmod>2026-04-30T17:58:11+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://grupobcenergia.com.br/</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/contato</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/produtos</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/produtos/mercado-livre-de-energia</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/produtos/consorcio-bc-energia</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/produtos/gestao-de-energia</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/produtos/certificacao-renovavel-irec</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/produtos/arrendamento-de-usinas</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/sobre</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/sobre/quem-somos</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/sobre/nossas-usinas</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/sobre/lgpd</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/sobre/sustentabilidade</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/sobre/social</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/energia-solar-goiania</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/energia-solar-anapolis</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/energia-solar-aparecida-de-goiania</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/energia-solar-em-rio-verde</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/energia-solar-trindade</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/energia-solar-palmas</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/energia-solar-no-tocantins</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos/agronegocio</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos/bares-e-restaurantes</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos/condominio</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos/educacional</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos/lazer</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos/religioso</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos/residencial</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos/saude</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos/servico</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos/turismo</loc>
+  </url>
+  <url>
+    <loc>https://grupobcenergia.com.br/segmentos/varejo</loc>
+  </url>
 </urlset>

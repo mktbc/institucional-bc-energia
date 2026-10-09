@@ -35,13 +35,13 @@ export const features: Array<FeaturesProps> = [
 
 const Title = () => (
   <>
-    Somos a maior <span className="text-amber-400">comercializadora de energia</span> do
+    Somos a maior <span className="text-bc-yellow">comercializadora de energia</span> do
     Centro-Oeste e uma das principais independentes do país.
   </>
 )
 
 export const cta: CtaProps = {
-  bgImage: '/img/global/arrendamento-de-usinas.jpg',
+  bgImage: '/img/global/arrendamento-de-usinas.webp',
   title: <Title />,
   link: '#contato',
   linkText: 'Quero economizar'
@@ -96,7 +96,7 @@ export const howItWorks: HowItWorksProps = {
   ],
   checkItem:
     'O Mercado de Energia Livre é uma opção para consumidores que buscam flexibilidade e potencialmente preços mais competitivos, mas também requer uma gestão mais ativa e uma compreensão dos riscos do mercado.',
-  imgUrl: '/img/pages/mercado-livre-de-energia-como-funciona.png'
+  imgUrl: '/img/home/como-ajudamos-usina.webp'
 }
 
 export const faq: Array<AccordionType> = [

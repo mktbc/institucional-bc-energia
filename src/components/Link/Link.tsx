@@ -19,9 +19,13 @@ const isInternal = (href: string): boolean =>
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   ({ href, children, ...rest }, ref) => {
-    if (isInternal(href) && !rest.target) {
+    // `target="_self"` é equivalente a não ter target: mantém navegação SPA
+    // (evita recarregar a página inteira e perder o foco de teclado).
+    const opensNewContext = Boolean(rest.target) && rest.target !== '_self'
+
+    if (isInternal(href) && !opensNewContext) {
       return (
-        <RouterLink to={href} ref={ref} {...rest}>
+        <RouterLink to={href} ref={ref} {...rest} target={undefined}>
           {children}
         </RouterLink>
       )

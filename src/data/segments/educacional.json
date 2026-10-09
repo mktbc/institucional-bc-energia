@@ -2,9 +2,9 @@
   "title": "Educacional",
   "description": "",
   "icon": "educacional.svg",
-  "coverUrl": "/img/global/arrendamento-de-usinas.jpg",
+  "coverUrl": "/img/global/arrendamento-de-usinas.webp",
   "introduction": {
-    "img": "/img/pages/segmentos/educacional.jpg",
+    "img": "/img/pages/segmentos/educacional.webp",
     "content": [
       {
         "title": "Educação com economia na conta de energia",
@@ -30,56 +30,9 @@
     ]
   },
   "cta": {
-    "bgImage": "/img/global/arrendamento-de-usinas.jpg",
+    "bgImage": "/img/global/arrendamento-de-usinas.webp",
     "title": "Somos a maior <span class='text-amber-400'>comercializadora de energia</span> do\n Centro-Oeste e uma das principais independentes do país.",
     "link": "#contato",
     "linkText": "Quero economizar"
-  },
-  "resources": {
-    "items": [
-      {
-        "title": "Lorem ipsum dolor sit amet",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
-      },
-      {
-        "title": "Lorem ipsum dolor sit amet",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
-      },
-      {
-        "title": "Lorem ipsum dolor sit amet",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
-      }
-    ],
-    "img": "/img/pages/segmentos/recursos-1.jpg"
-  },
-  "testimony": {
-    "title": "O que nossos clientes estão dizendo",
-    "description": "Lorem ipsum dolor sit amet consectetur. Adipiscing amet mattis elit in malesuada. Turpis\n aliquam duis eget montes faucibus pretium leo faucibus sed. Mattis consequat commodo.",
-    "testimonials": [
-      {
-        "customer": "Ana Maria",
-        "office": "CEO Ford Corporation",
-        "testimony": "Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque. Sem egestas tortor habitasse lorem praesent vitae pretium auctor sit. Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque.",
-        "avatar": "/img/global/avatar-1.jpg"
-      },
-      {
-        "customer": "Ricardo Yoshida",
-        "office": "CTO toyota",
-        "testimony": "Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque. Sem egestas tortor habitasse lorem praesent vitae pretium auctor sit.",
-        "avatar": "/img/global/avatar-2.jpg"
-      },
-      {
-        "customer": "Bernard Jackes",
-        "office": "Gestor de negócios RD Station",
-        "testimony": "Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque. Sem egestas tortor habitasse lorem praesent vitae pretium auctor sit. Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque.",
-        "avatar": "/img/global/avatar-3.jpg"
-      },
-      {
-        "customer": "Ana Maria",
-        "office": "CEO Ford Corporation",
-        "testimony": "Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque. Sem egestas tortor habitasse lorem praesent vitae pretium auctor sit. Ornare consectetur lectus etiam arcu. Tempor amet odio volutpat posuere enim natoque.",
-        "avatar": "/img/global/avatar-1.jpg"
-      }
-    ]
   }
 }

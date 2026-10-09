@@ -11,7 +11,7 @@ const Label = () => {
         style={{ display: open ? 'block' : 'none' }}
         className="w:full fixed left-5 right-5 top-5 z-[110] m-auto rounded-lg bg-white p-8 text-center md:top-20 md:w-4/5 lg:w-3/4 xl:w-2/4"
       >
-        <h3 className="mb-2 text-2xl">Termos de Solicitação de Inscrição</h3>
+        <h3 className="mb-2 t-h3-editorial">Termos de Solicitação de Inscrição</h3>
         <p>
           Ao fazer minha <strong>solicitação de inscrição</strong>, declaro ter conhecimento de que
           a mesma não se trata de uma autorização de entrada no evento.
@@ -49,7 +49,7 @@ const Label = () => {
         </div>
       </div>
       <div className="bg-yellow-200 px-2 py-1 text-left font-bold">
-        <span className="inline text-green-800">
+        <span className="inline text-bc-primary">
           Aceito os termos. Inscrição no valor de R$100,00 (valor repassado para a Associação
           Bloomy).{' '}
         </span>
@@ -63,7 +63,7 @@ const Label = () => {
       </div>
       <div
         style={{ display: open ? 'block' : 'none' }}
-        className="fixed left-0 right-0 top-0 z-[100] h-full w-full bg-black/80"
+        className="fixed left-0 right-0 top-0 z-[100] h-full w-full bg-surface-dark/80"
       ></div>
     </>
   )

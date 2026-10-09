@@ -1,29 +1,51 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { Section } from '@/components'
+import { accentTitle } from '@/components/Editorial/accentTitle'
+import { FORM_WIDGET_THEME } from '@/config/formWidgetTheme'
 import { buildSimulatorUrl } from '@/helpers/utm'
 
 const ORIGIN = 'https://simulador.bcenergiacomdesconto.com.br'
 
-const theme = {
-  primary: '#1f7a6b',
-  buttonBg: '#1f7a6b',
-  buttonText: '#FFFFFF',
-  cardBg: '#FFFFFF',
-  text: '#1f2937',
-  inputBg: '#FFFFFF',
-  inputBorder: '#1f7a6b',
-  primaryText: '#FFFFFF',
-  accent: '#27bdb1'
-}
+const theme = FORM_WIDGET_THEME
 
-const FormEmbed = ({ title, description }: { title?: string; description?: string }) => {
+/** Itens de apoio baseados em soluções reais já publicadas no site. */
+const defaultSupportItems = [
+  'Mercado Livre de Energia para empresas com alto consumo',
+  'Consórcio BC Energia para quem está no mercado cativo',
+  'Gestão de Energia e acompanhamento contínuo do consumo'
+]
+
+const FormEmbed = ({
+  title,
+  description,
+  supportItems = defaultSupportItems,
+  variant = 'section',
+  id = 'contato'
+}: {
+  title?: string
+  description?: string
+  supportItems?: Array<string>
+  /**
+   * `section` mantém o bloco teal completo (usado em produtos, segmentos e
+   * regionais). `bare` entrega apenas o card do embed, para páginas que já
+   * possuem cabeçalho próprio (ex.: /contato). A lógica do iframe, os
+   * parâmetros de URL, o tema e o resize são idênticos nos dois casos.
+   */
+  variant?: 'section' | 'bare'
+  id?: string
+}) => {
+
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const simulatorUrl = useMemo(() => buildSimulatorUrl('Formulario Site'), [])
 
   useEffect(() => {
     const iframe = iframeRef.current
     if (!iframe) return
+
+    // URL do simulador com as UTMs da visita (URL, sessão ou padrão). Definida
+    // só no cliente: no HTML pré-renderizado as UTMs do visitante não existem,
+    // e um src divergente na hidratação manteria o valor estático.
+    iframe.src = buildSimulatorUrl('Formulario Site')
 
     let themeIntervalId: ReturnType<typeof setInterval> | null = null
 
@@ -90,7 +112,7 @@ const FormEmbed = ({ title, description }: { title?: string; description?: strin
     }
 
     window.addEventListener('message', handleMessage)
-    window.addEventListener('resize', requestResize)
+    window.addEventListener('resize', requestResize, { passive: true })
     iframe.addEventListener('load', handleLoad)
 
     return () => {
@@ -101,34 +123,89 @@ const FormEmbed = ({ title, description }: { title?: string; description?: strin
     }
   }, [])
 
-  return (
-    <Section id="contato" className="bg-teal-600 pb-10 pt-10">
-      {title && <h2 className="px-6 py-6 text-center text-3xl uppercase text-white">{title}</h2>}
-      {description && (
-        <p className="mx-auto mb-6 w-2/3 text-center text-xl text-white">{description}</p>
-      )}
+  const embed = (
+    <iframe
+      ref={iframeRef}
+      // Altura inicial = piso de setHeight (400px): evita o salto a partir dos
+      // 150px padrão do iframe até a altura real chegar por postMessage.
+      height={400}
+      style={{
+        width: '100%',
+        border: '0',
+        background: 'transparent',
+        display: 'block',
+        overflow: 'hidden'
+      }}
+      loading="lazy"
+      title="Simulador de Economia"
+    />
+  )
+
+  if (variant === 'bare') {
+    // Altura mínima reservada pelo próprio iframe (min 400px) + ajuste por
+    // postMessage — sem altura fixa arbitrária.
+    return (
       <div
-        style={{
-          width: '100%',
-          maxWidth: '650px',
-          margin: '0 auto',
-          overflow: 'hidden',
-          borderRadius: '10px'
-        }}
+        id={id}
+        className="mx-auto w-full measure-intro overflow-hidden rounded-card border border-border-subtle bg-surface p-2 shadow-sm sm:p-3"
       >
-        <iframe
-          ref={iframeRef}
-          src={simulatorUrl}
-          style={{
-            width: '100%',
-            border: '0',
-            background: 'transparent',
-            display: 'block',
-            overflow: 'hidden'
-          }}
-          loading="lazy"
-          title="Simulador de Economia"
-        />
+        {embed}
+      </div>
+    )
+  }
+
+  return (
+    <Section id={id} className="relative overflow-hidden bg-bc-dark bc-level-mid">
+      {/* VISUAL SYSTEM 02 — blocos de formulário permanecem sem grafismo
+          (círculos e filete gradiente removidos: contrariavam esta regra). */}
+
+      <div className="relative z-10 grid w-full grid-cols-1 items-center gap-9 lg:grid-cols-12 lg:gap-10 xl:gap-10">
+        <div className="text-white lg:col-span-6 lg:pr-2">
+          <span className="block t-label uppercase tracking-[0.24em] text-bc-cyan">
+            Fale com nossa equipe
+          </span>
+
+          <h2 className="t-h2 mt-4 measure-title-tight text-white">
+            {accentTitle(title || 'Entre em contato')}
+          </h2>
+
+          <span aria-hidden="true" className="bc-accent-rule mt-6" />
+
+          <p className="mt-6 max-w-[50ch] t-body-lg text-white/85">
+            {description ||
+              'Preencha os dados ao lado para que nossa equipe analise o seu perfil de consumo e indique a solução de energia mais adequada para você.'}
+          </p>
+
+          <ul className="mt-7 space-y-5 border-t border-white/15 pt-7 t-body text-white/90">
+            {supportItems.map((item) => (
+              <li key={item} className="flex items-center gap-4">
+                <span
+                  aria-hidden="true"
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-bc-cyan/40 bg-bc-cyan/10"
+                >
+                  <svg
+                    viewBox="0 0 12 10"
+                    className="h-2.5 w-2.5 text-bc-cyan"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M1 5.5 4.2 8.5 11 1.5" />
+                  </svg>
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="w-full lg:col-span-6">
+          <div className="mx-auto w-full measure-intro overflow-hidden rounded-card border border-white/25 bg-white p-3 shadow-[0_24px_48px_-24px_rgba(36,47,64,0.24)] ring-1 ring-bc-dark/5 sm:p-4">
+            {embed}
+          </div>
+        </div>
       </div>
     </Section>
   )

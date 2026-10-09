@@ -1,8 +1,10 @@
+import FormAccessibilityWrapper from './FormAccessibilityWrapper'
 import { useEffect, useRef, useState } from 'react'
 
 import './bc-form.css'
 
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
+import { getFormUtms, useFormTracking } from '@/lib/analytics'
 
 type FormState = {
   nome: string
@@ -60,9 +62,14 @@ const FormularioParceiro = ({
     }
   }, [success])
 
+  // Tracking do formulário (form_start / form_error / form_submit + lead_generated)
+  const { onFormStart, onValidationError, onSubmitError, onSubmitSuccess } =
+    useFormTracking('parceiro')
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
+    onFormStart()
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
     if (errors[name as keyof FormState]) {
@@ -77,21 +84,30 @@ const FormularioParceiro = ({
     if (!form.email.trim()) newErrors.email = 'Preencha este campo.'
     else if (!/^\S+@\S+\.\S+$/.test(form.email)) newErrors.email = 'E-mail inválido.'
     setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+    const invalidFields = Object.keys(newErrors)
+    if (invalidFields.length > 0) onValidationError(invalidFields)
+    return invalidFields.length === 0
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!validate()) return
+    if (!validate()) {
+      // Acessibilidade: leva o foco para o primeiro campo com erro
+      window.setTimeout(() => {
+        const first = document.querySelector<HTMLElement>(
+          '.bc-form .bcf-input.error, .bc-form .bcf-select.error, .bc-form .bcf-textarea.error'
+        )
+        first?.focus()
+        first?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+      }, 0)
+      return
+    }
 
     setLoading(true)
     setSubmitError(false)
     try {
-      const urlParams = new URLSearchParams(window.location.search)
-      const utms: Record<string, string> = {}
-      Object.entries(UTM_DEFAULTS).forEach(([key, def]) => {
-        utms[key] = urlParams.get(key) ?? def
-      })
+      // Origem: URL atual > UTMs persistidas na sessão > padrão do site.
+      const utms = getFormUtms(UTM_DEFAULTS)
 
       const payload = {
         ...form,
@@ -102,14 +118,16 @@ const FormularioParceiro = ({
         dataHoraEnvio: new Date().toISOString()
       }
 
-      const { error } = await supabase.functions.invoke('form-webhook', {
+      const { error } = await (await getSupabase()).functions.invoke('form-webhook', {
         body: payload
       })
       if (error) throw error
 
       setSuccess(true)
+      onSubmitSuccess()
     } catch {
       setSubmitError(true)
+      onSubmitError()
     } finally {
       setLoading(false)
     }
@@ -117,9 +135,9 @@ const FormularioParceiro = ({
 
   if (success) {
     return (
-      <div ref={successRef} className="mx-4 mb-8 rounded-lg bg-white p-8 text-center">
-        <p className="text-xl font-bold text-teal-700">Mensagem enviada com sucesso!</p>
-        <p className="mt-2 text-gray-600">Em breve, um de nossos consultores entrará em contato.</p>
+      <div ref={successRef} className="mx-4 mb-6 rounded-card border border-border-subtle bg-surface-card p-8 text-center">
+        <p className="t-h4 font-bold text-bc-primary">Mensagem enviada com sucesso!</p>
+        <p className="mt-2 t-body text-text-secondary">Em breve, um de nossos consultores entrará em contato.</p>
       </div>
     )
   }
@@ -129,70 +147,63 @@ const FormularioParceiro = ({
       {showIntro && <p className="bcf-intro">{introText}</p>}
 
       {submitError && (
-        <p className="mb-4 text-center text-sm font-semibold text-yellow-300">
+        <p role="alert" className="mb-4 text-center t-label text-error">
           Ocorreu um erro ao enviar. Por favor, tente novamente ou fale conosco pelo WhatsApp.
         </p>
       )}
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="par-nome">
+        <FormAccessibilityWrapper id="par-nome" label={<>
             Nome<span className="bcf-required">*</span>
-          </label>
-          <input
-            id="par-nome"
+          </>} required error={errors.nome}>
+          {attributes => (<input
+            {...attributes}
             name="nome"
             type="text"
             className={`bcf-input${errors.nome ? ' error' : ''}`}
             value={form.nome}
             onChange={handleChange}
-          />
-          {errors.nome && <span className="bcf-error-text">{errors.nome}</span>}
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="par-email">
+        <FormAccessibilityWrapper id="par-email" label={<>
             Email<span className="bcf-required">*</span>
-          </label>
-          <input
-            id="par-email"
+          </>} required error={errors.email}>
+          {attributes => (<input
+            {...attributes}
             name="email"
             type="email"
             className={`bcf-input${errors.email ? ' error' : ''}`}
             value={form.email}
             onChange={handleChange}
-          />
-          {errors.email && <span className="bcf-error-text">{errors.email}</span>}
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="par-whatsapp">
+        <FormAccessibilityWrapper id="par-whatsapp" label={<>
             Telefone<span className="bcf-required">*</span>
-          </label>
-          <input
-            id="par-whatsapp"
+          </>} required error={errors.whatsapp}>
+          {attributes => (<input
+            {...attributes}
             name="whatsapp"
             type="tel"
             className={`bcf-input${errors.whatsapp ? ' error' : ''}`}
             placeholder="(XX) XXXXX-XXXX"
             value={form.whatsapp}
             onChange={handleChange}
-          />
-          {errors.whatsapp && <span className="bcf-error-text">{errors.whatsapp}</span>}
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="par-estado">
+        <FormAccessibilityWrapper id="par-estado" label={<>
             Estado<span className="bcf-required">*</span>
-          </label>
-          <select
-            id="par-estado"
+          </>} required error={errors.estado}>
+          {attributes => (<select
+            {...attributes}
             name="estado"
             className="bcf-select"
             value={form.estado}
@@ -202,17 +213,16 @@ const FormularioParceiro = ({
             <option value="TO">Tocantins (TO)</option>
             <option value="MG">Minas Gerais (MG)</option>
             <option value="MT">Mato Grosso (MT)</option>
-          </select>
-        </div>
+          </select>)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="par-distribuidora">
+        <FormAccessibilityWrapper id="par-distribuidora" label={<>
             Distribuidora<span className="bcf-required">*</span>
-          </label>
-          <select
-            id="par-distribuidora"
+          </>} required error={errors.distribuidora}>
+          {attributes => (<select
+            {...attributes}
             name="distribuidora"
             className="bcf-select"
             value={form.distribuidora}
@@ -222,17 +232,16 @@ const FormularioParceiro = ({
             <option value="Energisa">Energisa</option>
             <option value="Cemig">Cemig</option>
             <option value="Outra">Outra</option>
-          </select>
-        </div>
+          </select>)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="par-potencia">
+        <FormAccessibilityWrapper id="par-potencia" label={<>
             Potência da usina<span className="bcf-required">*</span>
-          </label>
-          <select
-            id="par-potencia"
+          </>} required error={errors.potencia}>
+          {attributes => (<select
+            {...attributes}
             name="potencia"
             className="bcf-select"
             value={form.potencia}
@@ -242,17 +251,16 @@ const FormularioParceiro = ({
             <option value="10 a 75 kWp">10 a 75 kWp</option>
             <option value="75 a 500 kWp">75 a 500 kWp</option>
             <option value="Maior que 500 kWp">Maior que 500 kWp</option>
-          </select>
-        </div>
+          </select>)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="par-status">
+        <FormAccessibilityWrapper id="par-status" label={<>
             Status da usina<span className="bcf-required">*</span>
-          </label>
-          <select
-            id="par-status"
+          </>} required error={errors.status}>
+          {attributes => (<select
+            {...attributes}
             name="status"
             className="bcf-select"
             value={form.status}
@@ -261,27 +269,26 @@ const FormularioParceiro = ({
             <option value="Em operação">Em operação</option>
             <option value="Em construção">Em construção</option>
             <option value="Em projeto">Em projeto</option>
-          </select>
-        </div>
+          </select>)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-row">
-        <div className="bcf-group">
-          <label className="bcf-label" htmlFor="par-observacoes">
+        <FormAccessibilityWrapper id="par-observacoes" label={<>
             Observações (opcional)
-          </label>
-          <textarea
-            id="par-observacoes"
+          </>} error={errors.observacoes}>
+          {attributes => (<textarea
+            {...attributes}
             name="observacoes"
             className="bcf-textarea"
             value={form.observacoes}
             onChange={handleChange}
-          />
-        </div>
+          />)}
+        </FormAccessibilityWrapper>
       </div>
 
       <div className="bcf-submit-wrap">
-        <button type="submit" className="bcf-submit" disabled={loading}>
+        <button type="submit" className="bcf-submit" disabled={loading} aria-busy={loading} data-cta-location="form">
           {loading ? 'ENVIANDO...' : 'ENVIAR'}
         </button>
       </div>

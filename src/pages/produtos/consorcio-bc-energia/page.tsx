@@ -1,128 +1,248 @@
+import { QuickAnswers } from '@/components/QuickAnswers'
+import { QUICK_ANSWERS, quickAnswerSchemaItems, withoutCoveredFaq } from '@/data/quickAnswers'
 import {
-  About,
-  PageHeader,
-  HowItWorks,
-  Numbers,
   FormEmbed,
-  Section,
-  Features,
-  Heading,
-  Accordion
+  PageHeader,
+  ProductLead,
+  ProductProcess,
+  ProductProof,
+  RelatedLinks
 } from '@/components'
-import { FeaturesProps } from '@/components/Features/Features.type'
-import Image from '@/components/Image'
 
-import { content, features, faq, howItWorks } from './data'
+import { BenefitsEditorial, ContextEditorial, FaqEditorial, ProfilesEditorial } from './sections'
 
-const howItWorksB = [
+import StructuredData from '@/components/Seo/StructuredData'
+import { faqSchema } from '@/components/Seo/structuredDataBuilders'
+
+import {
+  PRODUCT_AUDIENCE_LINKS,
+  PRODUCT_RELATED
+} from '@/pages/produtos/relatedLinks.data'
+
+import { productGraphics } from '@/config/brandGraphics'
+
+import { faq, howItWorks } from './data'
+import { ContextualContent } from '@/components/Content'
+import { NextAction } from '@/components/NextAction'
+
+const GRAPHICS = productGraphics('consorcio-bc-energia')
+
+
+const APP_URL = 'https://www.appenergia.com.br/Grupo_BC_Energia/'
+
+const benefits = [
   {
-    title: 'Geração de Energia',
+    icon: 'economia-na-conta' as const,
+    title: 'Até 25% de economia na conta de energia',
+    description: 'Desconto aplicado diretamente na sua fatura de energia.'
+  },
+  {
+    icon: 'solar-residencial' as const,
+    title: 'Sem investimento em placas solares',
+    description: 'Você usa energia limpa sem comprar nem instalar equipamentos.'
+  },
+  {
+    icon: 'geracao-distribuida' as const,
+    title: 'Sem mudanças na estrutura física',
+    description: 'Nenhuma obra ou alteração na instalação elétrica do imóvel.'
+  },
+  {
+    icon: 'contrato-aprovado' as const,
+    title: 'Sem taxa de adesão e sem fidelidade',
+    description: 'Adesão simples, sem custo inicial e sem contrato de permanência.'
+  }
+]
+
+const steps = [
+  {
+    title: 'Geração de energia',
     description:
       'O Grupo BC Energia gera energia limpa e renovável por meio de centenas de usinas fotovoltaicas espalhadas pelo país.'
   },
   {
-    title: 'Injeção na Rede de Distribuição',
+    title: 'Injeção na rede de distribuição',
     description:
       'Toda a energia gerada é injetada diretamente na rede de distribuição local, contribuindo para o fornecimento de eletricidade de sua região.'
   },
   {
-    title: 'Créditos de Energia',
+    title: 'Créditos de energia',
     description:
       'Uma distribuidora de energia converte a quantidade de energia injetada em créditos, que são repassados ao Grupo BC Energia.'
   },
   {
-    title: 'Economia na Conta de Luz',
+    title: 'Economia na conta de luz',
     description:
-      'Esses créditos são compartilhados com os consumidores alocados no consórcio, resultando em um desconto de até 26% na sua conta de energia, sem necessidade de investimento ou instalação de placas solares.'
+      'Esses créditos são compartilhados com os consumidores alocados no consórcio, resultando em até 25% de economia na conta de energia, sem necessidade de investimento ou instalação de placas solares.'
   }
 ]
 
+const audience = [
+  {
+    icon: 'solar-residencial' as const,
+    title: 'Consumidores residenciais',
+    description: 'Famílias que querem reduzir a conta de luz sem investir em placas solares.'
+  },
+  {
+    icon: 'mercado-crescimento' as const,
+    title: 'Comércios de baixa tensão',
+    description: 'Operações comerciais conectadas em baixa tensão na região atendida.'
+  }
+]
+
+const requirements = [
+  'Consumidor de baixa tensão',
+  'Conta de energia a partir de R$700,00',
+  'Imóvel na mesma região da distribuidora onde a usina está conectada'
+]
 
 const SubscriptionEnergy = () => (
-  <div>
+  <div className="bc-consortium-approved">
     <PageHeader
-      icon="icon-energia-assinatura.svg"
+      align="left"
+      flush
+      eyebrowRule={false}
+      eyebrow="Solução para residências e comércios"
       title="Consórcio BC Energia"
       description="Se você não se enquadra nos requisitos necessários para migração para o Mercado Livre de Energia, a geração distribuída de energia surge como alternativa para reduzir os gastos com luz. Nessa modalidade, os consumidores têm a possibilidade de gerar a própria energia elétrica, gerenciar sua distribuição e aproveitar créditos com validade de até 60 meses para abater o valor da conta de consumo."
-      bgImage="/img/global/energia-por-assinatura.jpg"
+      bgImage="/img/global/energia-por-assinatura.webp"
       category="Produtos"
+      cta={{ label: 'Quero economizar', href: APP_URL, target: '_blank' }}
+      secondaryCta={{ label: 'Ver como funciona', href: '#como-funciona' }}
     />
 
-    <About
-      target="_blank"
-      imgLink="https://www.appenergia.com.br/Grupo_BC_Energia/"
-      content={content}
-      img="/img/pages/consorcio-intro.png"
-    >
-      <Section className="p-6 pb-0 pl-0 pt-0">
-        <h3 className="text-xl uppercase leading-tight text-teal-800 lg:text-2xl">
-          Benefícios do Consórcio BC Energia:
-        </h3>
-        <div className="mt-6 content-center items-center justify-center gap-6">
-          {features.map((feature: FeaturesProps) => (
-            <Features key={feature.id} {...feature} />
-          ))}
-        </div>
-      </Section>
-    </About>
+    <ProductLead
+      graphic={GRAPHICS.lead}
+      eyebrow="O que é"
+      title="Economia na conta de luz sem investir em placa solar"
+      paragraphs={[
+        'O Consórcio BC Energia é a solução ideal para consumidores de baixa tensão que buscam reduzir a conta de luz sem a necessidade de investir em placas solares. Com o Consórcio BC Energia, você tem até 25% de economia na conta de energia, utilizando energia limpa gerada pelas mais de 100 usinas do Grupo BC Energia, sem alterar a estrutura física do seu imóvel.',
+        'Aqui, você não paga taxas de adesão, não tem fidelidade e não precisa se preocupar com mudanças na instalação elétrica. Todo o processo é simples e eficiente: a energia gerada pelas usinas é injetada na rede de distribuição e os créditos são convertidos em descontos na sua conta de luz.',
+        'Se você é consumidor residencial ou comercial com conta de energia a partir de R$700,00, pode aderir ao consórcio sem complicações. Reduza seus custos com energia agora e aproveite os benefícios da energia sustentável!'
+      ]}
+      image={{
+        src: '/img/pages/consorcio-lead.webp',
+        srcSet:
+          '/img/pages/consorcio-lead-600.webp 600w, /img/pages/consorcio-lead.webp 1280w',
+        sizes: '(max-width: 1024px) 100vw, 58vw',
+        width: 1280,
+        height: 1920,
+        alt: 'Casal consultando informações pelo notebook em casa',
+        imageClassName: 'bc-fmt-portrait object-center'
+      }}
+      facts={[
+        { label: 'Quem pode?', value: 'Consumidores de baixa tensão com conta a partir de R$700,00' },
+        { label: 'Adesão', value: 'Sem taxa de adesão e sem fidelidade' }
+      ]}
+    />
 
-    <p className="-mt-10 mb-20 px-6 text-center text-2xl">
-      Garanta sua economia de forma simples e sustentável com o Consórcio BC Energia!
-    </p>
+    <QuickAnswers
+      id="respostas-rapidas"
+      title={QUICK_ANSWERS['/produtos/consorcio-bc-energia'].title}
+      description={QUICK_ANSWERS['/produtos/consorcio-bc-energia'].description}
+      items={QUICK_ANSWERS['/produtos/consorcio-bc-energia'].items}
+      tracking="produto_consorcio"
+    />
 
-    <Section className="bg-gray-100 px-6">
-      <div className="flex flex-col-reverse gap-16 lg:flex-row">
-        <div className="basis-1/4">
-          <Image
-            className="rounded-2xl"
-            src={`/img/pages/arrendamento-de-usinas-intro.jpg`}
-            alt="Grupo BC Energia"
-            width={1024}
-            height={2014}
-          />
-        </div>
-        <div className="basis-3/4">
-          <h2 className="mb-6 text-2xl uppercase text-teal-900">
-            Como funciona o Consórcio BC Energia?
-          </h2>
-          <div className="flex flex-col gap-6">
-            {howItWorksB.map((item, i) => (
-              <div key={i} className="flex gap-6">
-                <h6 className="mt-1 h-9 w-9 flex-none items-center justify-center rounded-full border border-teal-600 p-[0.2rem] text-center text-lg font-bold text-teal-600">
-                  {i + 1}
-                </h6>
-                <div>
-                  <h4 className="text-xl text-teal-600">{item.title}</h4>
-                  <p>{item.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </Section>
-
-    <Numbers
-      btnText="Quero Economizar"
-      btnLink="http://www.appenergia.com.br/Grupo_BC_Energia/"
-      target="_blank"
+    <ProductProof
+      graphic={GRAPHICS.proof}
       context="consorcio"
-      bgImage="/img/components/numbers/fundo-numeros.jpg"
-    >
-      ECONOMIA E SUSTENTABILIDADE
-    </Numbers>
+      title="Economia e sustentabilidade em números"
+      description="Resultados do Grupo BC Energia em geração distribuída."
+      link={{ label: 'Quero economizar', href: APP_URL, target: '_blank' }}
+    />
 
-    <HowItWorks {...howItWorks} />
+    <ProductProcess
+      graphic={GRAPHICS.process}
+      id="como-funciona"
+      eyebrow="Como funciona"
+      title="Como funciona o Consórcio BC Energia"
+      steps={steps}
+      image={{
+        src: '/img/pages/arrendamento-de-usinas-intro.webp',
+        alt: 'Usina solar do Grupo BC Energia'
+      }}
+      note="Garanta sua economia de forma simples e sustentável com o Consórcio BC Energia."
+    />
 
-    <Section>
-      <Heading subtitle="Perguntas Frequentes">FAQ</Heading>
+    <BenefitsEditorial
+      eyebrow="Benefícios"
+      title="Vantagens do Consórcio BC Energia"
+      highlightValue="Até 25%"
+      highlightLabel="Economia na conta de luz"
+      items={benefits}
+    />
 
-      <div className="mx-auto w-full max-w-3xl">
-        {faq.map((item, i) => (
-          <Accordion open={i === 0} key={i} title={item.title} content={item.content} />
-        ))}
-      </div>
-    </Section>
+
+    <ContextEditorial
+      eyebrow="Contexto do mercado"
+      title={howItWorks.title}
+      description={howItWorks.description}
+      image={{
+        src: '/img/pages/consorcio-solucao.webp',
+        alt: 'Técnica com equipamento de segurança diante de painéis solares'
+      }}
+      items={howItWorks.itens.map((item) => ({
+        title: item.title,
+        description: item.description
+      }))}
+    />
+
+    <ProfilesEditorial
+      eyebrow="Para quem é"
+      title="Quem pode aderir ao consórcio"
+      items={audience}
+      requirements={requirements}
+    />
+
+    <NextAction
+      standalone
+      prompt="Já entendeu como funciona a adesão?"
+      label="Simule a economia na sua conta de energia"
+      href="/simulador-de-economia"
+      intent="alta"
+      tracking="produto_consorcio_proxima_simulador"
+    />
+
+
+
+    {/* FAQPage: reflete exatamente as perguntas/respostas visíveis na página
+        (bloco de respostas rápidas + FAQ), sem duplicar a mesma dúvida. */}
+    <StructuredData
+      schemas={[
+        faqSchema([
+          ...quickAnswerSchemaItems('/produtos/consorcio-bc-energia'),
+          ...withoutCoveredFaq('/produtos/consorcio-bc-energia', faq)
+            .filter((item) => typeof item.content === 'string')
+            .map((item) => ({ title: item.title, content: item.content as string }))
+        ])
+      ]}
+    />
+
+    <FaqEditorial items={withoutCoveredFaq('/produtos/consorcio-bc-energia', faq)} tone="muted" />
+
+    <RelatedLinks
+      variant="editorial"
+      eyebrow="Perfis atendidos"
+      title="Para quem esta solução faz sentido"
+      description="Perfis de consumo em que Consórcio BC Energia costuma ter maior impacto no custo de energia."
+      items={PRODUCT_AUDIENCE_LINKS['consorcio-bc-energia']}
+    />
+
+    {/* "Entenda melhor este tema" removido: o artigo indicado já aparece no
+        ContextualContent abaixo (cluster geracao-distribuida) e o hub do Blog
+        passou para "Próximos passos" (PRODUCT_RELATED). */}
+
+    <RelatedLinks
+      title="Próximos passos"
+      items={PRODUCT_RELATED['consorcio-bc-energia']}
+    />
+    <ContextualContent
+      title="Entenda melhor esta solução"
+      path="/produtos/consorcio-bc-energia"
+      cluster="geracao-distribuida"
+      trackingId="produto_consorcio"
+    />
+
 
     <FormEmbed title="Entre em contato" />
   </div>

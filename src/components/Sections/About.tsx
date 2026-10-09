@@ -18,36 +18,55 @@ const About = ({
   inverter,
   className,
   imgLink = '',
-  target = '_self'
+  target = '_self',
+  imgSrcSet,
+  imgSizes,
+  imgAlt = 'Grupo BC Energia'
 }: AboutProps) => (
   <Section className={`${className} ${aboutStyles()}`}>
-    <div className={aboutWrapStyles({ inverter })}>
+    <div className={`bc-legacy-media ${aboutWrapStyles({ inverter })}`}>
       <div className="flex flex-col lg:basis-3/4 2xl:basis-2/3">
-        {content.map((item) => (
-          <>
+        {content.map((item, index) => (
+          <div key={index}>
             <Heading center={false} full>
               {item.title}
             </Heading>
-            <p className="whitespace-pre-line text-justify text-lg">{item.description}</p>
-          </>
+            <div className="whitespace-pre-line t-body-lg">{item.description}</div>
+          </div>
         ))}
+
         {children}
       </div>
       <div className={aboutImageStyles({ inverter })}>
-        <Link href={imgLink} target={target}>
+        {imgLink ? (
+          <Link href={imgLink} target={target}>
+            <Image
+              className="ml-auto w-full rounded-lg"
+              src={img}
+              srcSet={imgSrcSet}
+              sizes={imgSizes}
+              alt={imgAlt}
+              width={1100}
+              height={1500}
+            />
+          </Link>
+        ) : (
           <Image
             className="ml-auto w-full rounded-lg"
             src={img}
-            alt="Grupo BC Energia"
+            srcSet={imgSrcSet}
+            sizes={imgSizes}
+            alt={imgAlt}
             width={1100}
             height={1500}
           />
-        </Link>
+        )}
       </div>
+
     </div>
 
     {features?.length ? (
-      <div className="mt-20 grid gap-10 lg:grid-cols-3">
+      <div className="mt-12 grid gap-8 lg:grid-cols-3">
         {features.map((feature) => (
           <Features key={feature.id} {...feature} />
         ))}

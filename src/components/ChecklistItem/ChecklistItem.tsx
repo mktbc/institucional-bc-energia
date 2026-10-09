@@ -16,8 +16,8 @@ const ChecklistItem = ({
   <div className={checklistItemStyles({ box, align })}>
     <div className={checklistItemIconStyles({ box, color })}>✔</div>
     <div className="flex flex-col gap-2">
-      <h4 className={checklistItemTitleStyles({ box, uppercase })}>{title}</h4>
-      {description && <p className="text-lg">{description}</p>}
+      <h3 className={checklistItemTitleStyles({ box, uppercase })}>{title}</h3>
+      {description && <p className="t-body-lg">{description}</p>}
     </div>
   </div>
 )

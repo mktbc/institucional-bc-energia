@@ -1,4 +1,2 @@
-export * from './Content'
-export { default as Cta } from './Cta'
-export { default as Slider } from './Slider'
-export { default as Solutions } from './Solutions'
+export { default as HomeFaq } from './HomeFaq'
+export { default as Hero } from './Hero'

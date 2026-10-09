@@ -1,7 +1,9 @@
-import { createElement } from 'react'
+import { createElement, type CSSProperties } from 'react'
 
 import { ArrowMask } from '@/components'
 import { sectionStyles } from '@/components/Layout/Section/Section.style'
+import { heroMobileVariant } from '@/config/heroVariants'
+
 
 import { SectionProps } from './Section.type'
 
@@ -19,12 +21,20 @@ const Section = ({
     as,
     {
       id,
-      style: bgImage ? { backgroundImage: `url(${bgImage})` } : {},
-      className: `${className} ${sectionStyles({ hScree, first, arrowMask })}`
+      style: bgImage
+        ? ({
+            '--hero-bg': `url(${bgImage})`,
+            ...(heroMobileVariant(bgImage)
+              ? { '--hero-bg-mobile': `url(${heroMobileVariant(bgImage)})` }
+              : {})
+          } as CSSProperties)
+        : {},
+      className: `bc-legacy-section ${bgImage ? 'hero-bg' : ''} ${className} ${sectionStyles({ hScree, first, arrowMask })}`
     },
+
     <>
       {arrowMask && <ArrowMask inverted />}
-      <div className="container mx-auto p-0">{children}</div>
+      <div className="container mx-auto px-6 lg:px-8">{children}</div>
       {arrowMask && <ArrowMask inverted up />}
     </>
   )

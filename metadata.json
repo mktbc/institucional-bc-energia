@@ -1,0 +1,8 @@
+{
+  "name": "Grupo BC Energia",
+  "description": "Site institucional do Grupo BC Energia — Soluções em energia limpa, mercado livre, geração distribuída e sustentabilidade.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

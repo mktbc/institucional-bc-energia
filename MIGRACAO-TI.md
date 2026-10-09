@@ -1,7 +1,7 @@
 # Migração Next.js → React + Vite — Pontos de integração para a TI
 
 Este projeto foi **portado de Next.js (App Router)** para **React + Vite + react-router-dom v6**
-(compatível com o editor Lovable). A migração foi **somente de front-end**: design, páginas,
+(SPA). A migração foi **somente de front-end**: design, páginas,
 componentes, estilos e assets. **Nenhum backend, API route ou segredo foi portado.**
 
 Toda a UI está intacta; as fontes de dados que dependiam de backend foram substituídas por
@@ -102,3 +102,24 @@ npm run typecheck  # checagem de tipos (verde)
 npm run build      # build de produção (verde) → dist/
 npm run preview    # pré-visualiza o build
 ```
+
+---
+
+## DECISÃO HUMANA NECESSÁRIA — Simulador externo (404)
+
+**URL referenciada:** `https://simulador.bcenergiacomdesconto.com.br/` (com UTMs)
+Uma variação anteriormente citada — `simulador.bcenergiacomdesconto.com.br/4hed/` — retorna **404**.
+
+**Onde é usado**
+| Página / Componente | Arquivo | Finalidade |
+| --- | --- | --- |
+| Widget flutuante "Simule agora" (todas as páginas) | `src/components/SimuleAgora/SimuleAgora.tsx` | iframe modal do simulador (`utm_channel=Widget Site`) |
+| Bloco de formulário embedado (Contato, produtos, regionais) | `src/components/FormEmbed/FormEmbed.tsx` | iframe do simulador (`utm_channel=Formulario Site`) |
+| Construção das URLs + UTMs | `src/helpers/utm.ts` | `buildSimulatorUrl()`, `SIMULATOR_FORM_URL`, `SIMULATOR_WIDGET_URL` |
+
+**Comportamento atual:** o iframe carrega a raiz do domínio do simulador; a comunicação
+`postMessage` (tema/altura) só funciona se a página remota responder. Se a URL estiver fora do ar,
+o iframe fica em branco/altura mínima — não há erro de JS nem quebra de layout no site.
+
+**Status:** integração **preservada sem alteração** (URL, parâmetros, número de WhatsApp e eventos
+intactos). A correção da URL definitiva depende de confirmação do time responsável pelo simulador.

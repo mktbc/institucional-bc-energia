@@ -1,46 +1,36 @@
-import { Heading, Section } from '@/components'
-import { Carousel } from '@/components/Carousel'
-import Image from '@/components/Image'
+import { Container } from '@/components/Container'
+import LogoStrip from './LogoStrip'
+import { SectionHeader } from '@/components/SectionHeader'
 
 import { logos } from './Customers.data'
+import { CustomersProps } from './Customers.type'
 
-const sliders = logos.map((logo) => (
-  <Image
-    key={logo.id}
-    src={`/img/components/customers/${logo.url}`}
-    alt={logo.title}
-    width={200}
-    height={200}
-  />
-))
+/** Seleção priorizando marcas destacadas, sem remover nada da fonte de dados. */
+const selectLogos = (limit?: number) => {
+  if (!limit) return logos
+  const featured = logos.filter((logo) => logo.featured)
+  const rest = logos.filter((logo) => !logo.featured)
+  return [...featured, ...rest].slice(0, limit)
+}
 
-const Customers = () => (
-  <Section className="pb-20 text-center text-teal-900">
-    <div className="mb-1 text-xl font-light">PARCERIA E CONFIANÇA</div>
-    <Heading>Nossos Clientes</Heading>
-    <div className="mt-16 px-6 lg:px-0">
-      <Carousel
-        space={15}
-        arrows={false}
-        dots={false}
-        slidesPerView={1}
-        slides={sliders}
-        breakpoints={{
-          320: {
-            slidesPerView: 2,
-            spaceBetween: 40
-          },
-          768: {
-            slidesPerView: 2,
-            spaceBetween: 40
-          },
-          1280: {
-            slidesPerView: 5,
-            spaceBetween: 40
-          }
-        }}
-      />
-    </div>
-  </Section>
+/**
+ * Faixa institucional de confiança — a mesma apresentação horizontal em todas
+ * as páginas. `variant` segue aceito pelas chamadas existentes, mas grade e
+ * carrossel convergiram para a faixa estática (ver LogoStrip).
+ */
+const Customers = ({
+  eyebrow = 'PARCERIA E CONFIANÇA',
+  title = 'Nossos Clientes',
+  description,
+  limit,
+  className = ''
+}: CustomersProps = {}) => (
+  <section className={`bc-client-strip bc-section-md bg-surface-muted ${className}`}>
+    <Container>
+      <SectionHeader eyebrow={eyebrow} title={title} description={description} />
+      <LogoStrip logos={selectLogos(limit)} label={title} />
+    </Container>
+  </section>
 )
+
 export default Customers

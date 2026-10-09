@@ -2,13 +2,13 @@
  * Dados de segmentos. Tenta a Edge Function `segments` (Supabase externo,
  * secret `API`). Se falhar, cai nos JSONs locais em `src/data/segments`.
  */
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 import { getSegmentData } from '@/data/segments'
 
 export const getSegment = async (segment?: string) => {
   if (!segment) return getSegmentData(segment)
   try {
-    const { data, error } = await supabase.functions.invoke(
+    const { data, error } = await (await getSupabase()).functions.invoke(
       `segments?segment=${encodeURIComponent(segment)}`,
       { method: 'GET' }
     )

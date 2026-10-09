@@ -1,41 +1,53 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comercializadora de Energia Solar | Grupo BC Energia</title>
-    <meta name="description" content="Grupo BC Energia: sua comercializadora de energia solar. Economize com o Mercado Livre de Energia e soluções de gestão. Fale com um especialista!">
+    <title data-rh="true">Comercializadora de Energia Solar | Grupo BC Energia</title>
+    <meta data-rh="true" name="description" content="Grupo BC Energia: sua comercializadora de energia solar. Economize com o Mercado Livre de Energia e soluções de gestão. Fale com um especialista!">
 
-    <!-- Fontes (antes via next/font/google): Montserrat + Open Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <!--
+      Fontes oficiais do Brandbook: Onest (corpo/UI) + Barlow Condensed (títulos).
+      PERFORMANCE 03 — self-hosted em /fonts (WOFF2, subsets latin/latin-ext,
+      font-display: swap em src/styles/fonts.css). Sem chamada a Google Fonts:
+      elimina 2 conexões externas e a cadeia HTML → CSS externo → gstatic.
+      Preload apenas dos dois arquivos críticos da primeira dobra.
+    -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/onest-400-latin.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/barlow-condensed-700-latin.woff2" crossorigin />
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-KWRL7CWP');</script>
-    <!-- End Google Tag Manager -->
 
-    <meta property="og:title" content="Comercializadora de Energia Solar | Grupo BC Energia">
-  <meta name="twitter:title" content="Comercializadora de Energia Solar | Grupo BC Energia">
-  <meta property="og:description" content="Grupo BC Energia: sua comercializadora de energia solar. Economize com o Mercado Livre de Energia e soluções de gestão. Fale com um especialista!">
-  <meta name="twitter:description" content="Grupo BC Energia: sua comercializadora de energia solar. Economize com o Mercado Livre de Energia e soluções de gestão. Fale com um especialista!">
-  <meta property="og:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7279ab41-bf48-49e1-b900-40f18e3f4212/id-preview-ae054b87--31b1f24d-1190-4536-b641-eef4bdddc83d.lovable.app-1783360201313.png">
-  <meta name="twitter:image" content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7279ab41-bf48-49e1-b900-40f18e3f4212/id-preview-ae054b87--31b1f24d-1190-4536-b641-eef4bdddc83d.lovable.app-1783360201313.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta property="og:type" content="website">
+
+    <!--
+      PERFORMANCE 04 — Google Tag Manager NÃO é mais carregado aqui.
+      Inicialização única, em idle e apenas em produção:
+      src/lib/integrations/thirdParty.ts (ID em src/config/integrations.ts).
+      Não reintroduzir snippet hardcoded: geraria duplicidade de container.
+    -->
+
+    
+  
+  
+  
+  <meta data-rh="true" property="og:image" content="https://grupobcenergia.com.br/img/og/home.jpg">
+  <meta data-rh="true" name="twitter:image" content="https://grupobcenergia.com.br/img/og/home.jpg">
+  <meta data-rh="true" name="twitter:card" content="summary_large_image">
+  <meta data-rh="true" property="og:type" content="website">
+  <meta data-rh="true" property="og:site_name" content="Grupo BC Energia">
+  <meta data-rh="true" property="og:locale" content="pt_BR">
+  <meta data-rh="true" property="og:url" content="https://grupobcenergia.com.br/">
+  <meta data-rh="true" property="og:title" content="Comercializadora de Energia Solar | Grupo BC Energia">
+  <meta data-rh="true" name="twitter:title" content="Comercializadora de Energia Solar | Grupo BC Energia">
+  <meta data-rh="true" property="og:description" content="Grupo BC Energia: sua comercializadora de energia solar. Economize com o Mercado Livre de Energia e soluções de gestão. Fale com um especialista!">
+  <meta data-rh="true" name="twitter:description" content="Grupo BC Energia: sua comercializadora de energia solar. Economize com o Mercado Livre de Energia e soluções de gestão. Fale com um especialista!">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KWRL7CWP"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <!--
+      PERFORMANCE 04 — noscript do GTM removido junto com o snippet do <head>:
+      o container agora é injetado por JS (produção, idle) e o fallback noscript
+      carregaria um segundo container com ID hardcoded, fora da config central.
+    -->
     <div id="root"></div>
 
     <script type="module" src="/src/main.tsx"></script>

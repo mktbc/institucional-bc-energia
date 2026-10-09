@@ -3,6 +3,15 @@ import { ReactNode } from 'react'
 import { headingStyles } from './Heading.style'
 import { HeadingType } from './Heading.type'
 
+/**
+ * Bloco de título de seção.
+ *
+ * ETAPA SEO 08: o `subtitle` é um kicker/eyebrow visual (não é um heading
+ * semântico) — renderizado como <p> com as mesmas classes, sem alteração
+ * visual. O título principal permanece como <h2>. Quando não há conteúdo,
+ * o <h2> não é emitido (evita heading vazio no HTML), preservando o wrapper
+ * e portanto o espaçamento original.
+ */
 const Heading = ({
   children,
   subtitle,
@@ -10,11 +19,15 @@ const Heading = ({
   center = true,
   full,
   margin = true
-}: HeadingType) => (
-  <div className={`${className} ${headingStyles({ center, full, margin })}`}>
-    {subtitle && <h2 className="mb-3 text-xl font-light lg:text-2xl">{subtitle}</h2>}
-    <h3 className="text-2xl leading-tight lg:text-4xl">{children as ReactNode}</h3>
-  </div>
-)
+}: HeadingType) => {
+  const hasTitle = Boolean(children) && children !== ''
+
+  return (
+    <div className={`${className} ${headingStyles({ center, full, margin })}`}>
+      {subtitle && <p className="mb-3 t-h4 font-light">{subtitle}</p>}
+      {hasTitle && <h2 className="t-h3-editorial">{children as ReactNode}</h2>}
+    </div>
+  )
+}
 
 export default Heading

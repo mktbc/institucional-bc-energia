@@ -19,6 +19,7 @@
 
 # vite
 /dist
+/dist-ssr
 
 # misc
 .DS_Store
@@ -38,6 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Ambientes locais e workspaces temporários
+.workspace/
+
+# Variáveis de ambiente reais (o modelo .env.example continua versionado)
+.env
+.env.production
+.env.development
 
 # Claude Code
 .claude/

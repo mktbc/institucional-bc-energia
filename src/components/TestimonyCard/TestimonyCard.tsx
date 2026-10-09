@@ -7,7 +7,7 @@ const TestimonyCard = ({ customer, office, testimony, avatar }: TestimonyCardPro
     <div className="flex gap-4">
       {avatar && <Image src={avatar} alt="Cliente" width={80} height={80} />}
       <div className="leading-[1rem]">
-        <h5 className="text-lg uppercase">{customer}</h5>
+        <p className="t-body-lg uppercase">{customer}</p>
         <span>{office}</span>
       </div>
     </div>
