@@ -21,7 +21,7 @@ negócio, formulários, simulador, Supabase ou rastreamento.
 - Organization (`/#organization`): Home, /contato, /sobre, /sobre/quem-somos — nome, razão social, CNPJ, logo, 2 endereços, WhatsApp oficial, estados de atuação, perfis oficiais.
 - WebSite (`/#website`): Home. WebPage (`<url>#webpage`): toda página indexável, ligada a WebSite e Organization.
 - BreadcrumbList; Service nas 5 soluções e nas 7 regionais (`areaServed` = cidade/estado); FAQPage só onde a FAQ é visível.
-- Não emitidos por falta de dados reais: Article/BlogPosting (data, autor), VideoObject (data, duração), LocalBusiness (escritórios corporativos; usar só se confirmado atendimento ao público). Sem avaliações ou notas.
+- Não emitidos por falta de dados reais (o que não impede a indexação das páginas): Article/BlogPosting (data, autor), VideoObject (data, duração), LocalBusiness (escritórios corporativos; usar só se confirmado atendimento ao público). Sem avaliações ou notas.
 
 ## GEO / AIO
 
@@ -32,7 +32,7 @@ negócio, formulários, simulador, Supabase ou rastreamento.
 
 - CEP de Goiânia diverge: rodapé/contato `74810-240` × LGPD `74.810-100` (texto visível; confirmar).
 - 4 números de WhatsApp diferentes; nenhum telefone fixo ou e-mail publicado.
-- Artigo do blog: data, autor e imagem reais para liberar Article e indexação.
+- Artigo do blog: hoje está `noindex` por decisão editorial do projeto (`src/config/contentIndexing.ts`: lista `EDITORIAL_APPROVED` vazia e critérios internos que pedem data, autor e imagem). Tecnicamente, a ausência de autor, data ou schema Article **não impede** a indexação; liberar é decisão editorial. O schema Article só deve ser emitido se data e autor reais forem informados — nunca inventados.
 - www→apex e http→https: configuração de domínio na hospedagem.
 - Validação em produção (HTTP real, Search Console, Rich Results Test) após publicar.
 
