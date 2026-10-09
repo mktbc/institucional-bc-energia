@@ -31,35 +31,34 @@ const TopicItem = ({ item, ctaName }: { item: HubCardItem; ctaName: string }) =>
     href={item.href}
     {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
     data-cta-name={ctaName}
+    /* Linha editorial, não cartão: nove cartões idênticos lado a lado faziam
+       a navegação institucional ler como painel administrativo. */
     className={[
-      'bc-arrow-action bc-arrow-action--row group flex min-h-[92px] items-start gap-4 rounded-[10px] border border-border-subtle bg-surface-card px-5 py-5 shadow-sm',
-      'transition-[transform,colors,box-shadow] duration-200 ease-out',
-      'hover:-translate-y-0.5 hover:border-bc-primary/25 hover:shadow-md',
+      'bc-arrow-action bc-arrow-action--row group flex min-h-[72px] items-start gap-4 border-t border-border-subtle py-5',
+      'transition-colors duration-200 ease-out',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2',
-      'motion-reduce:transition-none motion-reduce:hover:transform-none'
+      'motion-reduce:transition-none'
     ].join(' ')}
   >
     {item.icon || item.iconSrc ? (
       <span
         aria-hidden="true"
-        className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-bc-primary/[0.07] text-bc-primary transition-colors duration-200 group-hover:bg-bc-primary/[0.12]"
+        className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center text-bc-primary"
       >
         {item.icon ? (
-          <BCIcon name={item.icon} size={20} />
+          <BCIcon name={item.icon} size={22} />
         ) : (
-          <img src={item.iconSrc} alt="" aria-hidden="true" width={20} height={20} />
+          <img src={item.iconSrc} alt="" aria-hidden="true" width={22} height={22} />
         )}
       </span>
     ) : null}
 
     <span className="min-w-0 flex-1">
-      <span className="flex items-start justify-between gap-3">
-        <span className="t-body-sm font-semibold text-text-primary transition-colors duration-200 group-hover:text-bc-primary">
-          {item.title}
-        </span>
+      <span className="block t-h4-display text-text-primary transition-colors duration-200 group-hover:text-bc-primary">
+        {item.title}
       </span>
       {item.description ? (
-        <span className="mt-1.5 block max-w-[46ch] t-body-sm leading-[1.5] text-text-secondary">
+        <span className="mt-1 block max-w-[46ch] t-body-sm leading-[1.55] text-text-secondary">
           {item.description}
         </span>
       ) : null}
@@ -87,7 +86,7 @@ const GroupBlock = ({
       <p className="mt-2 max-w-[62ch] t-body-sm leading-[1.65] text-text-secondary">{description}</p>
     ) : null}
 
-    <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-x-5">
+    <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 sm:gap-x-10">
       {items.map((item) => (
         <TopicItem key={item.href} item={item} ctaName={`${ctaPrefix}${item.title}`} />
       ))}

@@ -123,16 +123,18 @@ const RelatedLinks = ({
         className={`bc-level-support bg-surface ${className}`.trim()}
         data-testid="related-links"
       >
-        <div className="bc-container">
-          <div className="max-w-2xl">
+        {/* Mesma composição do bloco editorial: título à esquerda, índice à
+            direita — evita a faixa de título com metade da largura vazia. */}
+        <div className="bc-container grid grid-cols-1 gap-x-12 gap-y-6 lg:grid-cols-12">
+          <div className="lg:col-span-4">
             {eyebrow ? <p className="t-eyebrow">{eyebrow}</p> : null}
             <Heading className="t-h3 mt-2 text-text-primary">{title}</Heading>
             {description ? (
-              <p className="t-body-sm mt-3 text-text-secondary">{description}</p>
+              <p className="t-body-sm mt-3 max-w-[44ch] text-text-secondary">{description}</p>
             ) : null}
           </div>
 
-          <ul className="mt-8 grid gap-x-8 md:grid-cols-2">
+          <ul className="grid gap-x-10 self-center lg:col-span-8 sm:grid-cols-2">
             {items.map((item) => (
               <li key={item.href} className="border-t border-border-subtle">
                 <Link
