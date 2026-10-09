@@ -96,7 +96,7 @@ const BlogEditorialHub = ({
             </div>
 
             {/* Imagem protagonista — primeiro no mobile, à direita no desktop. */}
-            <div className="relative order-first min-h-[240px] overflow-hidden rounded-[8px] bg-bc-dark lg:order-last lg:min-h-full">
+            <div className="bc-fill-media relative order-first min-h-[240px] overflow-hidden rounded-[8px] bg-bc-dark lg:order-last lg:min-h-full">
               <img
                 src={featured.image?.src ?? '/img/components/blog/blog-energia-solar-assinatura.webp'}
                 alt={

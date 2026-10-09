@@ -78,18 +78,20 @@ const Page = () => (
         {/* Solução protagonista: fotografia grande ao lado do texto, em vez de
             foto sobre um bloco estreito de parágrafos. */}
         {featured ? (
-          <div className="mt-7 grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="mt-7 grid grid-cols-1 items-stretch gap-8 lg:grid-cols-12 lg:gap-12">
             {/* Fotografia decorativa: os dois links de texto ao lado já levam
                 à solução, então ela não vira um terceiro alvo redundante. */}
-            <img
-              src={PRODUCT_IMAGES[featured.href] ?? '/img/pages/mercado-livre-subestacao.webp'}
-              alt=""
-              width={1200}
-              height={800}
-              loading="lazy"
-              decoding="async"
-              className="aspect-[4/3] w-full rounded-[8px] object-cover lg:col-span-7"
-            />
+            <div className="bc-fill-media lg:col-span-7">
+              <img
+                src={PRODUCT_IMAGES[featured.href] ?? '/img/pages/mercado-livre-subestacao.webp'}
+                alt=""
+                width={1200}
+                height={800}
+                loading="lazy"
+                decoding="async"
+                className="aspect-[4/3] w-full rounded-[8px] object-cover"
+              />
+            </div>
 
             <article className="lg:col-span-5">
               <p className="t-eyebrow text-bc-primary">Solução em destaque</p>

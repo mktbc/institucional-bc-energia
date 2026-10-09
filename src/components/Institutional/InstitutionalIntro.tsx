@@ -94,7 +94,7 @@ const InstitutionalIntro = ({
       >
         <div className={imagePosition === 'left' ? `lg:order-2 ${textSpan}` : textSpan}>{text}</div>
 
-        <div className={imagePosition === 'left' ? `lg:order-1 ${imageSpan}` : imageSpan}>
+        <div className={`${imagePosition === 'left' ? `lg:order-1 ${imageSpan}` : imageSpan} ${belowImage ? '' : 'bc-fill-media'}`}>
           <img
             src={image.src}
             alt={image.alt}

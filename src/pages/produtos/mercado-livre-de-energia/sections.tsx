@@ -78,30 +78,41 @@ export const MarketContext = ({
   tone?: ProductSectionTone
 }) => (
   <ProductSection tone={tone}>
-    <div className="bc-split-head">
-      <div>
-        <SectionHead eyebrow={eyebrow} title={title} titleWidth="max-w-[16ch]" />
-        {image ? (
-          <img
-            src={image.src}
-            alt={image.alt}
-            width={1600}
-            height={1066}
-            loading="lazy"
-            decoding="async"
-            className="bc-split-media"
-          />
-        ) : null}
-      </div>
-      <div className="bc-split-aside">
-        {description ? <p>{description}</p> : null}
-        {participants ? (
-          <div className="bc-callout">
-            <p className="bc-callout-label">{participants.title}</p>
-            <p>{participants.description}</p>
+    {/* Com foto: foto à esquerda acompanhando a altura do texto (topo e base
+        alinhados); sem foto: título à esquerda e introdução à direita. */}
+    <div className={image ? 'bc-media-split' : 'bc-split-head'}>
+      {image ? (
+        <div className="bc-fill-media">
+          <img src={image.src} alt={image.alt} width={1600} height={1066} loading="lazy" decoding="async" />
+        </div>
+      ) : null}
+      {image ? (
+        <div>
+          <SectionHead eyebrow={eyebrow} title={title} titleWidth="max-w-[20ch]" />
+          <div className="bc-split-aside mt-6">
+            {description ? <p>{description}</p> : null}
+            {participants ? (
+              <div className="bc-callout">
+                <p className="bc-callout-label">{participants.title}</p>
+                <p>{participants.description}</p>
+              </div>
+            ) : null}
           </div>
-        ) : null}
-      </div>
+        </div>
+      ) : (
+        <>
+          <SectionHead eyebrow={eyebrow} title={title} titleWidth="max-w-[16ch]" />
+          <div className="bc-split-aside">
+            {description ? <p>{description}</p> : null}
+            {participants ? (
+              <div className="bc-callout">
+                <p className="bc-callout-label">{participants.title}</p>
+                <p>{participants.description}</p>
+              </div>
+            ) : null}
+          </div>
+        </>
+      )}
     </div>
     <ItemGrid items={items} />
   </ProductSection>

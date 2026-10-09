@@ -1,19 +1,22 @@
 import { PageHeader, RelatedLinks } from '@/components'
-import { ContentEmptyState, ContentFeature, ContentSection } from '@/components/Content'
+import { ContentEmptyState, ContentSection } from '@/components/Content'
+import Link from '@/components/Link'
+import SectionHeader from '@/components/SectionHeader/SectionHeader'
+import YouTubeEmbed from '@/components/YouTubeEmbed'
 import { CLUSTERS } from '@/data/content/clusters'
 import { getEpisodeLabel, getEpisodes } from '@/data/content/episodes'
-import { CONTENT_GRAPHIC } from '@/config/brandGraphics'
 
 /**
  * Hub do BC Cast — /conteudo/bc-cast (VISUAL 15)
  *
- * Um único macrobloco escuro (tone="dark", diferencia o formato de mídia do
- * Blog, que é claro e de leitura): contexto do projeto + episódio protagonista
- * (facade de vídeo, nenhum iframe no load) + demais episódios reais em lista
- * editorial. Sem grade de cards — o volume real são poucos episódios.
+ * Contexto do projeto em cabeçalho dividido, episódio mais recente em cartão
+ * navy (vídeo + ficha, facade sem iframe no load), episódios anteriores em
+ * cards com miniatura e temas no padrão de lista das demais páginas.
  *
  * Fonte: src/data/content/episodes.ts. Indexação: noindex,follow.
  */
+const videoId = (url: string) => url.match(/\/embed\/([^?&/]+)/)?.[1] ?? ''
+
 const shortLabel = (number?: number) =>
   number ? `BC Cast #${String(number).padStart(2, '0')}` : 'BC Cast'
 
@@ -21,8 +24,10 @@ const BcCast = () => {
   const episodes = getEpisodes()
   const [featured, ...rest] = episodes
 
-  const guestsOf = (guests?: Array<{ name: string }>) =>
-    guests?.length ? `Com ${guests.map((guest) => guest.name).join(', ')}` : undefined
+  const guestsOf = (guests?: Array<{ name: string; role?: string }>) =>
+    guests?.length
+      ? `Com ${guests.map((guest) => (guest.role ? `${guest.name}, ${guest.role}` : guest.name)).join(' e ')}`
+      : undefined
 
   return (
     <>
@@ -50,39 +55,84 @@ const BcCast = () => {
           />
         </ContentSection>
       ) : (
-        <ContentFeature
-          graphic={CONTENT_GRAPHIC.castFeature}
-          tone="dark"
-          eyebrow="Sobre o projeto"
-          title="O que é o BC Cast"
-          description="Série de conversas do Grupo BC Energia com lideranças do setor produtivo e do setor elétrico. Energia tratada como fator de custo e de competitividade, sem jargão e sem promessa comercial."
-          feature={{
-            kind: shortLabel(featured.number),
-            title: featured.title,
-            description: featured.excerpt,
-            meta: guestsOf(featured.guests),
-            href: `/conteudo/bc-cast/${featured.slug}`,
-            ctaLabel: 'Ver episódio',
-            tracking: `bc_cast_destaque_${featured.slug}`,
-            media: {
-              kind: 'video' as const,
-              embedUrl: featured.embedUrl,
-              title: getEpisodeLabel(featured)
-            }
-          }}
-          items={rest.map((episode) => ({
-            key: episode.slug,
-            kind: shortLabel(episode.number),
-            title: episode.title,
-            description: episode.excerpt,
-            href: `/conteudo/bc-cast/${episode.slug}`,
-            tracking: `bc_cast_lista_${episode.slug}`
-          }))}
-          listTitle={rest.length > 0 ? 'Episódios anteriores' : undefined}
-        />
+        <>
+          <ContentSection id="sobre-o-bc-cast">
+            <div className="bc-split-head">
+              <SectionHeader eyebrow="Sobre o projeto" title="O que é o BC Cast" />
+              <div className="bc-split-aside">
+                <p>
+                  Série de conversas do Grupo BC Energia com lideranças do setor produtivo e do setor
+                  elétrico. Energia tratada como fator de custo e de competitividade, sem jargão e sem
+                  promessa comercial.
+                </p>
+              </div>
+            </div>
+
+            {/* Episódio em destaque: vídeo (facade, sem iframe no load) e ficha
+                no mesmo cartão navy da Home, com topo e base alinhados. */}
+            <article className="bc-cast-feature">
+              <div className="bc-cast-feature-media">
+                <YouTubeEmbed height="auto" url={featured.embedUrl} title={getEpisodeLabel(featured)} />
+              </div>
+              <div className="bc-cast-feature-copy">
+                <p className="bc-cast-kicker">{shortLabel(featured.number)}</p>
+                <h3>{featured.title}</h3>
+                {guestsOf(featured.guests) ? <p className="bc-cast-meta">{guestsOf(featured.guests)}</p> : null}
+                <Link
+                  href={`/conteudo/bc-cast/${featured.slug}`}
+                  className="bc-cast-cta"
+                  data-cta-name={`bc_cast_destaque_${featured.slug}`}
+                  data-cta-location="content_section"
+                >
+                  Ver episódio
+                </Link>
+              </div>
+            </article>
+
+            {rest.length > 0 ? (
+              <div className="bc-cast-list">
+                <p className="t-eyebrow text-bc-primary">Episódios anteriores</p>
+                <ul>
+                  {rest.map((episode) => (
+                    <li key={episode.slug}>
+                      <Link
+                        href={`/conteudo/bc-cast/${episode.slug}`}
+                        className="bc-cast-card grid"
+                        data-cta-name={`bc_cast_lista_${episode.slug}`}
+                        data-cta-location="content_section"
+                      >
+                        <span className="bc-cast-thumb">
+                          <img
+                            src={`https://i.ytimg.com/vi/${videoId(episode.embedUrl)}/hqdefault.jpg`}
+                            alt=""
+                            width={480}
+                            height={360}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                          <span aria-hidden="true" className="bc-cast-play" />
+                        </span>
+                        <span className="bc-cast-card-copy">
+                          <span className="bc-cast-kicker">{shortLabel(episode.number)}</span>
+                          <span className="bc-cast-card-title">{episode.title}</span>
+                          {guestsOf(episode.guests) ? (
+                            <span className="bc-cast-meta">{guestsOf(episode.guests)}</span>
+                          ) : null}
+                          <span className="bc-cast-more">Ver episódio</span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </ContentSection>
+        </>
       )}
 
       <RelatedLinks
+        variant="editorial"
+        eyebrow="Temas"
         title="Temas tratados no BC Cast"
         description="Aprofunde nos assuntos dos episódios pelas páginas de solução."
         items={[

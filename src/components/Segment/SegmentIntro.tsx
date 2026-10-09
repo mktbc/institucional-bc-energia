@@ -100,23 +100,18 @@ const SegmentIntro = ({
         </div>
 
         {image ? (
-          <figure className="lg:col-span-6 lg:self-center">
-            <div className="relative w-full overflow-hidden">
-              <img
-                src={image.src}
-                srcSet={image.srcSet}
-                sizes={image.sizes ?? '(max-width: 1024px) 100vw, 40vw'}
-                alt={image.alt}
-                width={1200}
-                height={900}
-                loading="lazy"
-                decoding="async"
-                className={
-                  image.className ??
-                  'w-full aspect-[4/3] object-cover object-center'
-                }
-              />
-            </div>
+          <figure className="bc-fill-media lg:col-span-6">
+            <img
+              src={image.src}
+              srcSet={image.srcSet}
+              sizes={image.sizes ?? '(max-width: 1024px) 100vw, 40vw'}
+              alt={image.alt}
+              width={1200}
+              height={900}
+              loading="lazy"
+              decoding="async"
+              className={image.className ?? 'w-full aspect-[4/3] object-cover object-center'}
+            />
           </figure>
         ) : null}
       </div>

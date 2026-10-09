@@ -88,38 +88,36 @@ export const ContextEditorial = ({
   id?: string
 }) => {
   const [lead, ...rest] = items
+  const aside = (
+    <div className="bc-split-aside">
+      {description ? <p>{description}</p> : null}
+      {lead ? (
+        <div className="bc-callout">
+          <p className="bc-callout-label">{lead.title}</p>
+          {lead.description ? <p>{lead.description}</p> : null}
+          <div className="mt-4 flex flex-wrap items-center gap-6">
+            {SOURCE_ICONS.map((icon) => (
+              <BCIcon key={icon} name={icon} size={30} className="opacity-90" />
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  )
 
   return (
     <ProductSection tone={tone} id={id}>
-      <div className="bc-split-head">
+      <div className={image ? 'bc-media-split' : 'bc-split-head'}>
+        {image ? (
+          <div className="bc-fill-media">
+            <img src={image.src} alt={image.alt} width={1600} height={1067} loading="lazy" decoding="async" />
+          </div>
+        ) : null}
         <div>
           <SectionHeader eyebrow={eyebrow} title={title} />
-          {image ? (
-            <img
-              src={image.src}
-              alt={image.alt}
-              width={1600}
-              height={1067}
-              loading="lazy"
-              decoding="async"
-              className="bc-split-media"
-            />
-          ) : null}
+          {image ? <div className="mt-6">{aside}</div> : null}
         </div>
-        <div className="bc-split-aside">
-          {description ? <p>{description}</p> : null}
-          {lead ? (
-            <div className="bc-callout">
-              <p className="bc-callout-label">{lead.title}</p>
-              {lead.description ? <p>{lead.description}</p> : null}
-              <div className="mt-4 flex flex-wrap items-center gap-6">
-                {SOURCE_ICONS.map((icon) => (
-                  <BCIcon key={icon} name={icon} size={30} className="opacity-90" />
-                ))}
-              </div>
-            </div>
-          ) : null}
-        </div>
+        {image ? null : aside}
       </div>
       {rest.length ? <ItemGrid items={rest} columns={rest.length % 2 === 0 ? 2 : 3} /> : null}
     </ProductSection>
