@@ -7,49 +7,103 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/contato/enviado", "destination": "/index.html" },
-    { "source": "/conteudo", "destination": "/index.html" },
-    { "source": "/conteudo/blog", "destination": "/index.html" },
-    { "source": "/conteudo/blog/:slug", "destination": "/index.html" },
-    { "source": "/conteudo/bc-cast", "destination": "/index.html" },
-    { "source": "/conteudo/bc-cast/:slug", "destination": "/index.html" },
-    { "source": "/simulador-de-economia", "destination": "/index.html" },
-    { "source": "/sobre/leilao", "destination": "/index.html" },
-    { "source": "/sobre/fator-de-alavancagem", "destination": "/index.html" },
-    { "source": "/sobre/condicoes-gerais-varejistas", "destination": "/index.html" },
-    { "source": "/produtos/irec", "destination": "/index.html" },
-    { "source": "/documentos/:arquivo", "destination": "/index.html" },
-    { "source": "/design-system", "destination": "/index.html" }
+    {
+      "source": "/contato/enviado",
+      "destination": "/"
+    },
+    {
+      "source": "/conteudo",
+      "destination": "/"
+    },
+    {
+      "source": "/conteudo/blog",
+      "destination": "/"
+    },
+    {
+      "source": "/conteudo/blog/:slug",
+      "destination": "/"
+    },
+    {
+      "source": "/conteudo/bc-cast",
+      "destination": "/"
+    },
+    {
+      "source": "/conteudo/bc-cast/:slug",
+      "destination": "/"
+    },
+    {
+      "source": "/simulador-de-economia",
+      "destination": "/"
+    },
+    {
+      "source": "/sobre/leilao",
+      "destination": "/"
+    },
+    {
+      "source": "/sobre/fator-de-alavancagem",
+      "destination": "/"
+    },
+    {
+      "source": "/sobre/condicoes-gerais-varejistas",
+      "destination": "/"
+    },
+    {
+      "source": "/produtos/irec",
+      "destination": "/"
+    },
+    {
+      "source": "/documentos/:arquivo",
+      "destination": "/"
+    },
+    {
+      "source": "/design-system",
+      "destination": "/"
+    }
   ],
   "headers": [
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/img/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
       ]
     },
     {
       "source": "/(.*)\\.html",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/sitemap.xml",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/robots.txt",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     }
   ]
