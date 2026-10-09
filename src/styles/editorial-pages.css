@@ -14,9 +14,9 @@
 }
 .bc-inner-editorial .bc-container-narrow { width: 90%; padding-inline: 0; }
 .bc-inner-editorial :is(.bc-level-lead, .bc-level-mid, .bc-section-md) {
-  padding-block: clamp(48px, 4.4vw, 64px);
+  padding-block: var(--site-section-space);
 }
-.bc-inner-editorial .bc-level-support { padding-block: 40px; }
+.bc-inner-editorial .bc-level-support { padding-block: calc(var(--site-section-space) * 0.8); }
 .bc-inner-editorial .bc-page-section { width: 100%; }
 .bc-inner-editorial :is(.bc-page-section--surface, .bc-page-section--soft, .bc-page-section--muted) {
   background: var(--bc-color-white);
@@ -179,21 +179,26 @@
 .bc-inner-editorial .bc-faq-composition .bc-section-heading { margin: 0; text-align: left; align-items: start; }
 .bc-inner-editorial .bc-faq-composition > div { margin: 0; max-width: none; min-width: 0; }
 
-/* Closing composition remains separate from the navy footer. */
-.bc-inner-editorial .flow-final-cta { background: var(--bc-color-white); padding-block: 40px; }
+/* Fechamento de página: painel navy sobre faixa clara. A faixa clara é o que
+   separa o painel do rodapé navy — antes o painel é que era lavado, e o
+   encerramento perdia presença. O CTA primário volta ao amarelo da marca. */
+.bc-inner-editorial .flow-final-cta { background: var(--bc-surface-page); }
 .bc-inner-editorial .flow-final-cta .bc-container > div {
-  background: color-mix(in srgb, var(--bc-color-primary) 6%, var(--bc-color-white)); border-radius: 0; padding: 32px;
+  background: var(--bc-color-dark); border-radius: 4px; padding: clamp(28px, 4vw, 56px);
 }
-.bc-inner-editorial .flow-final-cta :is(h2, .text-text-inverse\/80, .text-text-inverse\/90) { color: var(--bc-color-dark); }
-.bc-inner-editorial .flow-final-cta h2 { font-size: clamp(1.75rem, 2.5vw, 2.25rem); max-width: none; }
+.bc-inner-editorial .flow-final-cta :is(h2, .text-text-inverse\/80, .text-text-inverse\/90) { color: var(--bc-color-white); }
+.bc-inner-editorial .flow-final-cta h2 { font-size: clamp(2rem, 3vw, 2.75rem); max-width: 22ch; }
 .bc-inner-editorial .flow-final-cta h2 > span { display: inline; }
 .bc-inner-editorial .flow-final-cta h2 > span::before { content: ' '; }
-.bc-inner-editorial .flow-final-cta .border-t { border: 0; padding-left: 0; }
-.bc-inner-editorial .flow-final-cta a.bg-bc-accent { background: var(--bc-color-primary); color: var(--bc-color-white); font-size: 1.1875rem; font-weight: 700; }
-.bc-inner-editorial .flow-final-cta .text-bc-cyan { color: var(--bc-color-primary); }
-.bc-inner-editorial .flow-final-cta [class*='text-text-inverse'] { color: var(--bc-color-dark); }
-.bc-inner-editorial .flow-final-cta a:focus-visible { outline: 3px solid var(--bc-color-primary); outline-offset: 4px; }
+.bc-inner-editorial .flow-final-cta .border-t { border-color: hsl(var(--bc-white) / 18%); }
+/* Amarelo com texto navy — a cor de conversão da marca, não o verde. */
+.bc-inner-editorial .flow-final-cta a.bg-bc-accent { background: var(--bc-color-yellow); color: var(--bc-color-dark); font-size: 1.0625rem; font-weight: 700; }
+.bc-inner-editorial .flow-final-cta a.bg-bc-accent:hover { filter: brightness(1.06); }
+.bc-inner-editorial .flow-final-cta .text-bc-cyan { color: var(--bc-color-cyan); }
+.bc-inner-editorial .flow-final-cta [class*='text-text-inverse'] { color: var(--bc-color-white); }
+.bc-inner-editorial .flow-final-cta a:focus-visible { outline: 3px solid var(--bc-color-yellow); outline-offset: 4px; }
 .bc-inner-editorial .flow-final-cta nav li { border: 0; }
+.bc-inner-editorial .flow-final-cta nav :is(a, p) { color: hsl(var(--bc-white) / 92%); }
 
 @media (max-width: 1023px) {
   .bc-inner-editorial .bc-media-composition:has(img),

@@ -1,6 +1,8 @@
 /* Home editorial: um único sistema de composição, sem camadas de overrides. */
 .bc-editorial {
-  --home-space: clamp(64px, 7vw, 112px);
+  /* Mesmo raciocínio de `--site-section-space`: o valor vale em cima e embaixo,
+     então 112px produzia até 224px de vão entre seções da Home. */
+  --home-space: clamp(44px, 4.6vw, 72px);
   color: var(--bc-text-primary);
   background: var(--bc-surface-page);
 }
@@ -186,7 +188,7 @@
 }
 @media (max-width: 767px) {
   .be-wrap { width: calc(100% - 40px); }
-  .bc-editorial { --home-space: 64px; }
+  .bc-editorial { --home-space: 44px; }
   .bc-editorial h2 { font-size: clamp(2.3rem,9.5vw,3.2rem); }
   .be-section-heading, .be-portfolio-heading { align-items: start; flex-direction: column; gap: 20px; margin-bottom: 28px; }
   .bc-hero-slide { min-height: 740px; min-height: max(740px,92svh); align-items: end; }

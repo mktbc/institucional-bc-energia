@@ -3,7 +3,7 @@
    então o vão entre duas seções é o dobro do valor. Em 96px isso resultava em
    até 192px de área vazia entre blocos — a origem do ritmo "bloco pequeno,
    grande vazio". O respiro passa a vir do grid e da tipografia. */
-:root { --site-gutter: clamp(20px, 3.5vw, 56px); --site-section-space: clamp(44px, 4.5vw, 72px); }
+:root { --site-gutter: clamp(20px, 3.5vw, 56px); --site-section-space: clamp(36px, 3.6vw, 56px); }
 .bc-site-shell { color: var(--bc-color-dark); }
 .bc-site-shell .bc-container { width: 100%; max-width: 1392px; padding-inline: var(--site-gutter); }
 .bc-site-shell :is(button, a, input, select, textarea):focus-visible { outline: 3px solid var(--bc-color-primary); outline-offset: 4px; }
@@ -53,3 +53,11 @@
   .bc-route-loading::after { animation: none; }
 }
 .bc-carousel-shell:not(#home_slider .bc-carousel-shell) .bc-carousel-toggle { position: static; margin: 16px auto 0; color: var(--bc-color-dark); border-color: var(--bc-border-subtle); min-height: 44px; padding: 8px 16px; }
+
+/* Controle de faixa (simulador): área de toque de 44px com trilho visual de
+   8px. Antes o próprio input tinha 8px de altura, abaixo do mínimo de toque. */
+.bc-range-control { height: 44px; background: transparent; }
+.bc-range-control::-webkit-slider-runnable-track { height: 8px; border-radius: 6px; background: var(--bc-surface-soft); }
+.bc-range-control::-moz-range-track { height: 8px; border-radius: 6px; background: var(--bc-surface-soft); }
+.bc-range-control::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 24px; height: 24px; margin-top: -8px; border-radius: 50%; background: var(--bc-color-primary); border: 2px solid var(--bc-color-white); box-shadow: 0 1px 3px hsl(var(--bc-dark) / 25%); }
+.bc-range-control::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--bc-color-primary); border: 2px solid var(--bc-color-white); }
