@@ -74,3 +74,7 @@
 .bc-site-shell--internal:has(.bc-page-hero) .bc-navbar { transition: background-color .4s, border-color .4s; }
 .bc-site-shell--internal:has(.bc-page-hero) .bc-navbar:not([data-solid]) { background: transparent; border-color: transparent; box-shadow: none; }
 .bc-site-shell--internal:has(.bc-page-hero) .bc-navbar[data-solid] { background: rgb(27 36 51 / .88); backdrop-filter: blur(14px); border-color: rgb(255 255 255 / .08); }
+/* Menu mobile aberto: backdrop-filter cria containing block para elementos
+   fixed e prendia o painel (#menu-mobile) à altura do cabeçalho. Sem o blur,
+   o painel volta a ocupar a tela inteira. Vale para Home e internas. */
+.bc-site-shell .bc-navbar:has(#menu-mobile:not([hidden])) { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--bc-color-dark); }
