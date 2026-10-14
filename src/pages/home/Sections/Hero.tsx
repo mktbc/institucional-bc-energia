@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async'
 import Link from '@/components/Link'
 import { slidersData } from '../Sliders/Sliders.data'
 
-const SLIDE_DURATION = 6000
+const SLIDE_DURATION = 4000
 
 const tabletHeroImage = (src: string) => {
   if (src.endsWith('hero-consorcio.webp')) return '/img/hero/hero-consorcio-1024.webp'
