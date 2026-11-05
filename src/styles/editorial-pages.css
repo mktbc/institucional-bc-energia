@@ -857,3 +857,15 @@
 @media (min-width: 1024px) {
   .bc-site-shell .bc-inner-editorial nav.bg-surface[data-testid="related-links"] + nav.container[data-testid="related-links"] { padding-top: 0; }
 }
+
+/* BC Cast, "Episódios anteriores": com um único episódio, o card ocupava
+   metade da largura e deixava a outra metade vazia. Nesse caso o rótulo vai
+   à esquerda e o card à direita, como nos demais índices editoriais. */
+@media (min-width: 1024px) {
+  .bc-site-shell .bc-inner-editorial .bc-cast-list:has(> ul > li:only-child) {
+    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: 40px; align-items: start;
+  }
+  .bc-site-shell .bc-inner-editorial .bc-cast-list:has(> ul > li:only-child) > p { padding-top: 16px; }
+  .bc-site-shell .bc-inner-editorial .bc-cast-list:has(> ul > li:only-child) ul { grid-template-columns: 1fr; margin-top: 0; }
+  .bc-site-shell .bc-inner-editorial .bc-cast-list:has(> ul > li:only-child) .bc-cast-card { grid-template-columns: 260px minmax(0, 1fr); }
+}
