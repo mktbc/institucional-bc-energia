@@ -1,4 +1,4 @@
-import { EditorialIndex } from '@/components/Editorial'
+import { EditorialIndex, ItemGrid } from '@/components/Editorial'
 import type { SegmentChallenge } from '@/data/segments/segments.content'
 
 import SegmentSection, { type SegmentSectionTone } from './SegmentSection'
@@ -35,16 +35,7 @@ const SegmentChallenges = ({
   return (
     <SegmentSection graphic={graphic} tone={tone} id={id}>
       <EditorialIndex eyebrow={eyebrow} title={title} description={description}>
-        <ul className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-8 lg:grid-cols-3 lg:gap-x-12">
-          {items.map((item) => (
-            <li key={item.title}>
-              <h3 className="t-h4 text-text-primary">{item.title}</h3>
-              <p className="mt-2 t-body-sm text-text-secondary">
-                {item.description}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <ItemGrid items={items} />
       </EditorialIndex>
     </SegmentSection>
   )

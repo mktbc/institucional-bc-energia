@@ -3,7 +3,7 @@
  *
  * Executado após o `vite build` (script `postbuild`):
  *  1. compila o bundle de servidor (src/entry-server.tsx) em `dist-ssr/`;
- *  2. renderiza cada rota de INDEXABLE_ROUTES para HTML;
+ *  2. renderiza cada rota de PRERENDER_ROUTES para HTML;
  *  3. escreve `dist/<rota>/index.html` com o HTML e o <head> reais.
  *
  * O `dist/index.html` original é usado como template. As tags estáticas
@@ -19,9 +19,67 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { INDEXABLE_ROUTES } from '../src/config/routes'
+import { INDEXABLE_ROUTES, NOINDEX_ROUTES } from '../src/config/routes'
+import { ARTICLES } from '../src/data/content/articles'
+import { EPISODES } from '../src/data/content/episodes'
+
+/**
+ * Rotas que recebem HTML estático.
+ *
+ * As `NOINDEX_ROUTES` existem, são linkadas e precisam responder — entre elas
+ * o simulador e `/contato/enviado`, a confirmação pós-envio do formulário.
+ * Sem arquivo gerado elas caíam em 404 na hospedagem estática. A indexação
+ * continua barrada pelo `<meta name="robots" content="noindex">` que cada uma
+ * já emite por host, então gerar o HTML não as torna indexáveis.
+ */
+/**
+ * Artigos e episódios reais também recebem HTML próprio. Sem ele, a hospedagem
+ * entregava o HTML da Home (canonical "/", conteúdo e schema da Home) nessas
+ * URLs antes do JavaScript — e qualquer slug inventado respondia 200. Com os
+ * arquivos gerados, slugs inexistentes caem no 404.html com status 404.
+ */
+const CONTENT_ROUTES = [
+  ...ARTICLES.map((article) => `/conteudo/blog/${article.slug}`),
+  ...EPISODES.map((episode) => `/conteudo/bc-cast/${episode.slug}`)
+]
+
+const PRERENDER_ROUTES = [...INDEXABLE_ROUTES, ...NOINDEX_ROUTES, ...CONTENT_ROUTES]
 
 const DIST = resolve('dist')
+
+/**
+ * Rotas cujo CSS fica no chunk lazy da página (não no CSS global). O HTML
+ * pré-renderizado precisa desse CSS desde o primeiro paint; sem ele a página
+ * aparece sem estilo até o JS da rota carregar.
+ * /simulador-de-economia: CSS escopado da PageConv (pageconv.css).
+ */
+const ROUTE_STYLES: Record<string, string> = {
+  '/simulador-de-economia': 'src/pages/simulador-de-economia/page.tsx'
+}
+
+type ManifestChunk = { file: string; css?: string[]; imports?: string[] }
+
+const routeStylesheets = (
+  manifest: Record<string, ManifestChunk>,
+  template: string,
+  route: string
+): string => {
+  const entryKey = ROUTE_STYLES[route]
+  if (!entryKey) return ''
+  if (!manifest[entryKey]) throw new Error(`[prerender] ${entryKey} ausente no manifest do Vite`)
+  const css = new Set<string>()
+  const visit = (key: string, seen = new Set<string>()) => {
+    if (seen.has(key) || !manifest[key]) return
+    seen.add(key)
+    manifest[key].css?.forEach((file) => css.add(file))
+    manifest[key].imports?.forEach((imported) => visit(imported, seen))
+  }
+  visit(entryKey)
+  return [...css]
+    .filter((file) => !template.includes(`/${file}"`)) // CSS global já está no template
+    .map((file) => `<link rel="stylesheet" crossorigin href="/${file}">`)
+    .join('\n  ')
+}
 const SSR_DIST = resolve('dist-ssr')
 
 const buildServerBundle = () => {
@@ -69,12 +127,15 @@ const run = async () => {
   }
 
   const template = stripStaticHelmetTags(readFileSync(resolve(DIST, 'index.html'), 'utf-8'))
+  const manifest = JSON.parse(
+    readFileSync(resolve(DIST, '.vite/manifest.json'), 'utf-8')
+  ) as Record<string, ManifestChunk>
 
-  for (const route of INDEXABLE_ROUTES) {
+  for (const route of PRERENDER_ROUTES) {
     const { html, head } = await render(route)
 
     const page = template
-      .replace('</head>', `  ${head}\n  </head>`)
+      .replace('</head>', `  ${head}\n  ${routeStylesheets(manifest, template, route)}\n  </head>`)
       .replace('<div id="root"></div>', `<div id="root" data-prerender-path="${route}">${html}</div>`)
 
     const dir = route === '/' ? DIST : resolve(DIST, route.replace(/^\//, ''))
@@ -106,7 +167,9 @@ const run = async () => {
   )
 
   rmSync(SSR_DIST, { recursive: true, force: true })
-  console.log(`pré-render concluído (${INDEXABLE_ROUTES.length} rotas + 404.html)`)
+  // O manifest só serve à pré-renderização; não é publicado.
+  rmSync(resolve(DIST, '.vite'), { recursive: true, force: true })
+  console.log(`pré-render concluído (${PRERENDER_ROUTES.length} rotas + 404.html)`)
 }
 
 

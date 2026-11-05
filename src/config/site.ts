@@ -25,11 +25,10 @@ export const PRODUCTION_HOSTS = ['grupobcenergia.com.br', 'www.grupobcenergia.co
  * passa a retornar `false` automaticamente (host = grupobcenergia.com.br).
  */
 export const isPreviewEnvironment = (): boolean => {
-  // Pré-render / SSR: não existe `window`. O alvo do build é declarado em
-  // VITE_SEO_ENV. Cut-over para produção: buildar com VITE_SEO_ENV=production
-  // para que o HTML estático saia com robots "index,follow".
+  // Pré-render / SSR: não existe `window`. O alvo do build vem de
+  // src/config/seoEnv.ts (produção por padrão; preview só quando explícito).
   if (typeof window === 'undefined') {
-    return import.meta.env?.VITE_SEO_ENV !== 'production'
+    return (typeof __SEO_ENV__ === 'undefined' ? 'production' : __SEO_ENV__) !== 'production'
   }
   return !PRODUCTION_HOSTS.includes(window.location.hostname)
 }
@@ -55,7 +54,7 @@ export const SITE_LOGO = `${SITE_URL}/img/global/grupo-bc-logo-vertical-color.we
  * fornecer uma arte dedicada 1200x630 em `public/social/og-default.jpg` —
  * basta então trocar o caminho abaixo. Nenhuma outra mudança é necessária.
  */
-export const DEFAULT_OG_IMAGE_PATH = '/bg-home.jpg'
+export const DEFAULT_OG_IMAGE_PATH = '/img/og/home.jpg'
 
 /** Converte um caminho do projeto em URL absoluta (necessário para og:image). */
 export const toAbsoluteUrl = (pathOrUrl: string): string =>

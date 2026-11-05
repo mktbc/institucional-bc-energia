@@ -68,6 +68,20 @@ export const ROUTE_META: Record<string, PageMeta> = {
       'Fale com o Grupo BC Energia. Preencha o formulário e um especialista entra em contato para entender seu consumo e indicar a melhor solução de energia.',
     breadcrumb: [{ name: 'Contato', path: '/contato' }]
   },
+  '/design-system': {
+    title: 'Design System | Grupo BC Energia',
+    description: 'Referência interna de componentes visuais do site do Grupo BC Energia.'
+  },
+  // Confirmação pós-envio (noindex): título próprio, sem herdar o da Home.
+  '/contato/enviado': {
+    title: 'Formulário enviado | Grupo BC Energia',
+    description:
+      'Formulário enviado com sucesso: seus dados serão analisados pela equipe do Grupo BC Energia o mais breve possível.',
+    breadcrumb: [
+      { name: 'Contato', path: '/contato' },
+      { name: 'Formulário enviado', path: '/contato/enviado' }
+    ]
+  },
 
   '/produtos': {
     title: 'Soluções em Energia | Grupo BC Energia',
@@ -364,9 +378,10 @@ ROUTE_META['/conteudo/bc-cast'] = {
 }
 
 ROUTE_META['/simulador-de-economia'] = {
-  title: 'Simulador de Economia de Energia | Grupo BC Energia',
+  // Título e descrição da PageConv (src/routes/index.tsx).
+  title: 'Economize até 25% na Conta de Energia | Grupo BC Energia',
   description:
-    'Simule uma estimativa de economia na conta de energia conforme o valor mensal e o estado de atendimento do Grupo BC Energia.',
+    'Economize até 25% na conta de energia com Geração Distribuída. Sem placas solares, sem obras e sem investimento inicial. Solicite uma análise gratuita.',
   breadcrumb: [{ name: 'Simulador de economia', path: '/simulador-de-economia' }]
 }
 

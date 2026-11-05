@@ -133,7 +133,7 @@ const Page = () => {
         align="left"
         title="Conteúdo"
         description="Materiais do Grupo BC Energia para entender o setor elétrico e tomar melhores decisões de energia."
-        bgImage="/img/pages/contact.webp"
+        bgImage="/img/pages/segmentos/recursos-1.webp"
         category="Conteúdo"
       />
 

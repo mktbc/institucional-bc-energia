@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react'
 
 import { Section } from '@/components'
+import { accentTitle } from '@/components/Editorial/accentTitle'
 import { FORM_WIDGET_THEME } from '@/config/formWidgetTheme'
-import { SIMULATOR_FORM_URL } from '@/helpers'
+import { buildSimulatorUrl } from '@/helpers/utm'
 
 const ORIGIN = 'https://simulador.bcenergiacomdesconto.com.br'
 
@@ -40,6 +41,11 @@ const FormEmbed = ({
   useEffect(() => {
     const iframe = iframeRef.current
     if (!iframe) return
+
+    // URL do simulador com as UTMs da visita (URL, sessão ou padrão). Definida
+    // só no cliente: no HTML pré-renderizado as UTMs do visitante não existem,
+    // e um src divergente na hidratação manteria o valor estático.
+    iframe.src = buildSimulatorUrl('Formulario Site')
 
     let themeIntervalId: ReturnType<typeof setInterval> | null = null
 
@@ -120,7 +126,6 @@ const FormEmbed = ({
   const embed = (
     <iframe
       ref={iframeRef}
-      src={SIMULATOR_FORM_URL}
       // Altura inicial = piso de setHeight (400px): evita o salto a partir dos
       // 150px padrão do iframe até a altura real chegar por postMessage.
       height={400}
@@ -154,14 +159,14 @@ const FormEmbed = ({
       {/* VISUAL SYSTEM 02 — blocos de formulário permanecem sem grafismo
           (círculos e filete gradiente removidos: contrariavam esta regra). */}
 
-      <div className="relative z-10 mx-auto grid w-full max-w-[1180px] grid-cols-1 items-center gap-9 lg:grid-cols-12 lg:gap-10 xl:gap-10">
+      <div className="relative z-10 grid w-full grid-cols-1 items-center gap-9 lg:grid-cols-12 lg:gap-10 xl:gap-10">
         <div className="text-white lg:col-span-6 lg:pr-2">
           <span className="block t-label uppercase tracking-[0.24em] text-bc-cyan">
             Fale com nossa equipe
           </span>
 
           <h2 className="t-h2 mt-4 measure-title-tight text-white">
-            {title || 'Entre em contato'}
+            {accentTitle(title || 'Entre em contato')}
           </h2>
 
           <span aria-hidden="true" className="bc-accent-rule mt-6" />

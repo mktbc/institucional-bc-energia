@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 
 import { logos } from '@/components/Customers/Customers.data'
-import Image from '@/components/Image'
-import Link from '@/components/Link'
+import LogoStrip from '@/components/Customers/LogoStrip'
+import ProofBand from '@/components/Product/ProofBand'
 import { getNumbers } from '@/services'
 
-import RegionalSection from './RegionalSection'
 import type { SectionGraphic } from '@/components/Product/ProductSection'
 
 type NumberItem = { title?: string; subtitle?: string }
@@ -38,7 +37,6 @@ const selectLogos = (limit: number) => {
  * Amarelo apenas sobre fundo escuro.
  */
 const RegionalProof = ({
-  graphic = { variant: 'radial', tone: 'light', size: 'large', position: 'bottom-cut', opacity: 0.05 },
   context = 'regionais',
   title,
   description,
@@ -60,64 +58,20 @@ const RegionalProof = ({
 
   return (
     <>
-      <RegionalSection graphic={graphic} tone="dark" id={id} className="bc-proof-composition">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end lg:gap-10">
-          <div className="lg:col-span-5">
-            <h2 className="t-h2 text-white">{title}</h2>
-            {description ? (
-              <p className="mt-4 max-w-[38rem] t-body text-white/80">
-                {description}
-              </p>
-            ) : null}
-            {link ? (
-              <Link
-                href={link.href}
-                target={link.target}
-                data-cta-name={link.label}
-                data-cta-location="regional_proof"
-                className="bc-arrow-action bc-arrow-action--dark mt-6 t-action-label focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bc-dark"
-              >
-                {link.label}
-              </Link>
-            ) : null}
-          </div>
+      <ProofBand
+        id={id}
+        title={title}
+        description={description}
+        link={link}
+        ctaLocation="regional_proof"
+        items={data}
+      />
 
-          {data.length ? (
-            <dl className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-3 lg:col-span-7">
-              {data.map((item, index) => (
-                <div key={`${item.title}-${index}`}>
-                  <dt className="t-metric-md text-bc-cyan">
-                    {item.title}
-                  </dt>
-                  <dd className="mt-2 t-body-sm leading-snug text-white/80">{item.subtitle}</dd>
-                </div>
-              ))}
-            </dl>
-          ) : null}
-        </div>
-      </RegionalSection>
-
-      {/* Faixa compacta de clientes reais — sem grid pesado, sem cards. */}
-      <section className="bg-surface py-8 lg:py-10">
+      {/* Mesma faixa institucional de clientes do restante do site. */}
+      <section className="bc-client-strip bc-level-support bg-surface">
         <div className="bc-container">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-8">
-            <p className="t-eyebrow shrink-0 text-bc-primary">Empresas que confiam na BC</p>
-            <ul className="flex flex-wrap items-center gap-x-8 gap-y-4 sm:gap-x-8">
-              {selectLogos(logoLimit).map((logo) => (
-                <li key={logo.id} className="flex h-9 items-center lg:h-10">
-                  <Image
-                    src={`/img/components/customers/${logo.url}`}
-                    alt={logo.name ?? logo.title}
-                    width={200}
-                    height={200}
-                    loading="lazy"
-                    decoding="async"
-                    className="max-h-9 w-auto max-w-[110px] object-contain lg:max-h-10"
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
+          <p className="t-eyebrow text-bc-primary">Empresas que confiam na BC</p>
+          <LogoStrip logos={selectLogos(logoLimit)} label="Empresas que confiam na BC" />
         </div>
       </section>
     </>

@@ -209,7 +209,7 @@ const Simulator = ({
             onChange={(event) => handleValor(Number(event.target.value))}
             aria-label="Valor médio mensal da conta de energia"
             aria-valuetext={`${formatBRL(valor)} por mês. Economia estimada de até ${formatBRL(economia)} por mês em ${estado.uf}.`}
-            className="mt-5 h-2 w-full cursor-pointer appearance-none rounded-md bg-surface-muted accent-bc-primary focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
+            className="bc-range-control mt-4 h-11 w-full cursor-pointer appearance-none bg-transparent accent-bc-primary focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
           />
 
           <div className="mt-2 flex justify-between t-body-sm text-text-secondary">

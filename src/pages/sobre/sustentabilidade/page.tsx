@@ -51,7 +51,7 @@ const Sustainability = () => (
       title="Energia limpa como"
       titleLine2="parte da operação"
       description="No Grupo BC Energia, sustentabilidade é parte essencial da nossa identidade: geração renovável própria, conservação ambiental e governança transparente."
-      bgImage="/img/global/energia-por-assinatura.webp"
+      bgImage="/img/pages/mercado-livre-destaque.webp"
       category="Sobre"
     />
 

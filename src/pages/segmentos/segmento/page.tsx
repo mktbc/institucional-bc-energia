@@ -63,11 +63,11 @@ const SEGMENT_CLUSTER: Record<string, ClusterId | undefined> = {
  */
 const SEGMENT_HERO_MEDIA: Record<string, string> = {
   agronegocio: '/img/pages/segmentos/agronegocio-hero.webp',
-  'bares-e-restaurantes': '/img/pages/segmentos/bares-e-restaurantes-hero.jpg',
+  'bares-e-restaurantes': '/img/pages/segmentos/bares-e-restaurantes-hero.webp',
   condominio: '/img/pages/segmentos/condominio-hero.webp',
-  educacional: '/img/pages/segmentos/educacional-hero.jpg',
-  lazer: '/img/pages/segmentos/lazer-hero.jpg',
-  religioso: '/img/pages/segmentos/religioso-hero.jpg',
+  educacional: '/img/pages/segmentos/educacional-hero.webp',
+  lazer: '/img/pages/segmentos/lazer-hero.webp',
+  religioso: '/img/pages/segmentos/religioso-hero.webp',
   residencial: '/img/pages/segmentos/residencial-hero.webp',
   saude: '/img/pages/segmentos/saude-hero.webp',
   servico: '/img/pages/segmentos/servico-hero.webp',

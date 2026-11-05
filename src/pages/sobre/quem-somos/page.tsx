@@ -59,7 +59,7 @@ const WhoWeAre = () => (
         aspect: '1600 / 773'
       }}
       belowImage={
-      <ul className="grid grid-cols-2 gap-x-5 gap-y-4 lg:grid-cols-4 lg:gap-x-6">
+      <ul className="grid grid-cols-2 gap-x-5 gap-y-4 xl:grid-cols-4 xl:gap-x-6">
         {features.map((feature) => (
           <li key={feature.id} className="flex min-h-[28px] items-center gap-3">
             <span
@@ -103,7 +103,7 @@ const WhoWeAre = () => (
         </div>
 
         <div className="lg:col-span-5">
-          <div className="mx-auto aspect-[4/5] w-full max-w-[320px] overflow-hidden rounded-[12px] bg-surface-muted sm:max-w-[340px]">
+          <div className="mx-auto aspect-[4/5] w-full max-w-[320px] lg:mr-0 overflow-hidden rounded-[12px] bg-surface-muted sm:max-w-[340px]">
             <YouTubeEmbed
               className="h-full w-full"
               height="100%"

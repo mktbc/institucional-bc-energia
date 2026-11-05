@@ -4,6 +4,23 @@ import Link from '@/components/Link'
 import { RelatedLinksProps } from './RelatedLinks.type'
 
 /**
+ * Colunas das listas-índice ao lado do título (variantes `index` e `editorial`).
+ * Com número ímpar de destinos, 2 colunas deixavam o último item sozinho na
+ * linha e um vazio ao lado; nesses casos a lista vira uma coluna de linhas.
+ */
+const sideIndexColumns = (count: number) => (count > 1 && count % 2 === 0 ? 'sm:grid-cols-2' : '')
+
+/**
+ * Lista de largura cheia (variante padrão): 3 destinos ficam em 3 colunas no
+ * desktop em vez de 2 + 1 órfão.
+ */
+const fullIndexColumns = (count: number) => {
+  if (count <= 1) return ''
+  if (count === 3) return 'lg:grid-cols-3'
+  return 'md:grid-cols-2'
+}
+
+/**
  * Bloco de linking interno com âncoras descritivas.
  * Usado por soluções, segmentos e páginas regionais para conectar os clusters
  * (solução ↔ segmento ↔ região ↔ conversão) sem "saiba mais" genérico.
@@ -75,7 +92,7 @@ const RelatedLinks = ({
         className={`bg-surface-muted/60 py-[72px] ${className}`.trim()}
         data-testid="related-links"
       >
-        <div className="mx-auto w-full max-w-[1180px] px-6 lg:px-8">
+        <div className="bc-container">
           <div className="measure-intro">
             {eyebrow ? <p className="t-eyebrow">{eyebrow}</p> : null}
             <span aria-hidden="true" className="bc-accent-rule" />
@@ -123,16 +140,18 @@ const RelatedLinks = ({
         className={`bc-level-support bg-surface ${className}`.trim()}
         data-testid="related-links"
       >
-        <div className="bc-container">
-          <div className="max-w-2xl">
+        {/* Mesma composição do bloco editorial: título à esquerda, índice à
+            direita — evita a faixa de título com metade da largura vazia. */}
+        <div className="bc-container grid grid-cols-1 gap-x-12 gap-y-6 lg:grid-cols-12">
+          <div className="lg:col-span-4">
             {eyebrow ? <p className="t-eyebrow">{eyebrow}</p> : null}
             <Heading className="t-h3 mt-2 text-text-primary">{title}</Heading>
             {description ? (
-              <p className="t-body-sm mt-3 text-text-secondary">{description}</p>
+              <p className="t-body-sm mt-3 max-w-[44ch] text-text-secondary">{description}</p>
             ) : null}
           </div>
 
-          <ul className="mt-8 grid gap-x-8 md:grid-cols-2">
+          <ul className={`grid gap-x-10 self-center lg:col-span-8 ${sideIndexColumns(items.length)}`}>
             {items.map((item) => (
               <li key={item.href} className="border-t border-border-subtle">
                 <Link
@@ -177,28 +196,32 @@ const RelatedLinks = ({
         className={`bc-level-mid bg-surface ${className}`.trim()}
         data-testid="related-links"
       >
-        <div className="bc-container">
-          <div className="max-w-[46rem]">
+        {/* Título à esquerda e destinos à direita: antes o título ocupava uma
+            faixa inteira e deixava metade da largura vazia ao lado. */}
+        <div className="bc-container grid grid-cols-1 gap-x-12 gap-y-6 lg:grid-cols-12">
+          <div className="lg:col-span-4">
             {eyebrow ? <p className="t-eyebrow">{eyebrow}</p> : null}
-            <Heading className="mt-2.5 t-h2-support text-text-primary">{title}</Heading>
+            <Heading className="mt-2 t-h2-support text-text-primary">{title}</Heading>
             {description ? (
-              <p className="mt-3 max-w-[58ch] t-body-lg text-text-secondary">{description}</p>
+              <p className="mt-3 max-w-[42ch] t-body text-text-secondary">{description}</p>
             ) : null}
           </div>
 
-          <ul className={`mt-9 grid gap-x-12 ${items.length > 1 ? 'md:grid-cols-2' : ''}`}>
+          <ul
+            className={`grid gap-x-10 self-center lg:col-span-8 ${sideIndexColumns(items.length)}`}
+          >
             {items.map((item) => (
               <li key={item.href} className="border-t border-border-subtle">
                 <Link
                   href={item.href}
                   target={item.target}
-                  className="bc-arrow-action bc-arrow-action--row bc-focus-ring group flex min-h-[64px] items-start justify-between gap-6 py-5 text-text-primary transition-colors duration-200 hover:text-bc-primary motion-reduce:transition-none"
+                  className="bc-arrow-action bc-arrow-action--row bc-focus-ring group flex min-h-[56px] items-start justify-between gap-5 py-4 text-text-primary transition-colors duration-200 hover:text-bc-primary motion-reduce:transition-none"
                 >
                   <span className="min-w-0">
                     <span className="block t-h4-display">{item.label}</span>
                     {/* Contexto do destino: o link explica para onde leva. */}
                     {item.description ? (
-                      <span className="mt-1.5 block max-w-[46ch] t-body-sm text-text-secondary">
+                      <span className="mt-1 block max-w-[42ch] t-body-sm text-text-secondary">
                         {item.description}
                       </span>
                     ) : null}
@@ -233,7 +256,7 @@ const RelatedLinks = ({
         )}
       </div>
 
-      <ul className={`mt-8 grid gap-x-12 ${items.length > 1 ? 'md:grid-cols-2' : ''}`}>
+      <ul className={`mt-8 grid gap-x-12 ${fullIndexColumns(items.length)}`}>
         {items.map((item) => (
           <li key={item.href} className="border-t border-border-subtle">
             <Link

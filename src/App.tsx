@@ -5,6 +5,7 @@ import RootLayout from '@/components/Layout/RootLayout'
 
 // A Home é crítica para o LCP e permanece no bundle inicial (import estático).
 import Home from '@/pages/home/page'
+import UtmKeeper from '@/components/Utm/UtmKeeper'
 
 // Demais páginas são carregadas sob demanda (code splitting por rota).
 const Contato = lazy(() => import('@/pages/contato/page'))
@@ -63,6 +64,7 @@ const RouteFallback = () => (
 
 const App = () => (
   <Suspense fallback={<RouteFallback />}>
+    <UtmKeeper />
     <Routes>
       <Route element={<RootLayout />}>
         <Route index element={<Home />} />

@@ -96,7 +96,7 @@ export const howItWorks: HowItWorksProps = {
   ],
   checkItem:
     'O Mercado de Energia Livre é uma opção para consumidores que buscam flexibilidade e potencialmente preços mais competitivos, mas também requer uma gestão mais ativa e uma compreensão dos riscos do mercado.',
-  imgUrl: '/img/pages/mercado-livre-de-energia-como-funciona.webp'
+  imgUrl: '/img/home/como-ajudamos-usina.webp'
 }
 
 export const faq: Array<AccordionType> = [

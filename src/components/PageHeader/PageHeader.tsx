@@ -1,7 +1,9 @@
 import React from 'react'
+import { Helmet } from 'react-helmet-async'
 import './page-header-reference.css'
 
 import { Breadcrumbs, Section } from '@/components'
+import { accentTitle } from '@/components/Editorial/accentTitle'
 import { buttonStyles } from '@/components/Button/Button.style'
 import Image from '@/components/Image'
 import Link from '@/components/Link'
@@ -49,7 +51,7 @@ const PageHeader = ({
         )}
 
         <h1 className={`hero-title mt-2.5 ${isSplit ? 'measure-title' : ''}`}>
-          {title}
+          {titleLine2 ? title : accentTitle(title)}
           {titleLine2 && (
             <>
               {' '}
@@ -95,44 +97,52 @@ const PageHeader = ({
       <>
         <header
           aria-label={bannerAlt ?? (bgImage ? title : undefined)}
-          style={
-            bgImage
-              ? ({
-                  '--hero-bg': `url(${bgImage})`,
-                  ...(heroMobileVariant(bgImage)
-                    ? { '--hero-bg-mobile': `url(${heroMobileVariant(bgImage)})` }
-                    : {})
-                } as React.CSSProperties)
-              : {}
-          }
-          className={`bc-reference-banner ${className} relative bg-cover bg-no-repeat ${bgImage ? 'hero-bg' : 'bg-surface-dark'} ${
-            isBanner
-              ? `flex flex-col justify-center ${
-                  bgPosition ?? 'bg-[position:center_center] lg:bg-[position:center_right]'
-                }`
-              : 'bg-center'
+          className={`bc-reference-banner bc-page-hero ${className} relative ${bgImage ? 'bc-page-hero--photo' : 'bc-page-hero--plain'} ${
+            isBanner ? 'flex flex-col justify-center' : ''
           }`}
         >
           {bannerAlt && <span className="sr-only">{bannerAlt}</span>}
 
-          {/* Sem fotografia, o banner é um campo navy sólido: as duas camadas
-              abaixo existem para dar leitura SOBRE imagem e, sem ela, só
-              lavariam a superfície. Composição limpa é preferível a reaproveitar
-              uma foto que representaria outro lugar ou outra operação. */}
+          {/* Mesma composição do hero da Home: campo navy com o texto à
+              esquerda e a fotografia à direita, recortada na diagonal do
+              símbolo BC, com o filete turquesa. Sem fotografia, o campo navy
+              recebe só o elemento de apoio da marca. */}
           {bgImage ? (
             <>
-              {/* Overlay escuro base (texto branco sobre fotografia) */}
+              {/* A foto do banner é background-image (descoberta só depois do CSS):
+                  preload no <head> para não atrasar o LCP. Mesmo corte de
+                  globals.css (.hero-bg): ≤1024px usa a variante menor, se houver. */}
+              <Helmet>
+                {heroMobileVariant(bgImage) ? (
+                  <link rel="preload" as="image" href={heroMobileVariant(bgImage)} media="(max-width: 1024px)" />
+                ) : null}
+                <link
+                  rel="preload"
+                  as="image"
+                  href={bgImage}
+                  {...(heroMobileVariant(bgImage) ? { media: '(min-width: 1025px)' } : {})}
+                  fetchPriority="high"
+                />
+              </Helmet>
               <div
                 aria-hidden="true"
-                className={`bc-ovl ${lightOverlay ? 'bc-ovl-dark' : 'bc-ovl-dark-medium'}`}
+                style={
+                  {
+                    '--hero-bg': `url(${bgImage})`,
+                    ...(heroMobileVariant(bgImage)
+                      ? { '--hero-bg-mobile': `url(${heroMobileVariant(bgImage)})` }
+                      : {})
+                  } as React.CSSProperties
+                }
+                className={`bc-page-hero-media hero-bg bg-cover bg-no-repeat ${
+                  lightOverlay ? 'bc-page-hero-media--light' : ''
+                } ${bgPosition ?? 'bg-center'}`}
               />
-              {/* Gradiente de leitura: mais denso do lado do texto (esquerda) */}
-              <div aria-hidden="true" className="bc-ovl bc-ovl-readable-left" />
+              <span aria-hidden="true" className="bc-page-hero-line" />
             </>
-          ) : null}
-
-
-
+          ) : (
+            <span aria-hidden="true" className="bc-page-hero-mark" />
+          )}
 
           <div
             className={`bc-container relative ${

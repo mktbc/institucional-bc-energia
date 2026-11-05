@@ -14,6 +14,8 @@ import {
   buildCanonical,
   toAbsoluteUrl
 } from '@/config/site'
+import { COMPANY, OFFICES } from '@/data/company'
+import { COVERAGE_STATES } from '@/data/coverage'
 
 export type JsonLd = Record<string, unknown>
 
@@ -35,15 +37,38 @@ export const organizationRef = (): JsonLd => ({
   url: `${SITE_URL}/`
 })
 
-/** Organization — usado apenas na Home. */
+/**
+ * Organization — dados institucionais já publicados no site (src/data/company.ts):
+ * razão social e CNPJ (página LGPD), endereços dos escritórios (rodapé/contato),
+ * WhatsApp oficial e estados de atuação (src/data/coverage.ts). Sem avaliações,
+ * prêmios ou números não publicados.
+ */
 export const organizationSchema = (description?: string): JsonLd => ({
   '@context': SCHEMA,
   '@type': 'Organization',
   '@id': ORGANIZATION_ID,
   name: SITE_NAME,
+  legalName: COMPANY.legalName,
+  taxID: COMPANY.taxId,
   url: `${SITE_URL}/`,
   logo: SITE_LOGO,
   ...(description ? { description } : {}),
+  address: OFFICES.map((office) => ({
+    '@type': 'PostalAddress',
+    streetAddress: office.streetAddress,
+    addressLocality: office.addressLocality,
+    addressRegion: office.addressRegion,
+    postalCode: office.postalCode,
+    addressCountry: 'BR'
+  })),
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+    telephone: COMPANY.whatsapp,
+    availableLanguage: 'Portuguese',
+    areaServed: 'BR'
+  },
+  areaServed: COVERAGE_STATES.map((state) => ({ '@type': 'State', name: state.name })),
   sameAs: SOCIAL_PROFILES
 })
 
@@ -55,6 +80,30 @@ export const websiteSchema = (): JsonLd => ({
   name: SITE_NAME,
   url: `${SITE_URL}/`,
   inLanguage: 'pt-BR',
+  publisher: { '@id': ORGANIZATION_ID }
+})
+
+/**
+ * WebPage — liga cada página indexável ao WebSite e à Organization (@id
+ * estáveis), para buscadores e sistemas de IA atribuírem o conteúdo à marca.
+ */
+export const webPageSchema = ({
+  path,
+  name,
+  description
+}: {
+  path: string
+  name: string
+  description?: string
+}): JsonLd => ({
+  '@context': SCHEMA,
+  '@type': 'WebPage',
+  '@id': `${buildCanonical(path)}#webpage`,
+  url: buildCanonical(path),
+  name,
+  ...(description ? { description } : {}),
+  inLanguage: 'pt-BR',
+  isPartOf: { '@id': WEBSITE_ID },
   publisher: { '@id': ORGANIZATION_ID }
 })
 
@@ -79,11 +128,14 @@ export const breadcrumbSchema = (items: BreadcrumbItem[]): JsonLd => ({
 export const serviceSchema = ({
   name,
   description,
-  path
+  path,
+  areaServed
 }: {
   name: string
   description?: string
   path: string
+  /** Área atendida real (ex.: cidade de uma página regional). */
+  areaServed?: JsonLd | JsonLd[]
 }): JsonLd => ({
   '@context': SCHEMA,
   '@type': 'Service',
@@ -91,7 +143,8 @@ export const serviceSchema = ({
   name,
   ...(description ? { description } : {}),
   url: buildCanonical(path),
-  provider: organizationRef()
+  provider: organizationRef(),
+  ...(areaServed ? { areaServed } : {})
 })
 
 export type FaqItem = { title: string; content: string }

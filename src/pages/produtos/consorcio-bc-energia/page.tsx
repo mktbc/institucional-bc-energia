@@ -177,6 +177,10 @@ const SubscriptionEnergy = () => (
       eyebrow="Contexto do mercado"
       title={howItWorks.title}
       description={howItWorks.description}
+      image={{
+        src: '/img/pages/consorcio-solucao.webp',
+        alt: 'Técnica com equipamento de segurança diante de painéis solares'
+      }}
       items={howItWorks.itens.map((item) => ({
         title: item.title,
         description: item.description

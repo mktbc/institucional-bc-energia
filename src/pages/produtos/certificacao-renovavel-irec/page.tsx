@@ -122,7 +122,7 @@ const IRECRenewableCertification = () => (
         'Entre em contato e descubra como adicionar esta importante vantagem competitiva para o seu negócio.'
       ]}
       image={{
-        src: '/img/pages/irec2.webp',
+        src: '/img/pages/nossas-usinas.webp',
         sizes: '(max-width: 1024px) 100vw, 58vw',
         alt: 'Usinas do Grupo BC Energia que originam os certificados I-REC'
       }}

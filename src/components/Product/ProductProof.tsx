@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import Link from '@/components/Link'
 import { getNumbers } from '@/services'
 
-import ProductSection from './ProductSection'
+import ProofBand from './ProofBand'
 import type { SectionGraphic } from './ProductSection'
 
 type NumberItem = { title?: string; subtitle?: string }
@@ -31,8 +30,7 @@ const ProductProof = ({
   title,
   description,
   link,
-  id,
-  graphic = { variant: 'radial', tone: 'light', size: 'large', position: 'bottom-cut', opacity: 0.05 }
+  id
 }: ProductProofProps) => {
   const [data, setData] = useState<NumberItem[]>([])
 
@@ -47,40 +45,14 @@ const ProductProof = ({
   }, [context])
 
   return (
-    <ProductSection graphic={graphic} tone="dark" id={id} className="bc-proof-composition">
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end lg:gap-10">
-        <div className="lg:col-span-5">
-          <h2 className="t-h2 text-white">{title}</h2>
-          {description ? (
-            <p className="mt-4 max-w-[38rem] t-body text-white/80">
-              {description}
-            </p>
-          ) : null}
-          {link ? (
-            <Link
-              href={link.href}
-              target={link.target}
-              data-cta-name={link.label}
-              data-cta-location="product_proof"
-              className="bc-arrow-action bc-arrow-action--dark mt-6 t-action-label focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bc-dark"
-            >
-              {link.label}
-            </Link>
-          ) : null}
-        </div>
-
-        <dl className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-3 lg:col-span-7">
-          {data.map((item, index) => (
-            <div key={`${item.title}-${index}`} className="border-t border-white/15 pt-4">
-              <dt className="t-metric-md text-bc-cyan">
-                {item.title}
-              </dt>
-              <dd className="mt-2 t-body-sm leading-snug text-white/80">{item.subtitle}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
-    </ProductSection>
+    <ProofBand
+      id={id}
+      title={title}
+      description={description}
+      link={link}
+      ctaLocation="product_proof"
+      items={data}
+    />
   )
 }
 

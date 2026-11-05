@@ -37,7 +37,7 @@ const Page = () => (
       title="Quem é o Grupo"
       titleLine2="BC Energia"
       description="Um conjunto de empresas do setor elétrico com estrutura própria de geração, atuação no mercado livre e em geração distribuída, e informação regulatória aberta."
-      bgImage="/img/global/arrendamento-de-usinas.webp"
+      bgImage="/img/pages/FOTO_SOBRE_NOS_01.webp"
       category="Sobre"
     />
 
@@ -50,10 +50,10 @@ const Page = () => (
         `Por meio da BC Renováveis, o grupo opera ${POWER_PLANT_COUNT} complexos de geração próprios, solares fotovoltaicos e hidrelétricos, distribuídos em locais estratégicos.`
       ]}
       image={{
-        src: '/img/pages/sobre-solucoes-perfis-consumo.webp',
-        alt: 'Profissional do Grupo BC Energia em ambiente corporativo analisando documentos',
-        width: 1439,
-        height: 1920
+        src: '/img/pages/irec1.webp',
+        alt: 'Profissionais analisando documentos de consumo de energia em ambiente corporativo',
+        width: 1380,
+        height: 920
       }}
     />
 

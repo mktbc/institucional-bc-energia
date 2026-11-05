@@ -2,12 +2,19 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath, URL } from 'node:url'
 
+import { resolveSeoEnv } from './src/config/seoEnv'
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  // Ambiente de SEO resolvido no build (ver src/config/seoEnv.ts).
+  define: {
+    __SEO_ENV__: JSON.stringify(resolveSeoEnv(process.env))
+  },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@pageconv': fileURLToPath(new URL('./src/pages/simulador-de-economia/pageconv', import.meta.url))
     }
   },
   // SSG: react-helmet-async é CJS — precisa ser bundlado no build de servidor.
@@ -16,6 +23,9 @@ export default defineConfig({
   },
   build: {
     assetsInlineLimit: 0,
+    // Manifest usado pela pré-renderização para incluir o CSS de rotas com
+    // estilo próprio (ver ROUTE_STYLES em scripts/prerender.ts).
+    manifest: true,
     rollupOptions: {
       output: {
         // Separa vendors grandes em chunks próprios: melhora cache entre deploys

@@ -1,0 +1,38 @@
+/* Faixa de clientes. Os PNGs têm 268×166 com respiro próprio embutido, então
+   cada logo ocupa a largura inteira do item e mantém a proporção do arquivo:
+   nada de altura máxima de 40px, que reduzia a marca a ~30px. */
+.bc-logo-strip {
+  --logo-width: clamp(112px, 10.5vw, 164px);
+  --logo-gap: clamp(16px, 2.6vw, 40px);
+  min-width: 0;
+  margin-top: clamp(20px, 2.4vw, 32px);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--bc-gray)) transparent;
+  padding-bottom: 8px;
+}
+.bc-logo-strip[data-fade-end] { mask-image: linear-gradient(90deg, #000 calc(100% - 72px), transparent); }
+.bc-logo-strip[data-fade-start] { mask-image: linear-gradient(90deg, transparent, #000 72px); }
+.bc-logo-strip[data-fade-start][data-fade-end] {
+  mask-image: linear-gradient(90deg, transparent, #000 72px, #000 calc(100% - 72px), transparent);
+}
+.bc-logo-strip:focus-visible { outline: 3px solid var(--bc-color-primary); outline-offset: 4px; }
+.bc-logo-strip__list {
+  display: flex;
+  align-items: center;
+  gap: var(--logo-gap);
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bc-logo-strip__list li { flex: 0 0 var(--logo-width); scroll-snap-align: start; }
+.bc-logo-strip__list img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 268 / 166;
+  object-fit: contain;
+}

@@ -29,6 +29,7 @@ const Navbar = () => {
 
   return (
     <div
+      data-solid={scrolled || open ? '' : undefined}
       className={`bc-navbar relative isolate border-b transition-[background-color,border-color,box-shadow] duration-normal ease-bc ${
         scrolled || open || pathname === '/'
           ? 'border-bc-cyan/20 bg-bc-dark shadow-md'

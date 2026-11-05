@@ -1,3 +1,4 @@
+import { accentTitle } from '@/components/Editorial/accentTitle'
 import { Container } from '@/components'
 import { buttonStyles } from '@/components/Button/Button.style'
 import Link from '@/components/Link'
@@ -32,7 +33,7 @@ const NotFound = () => (
         404
       </p>
 
-      <h1 className="mt-3 t-h2-lead max-w-[16ch] text-white">Página não encontrada</h1>
+      <h1 className="mt-3 t-h2-lead max-w-[16ch] text-white">{accentTitle('Página não encontrada')}</h1>
 
       <p className="mt-4 max-w-[52ch] t-body-lg text-white/80">
         A página que você tentou acessar não foi encontrada ou não existe mais.

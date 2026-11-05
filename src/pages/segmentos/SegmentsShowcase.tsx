@@ -51,8 +51,8 @@ const SegmentsShowcase = () => {
   if (!active) return null
 
   return (
-    <section id="segmentos" className="bc-segment-showcase bg-surface pb-10 pt-14 lg:pb-14 lg:pt-20">
-      <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-10">
+    <section id="segmentos" className="bc-segment-showcase bc-level-mid bg-surface">
+      <div className="bc-container">
         <p className="t-eyebrow">Segmentos em destaque</p>
 
         <div className="mt-5 flex flex-wrap items-center gap-x-8 gap-y-2 border-b border-border-subtle pb-3">

@@ -9,12 +9,15 @@ import {
   RegionalSolutions
 } from '@/components/Regional'
 import StructuredData from '@/components/Seo/StructuredData'
-import { faqSchema } from '@/components/Seo/structuredDataBuilders'
+import { faqSchema, serviceSchema } from '@/components/Seo/structuredDataBuilders'
 import { Region } from '@/data/regions'
 import { linkTo } from '@/config/internalLinks'
 import { regionalCtaGraphic, regionalIntroGraphic, regionalProofGraphic } from '@/config/brandGraphics'
 import { ContextualContent } from '@/components/Content'
 import { CLUSTERS } from '@/data/content/clusters'
+import { COVERAGE_STATES } from '@/data/coverage'
+
+const STATE_NAMES: Record<string, string> = Object.fromEntries(COVERAGE_STATES.map((s) => [s.uf, s.name]))
 
 /** Cluster pilar das páginas regionais: energia por assinatura / GD. */
 const GD_CLUSTER = CLUSTERS['geracao-distribuida']
@@ -162,6 +165,21 @@ const RegionalPage = ({ region }: { region: Region }) => {
       {/* FAQPage: reflete exatamente as perguntas/respostas visíveis abaixo. */}
       <StructuredData
         schemas={[
+          // Atendimento na cidade/estado da página (área atendida, não
+          // endereço físico: o grupo tem escritórios só em Goiânia e São Paulo).
+          serviceSchema({
+            name: region.h1,
+            description: region.heroDescription,
+            path: region.path,
+            areaServed:
+              region.scope === 'city'
+                ? {
+                    '@type': 'City',
+                    name: region.place,
+                    containedInPlace: { '@type': 'State', name: STATE_NAMES[region.uf] ?? region.uf }
+                  }
+                : { '@type': 'State', name: region.place }
+          }),
           faqSchema(
             region.faq.items.map((item) => ({ title: item.question, content: item.answer }))
           )

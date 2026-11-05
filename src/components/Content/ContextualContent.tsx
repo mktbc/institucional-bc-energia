@@ -38,13 +38,38 @@ const ContextualContent = ({
   if (!items.length) return null
 
   const [featured, ...supporting] = items
+  /**
+   * Um único conteúdo sem imagem ocupava só a metade esquerda e deixava a
+   * direita vazia. Nesse caso o bloco usa a composição editorial do site:
+   * título à esquerda, conteúdo à direita (desktop). Celular inalterado.
+   */
+  const split = !supporting.length && !featured.image
+
+  const header = (
+    <SectionHeader eyebrow={eyebrow} title={title} description={description} level="mid" />
+  )
 
   return (
     <ContentSection tone={tone}>
-      <SectionHeader eyebrow={eyebrow} title={title} description={description} level="mid" />
+      {split ? null : header}
 
-      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
-        <article className={supporting.length ? 'lg:col-span-7' : 'lg:col-span-9'}>
+      <div
+        className={
+          split
+            ? 'grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10'
+            : 'mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10'
+        }
+      >
+        {split ? <div className="lg:col-span-5">{header}</div> : null}
+        <article
+          className={
+            split
+              ? 'lg:col-span-7 lg:self-center lg:border-l lg:border-border-subtle lg:pl-10'
+              : supporting.length
+                ? 'lg:col-span-7'
+                : 'lg:col-span-9'
+          }
+        >
           {featured.image ? (
             <img
               src={featured.image.src}

@@ -13,9 +13,9 @@ import { HEADER_CLIENT_LINK } from '@/config/navigation'
  * `HEADER_CLIENT_LINK` (mesma fonte do header/footer) e os endereços são os
  * mesmos já publicados no rodapé.
  *
- * Hero: gestao-de-energia-hero.webp (1920×705, especialistas analisando um
- * documento — a promessa da página). contact.webp tem 897×750 e é uma vista
- * aérea de usina, sem relação com atendimento.
+ * Hero: FOTO_SOBRE_NOS_02.webp (equipe do Grupo BC Energia) — a página é o
+ * contato com essa equipe. contact.webp é uma vista aérea de usina, sem
+ * relação com atendimento.
  */
 
 /** Endereços institucionais — idênticos aos do rodapé (fonte já publicada). */
@@ -84,7 +84,7 @@ const Contato = () => (
       eyebrow="Fale com a BC Energia"
       title="Contato"
       description="Envie seus dados e nossa equipe analisa o melhor caminho de energia para a sua operação."
-      bgImage="/img/pages/gestao-de-energia-hero.webp"
+      bgImage="/img/pages/FOTO_SOBRE_NOS_02.webp"
       category="Contato"
     />
 

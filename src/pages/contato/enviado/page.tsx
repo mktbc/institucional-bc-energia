@@ -19,7 +19,7 @@ const ContatoEnviado = () => (
       eyebrow="Mensagem recebida"
       title="Formulário enviado com sucesso!"
       description="Seus dados foram enviados e serão analisados pela nossa equipe o mais breve possível. Obrigado."
-      bgImage="/img/pages/gestao-de-energia-hero.webp"
+      bgImage="/img/pages/FOTO_SOBRE_NOS_02.webp"
       category="Contato"
       cta={{ label: 'Simular minha economia', href: '/simulador-de-economia' }}
       secondaryCta={{ label: 'Conhecer nossas soluções', href: '/produtos' }}

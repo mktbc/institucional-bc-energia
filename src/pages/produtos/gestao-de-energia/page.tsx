@@ -77,11 +77,9 @@ const PowerManagement = () => (
         'Além de auxiliar na migração e gestão de contas no Mercado Livre de Energia, a BC Serviços conta com uma equipe multidisciplinar de experts com grande experiência no mercado. Assim, prestamos uma consultoria personalizada cuja consequência é uma redução ampla do valor da conta de luz.'
       ]}
       image={{
-        src: '/img/pages/gestao-de-energia-lead.webp',
-        srcSet:
-          '/img/pages/gestao-de-energia-lead-600.webp 600w, /img/pages/gestao-de-energia-lead.webp 1280w',
+        src: '/img/global/gestao-de-energia.jpg',
         sizes: '(max-width: 1024px) 100vw, 58vw',
-        alt: 'Profissional analisando dados e indicadores de gestão em ambiente corporativo',
+        alt: 'Técnico acompanhando indicadores de consumo de energia em um tablet',
         imageClassName: 'bc-fmt-portrait object-center'
       }}
       facts={[

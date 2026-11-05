@@ -30,7 +30,7 @@ export const buttonWrapperStyles = tv({
  */
 export const buttonStyles = tv({
   base: [
-    'inline-flex items-center justify-center gap-2 rounded-md t-action-label',
+    'inline-flex items-center justify-center gap-2 rounded-full t-action-label',
     'transition-colors duration-normal ease-bc',
     'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-focus focus-visible:ring-offset-2',
     'active:translate-y-px motion-reduce:active:translate-y-0'
@@ -54,13 +54,15 @@ export const buttonStyles = tv({
       true: 'flex w-full text-center'
     },
     size: {
-      sm: 'min-h-[36px] px-3 py-1',
-      md: 'min-h-[44px] px-4 py-2',
-      lg: 'min-h-[48px] px-5 py-3 text-[0.875rem]',
-      xl: 'min-h-[52px] px-5 py-4 text-[0.875rem]'
+      sm: 'min-h-[36px] px-4 py-1',
+      md: 'min-h-[44px] px-5 py-2',
+      lg: 'min-h-[48px] px-7 py-3 text-[0.875rem]',
+      xl: 'min-h-[52px] px-7 py-4 text-[0.875rem]'
     },
+    // Botões em pílula em todo o site (mesma forma da Home); a variante
+    // permanece na API para não alterar as chamadas existentes.
     rounded: {
-      true: 'rounded-lg'
+      true: 'rounded-full'
     },
     loading: {
       true: 'cursor-progress'

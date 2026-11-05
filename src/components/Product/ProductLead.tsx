@@ -83,7 +83,7 @@ const ProductLead = ({
       </div>
 
       <div
-        className={`lg:col-span-5 lg:self-start ${imagePosition === 'left' ? 'lg:order-1' : 'bc-offset-sm'}`.trim()}
+        className={`bc-fill-media lg:col-span-5 ${imagePosition === 'left' ? 'lg:order-1' : ''}`.trim()}
       >
         <img
           src={image.src}

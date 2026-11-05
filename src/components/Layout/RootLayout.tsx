@@ -13,12 +13,17 @@ import Seo from '@/components/Seo'
 import {
   breadcrumbSchema,
   organizationSchema,
+  webPageSchema,
   serviceSchema,
   websiteSchema
 } from '@/components/Seo/structuredDataBuilders'
 import type { JsonLd } from '@/components/Seo/structuredDataBuilders'
 import { resolveRouteMeta } from '@/config/meta-content'
 import { useClickTracking, useRouteTracking } from '@/lib/analytics'
+import { OG_DEFAULT, OG_IMAGES } from '@/config/ogImages'
+
+/** Páginas, além da Home, que emitem o Organization completo. */
+const ORGANIZATION_PAGES = ['/contato', '/sobre', '/sobre/quem-somos']
 
 /**
  * Layout raiz da aplicação (equivalente ao antigo `app/layout.tsx` do Next).
@@ -39,7 +44,10 @@ const RootLayout = () => {
 
   const isHome = pathname === '/'
   const isDesignSystem = pathname === '/design-system'
-  const editorialClass = !isHome && !isDesignSystem ? 'bc-inner-editorial' : ''
+  // O conteúdo da PageConv em /simulador-de-economia tem estilo próprio
+  // (CSS escopado): fica fora do tratamento editorial das páginas internas.
+  const isPageConv = pathname === '/simulador-de-economia'
+  const editorialClass = !isHome && !isDesignSystem && !isPageConv ? 'bc-inner-editorial' : ''
   const jsonLd: Array<JsonLd | null> = []
 
   // ETAPA SEO 07: nenhuma página noindex (sistema, conteúdo provisório, 404 ou
@@ -48,6 +56,19 @@ const RootLayout = () => {
 
   if (isHome && indexable) {
     jsonLd.push(organizationSchema(meta.description), websiteSchema())
+  } else if (indexable && ORGANIZATION_PAGES.includes(pathname)) {
+    // Páginas institucionais e de contato também descrevem a empresa.
+    jsonLd.push(organizationSchema())
+  }
+
+  if (indexable) {
+    jsonLd.push(
+      webPageSchema({
+        path: meta.canonicalPath ?? pathname,
+        name: meta.title,
+        description: meta.description
+      })
+    )
   }
 
   if (indexable && meta.breadcrumb?.length) {
@@ -77,7 +98,7 @@ const RootLayout = () => {
         nofollow={meta.nofollow}
         ogTitle={meta.ogTitle}
         ogDescription={meta.ogDescription}
-        ogImage={meta.ogImage}
+        ogImage={OG_IMAGES[meta.canonicalPath ?? pathname] ?? meta.ogImage ?? OG_DEFAULT}
         ogType={meta.ogType}
         twitterCard={meta.twitterCard}
         jsonLd={jsonLd}

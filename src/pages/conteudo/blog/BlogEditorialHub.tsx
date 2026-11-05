@@ -63,7 +63,7 @@ const BlogEditorialHub = ({
       />
 
       <div className="bc-container relative bc-level-mid">
-        <div className="mx-auto max-w-[1180px]">
+        <div className="w-full">
           {/* Destaque editorial — sem card: imagem + texto sobre a página. */}
           <article className="grid grid-cols-1 gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-9">
             <div className="flex min-w-0 flex-col justify-center">
@@ -96,7 +96,7 @@ const BlogEditorialHub = ({
             </div>
 
             {/* Imagem protagonista — primeiro no mobile, à direita no desktop. */}
-            <div className="relative order-first min-h-[240px] overflow-hidden rounded-[8px] bg-bc-dark lg:order-last lg:min-h-full">
+            <div className="bc-fill-media relative order-first min-h-[240px] overflow-hidden rounded-[8px] bg-bc-dark lg:order-last lg:min-h-full">
               <img
                 src={featured.image?.src ?? '/img/components/blog/blog-energia-solar-assinatura.webp'}
                 alt={

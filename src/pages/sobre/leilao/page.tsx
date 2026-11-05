@@ -16,7 +16,7 @@ const Auction = () => (
       eyebrow="Informação regulatória"
       title="Leilão"
       description="Avisos de leilões de energia promovidos pelo Grupo BC Energia."
-      bgImage="/img/pages/contact.webp"
+      bgImage="/img/editorial/infrastructure.webp"
       category="Sobre"
     />
 

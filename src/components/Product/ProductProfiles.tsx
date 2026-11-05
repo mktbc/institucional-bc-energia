@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import { EditorialIndex } from '@/components/Editorial'
+import { CheckList, EditorialIndex, ItemGrid } from '@/components/Editorial'
 
 import ProductSection, { type ProductSectionTone } from './ProductSection'
 import type { ProductAudienceItem } from './ProductAudience'
@@ -35,35 +35,12 @@ const ProductProfiles = ({
       title={title}
       description={description}
     >
-      <div className="-mt-2">
-
-        {requirements?.length ? (
-          <ul className="mt-4 flex flex-col gap-2">
-            {requirements.map((requirement) => (
-              <li
-                key={requirement}
-                className="flex gap-3 t-body-sm text-text-secondary"
-              >
-                <span aria-hidden="true" className="mt-[0.55rem] h-px w-4 shrink-0 bg-bc-primary" />
-                {requirement}
-              </li>
-            ))}
-          </ul>
-        ) : null}
-      </div>
-
-      <ul className="mt-6 grid grid-cols-1 gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((item) => (
-          <li key={item.title} className="border-t border-border-subtle py-4 first:border-border-strong sm:[&:nth-child(2)]:border-border-strong">
-            <h3 className="t-h4 text-text-primary">{item.title}</h3>
-            {item.description ? (
-              <p className="mt-1.5 t-body-sm text-text-secondary">
-                {item.description}
-              </p>
-            ) : null}
-          </li>
-        ))}
-      </ul>
+      {requirements?.length ? (
+        <div className="mb-12">
+          <CheckList items={requirements} />
+        </div>
+      ) : null}
+      <ItemGrid items={items} />
     </EditorialIndex>
   </ProductSection>
 )
