@@ -39,6 +39,8 @@ const RootLayout = () => {
 
   const isHome = pathname === '/'
   const isDesignSystem = pathname === '/design-system'
+  // PageConv (landing de campanha) usa header, footer e widgets próprios.
+  const isPageConv = pathname === '/simulador-de-economia'
   const editorialClass = !isHome && !isDesignSystem ? 'bc-inner-editorial' : ''
   const jsonLd: Array<JsonLd | null> = []
 
@@ -91,6 +93,14 @@ const RootLayout = () => {
         Ir para o conteúdo principal
       </a>
 
+      {isPageConv ? (
+        <div id="conteudo" tabIndex={-1} className="focus:outline-none">
+          <Suspense fallback={<div className="bc-route-loading min-h-screen" aria-busy="true" aria-label="Carregando página" />}>
+            <Outlet />
+          </Suspense>
+        </div>
+      ) : (
+      <>
       <div className={`bc-site-shell flex min-h-dvh flex-col ${isHome ? '' : 'bc-site-shell--internal'}`}>
         <Header />
         <main id="conteudo" tabIndex={-1} className={`bc-site-page focus:outline-none ${editorialClass}`}>
@@ -105,6 +115,8 @@ const RootLayout = () => {
       </div>
 
       <SimuleAgora />
+      </>
+      )}
     </>
   )
 }
