@@ -6,7 +6,8 @@ import tseslint from 'typescript-eslint'
 
 // Config de lint para Vite + React + TypeScript (SPA).
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules'] },
+  // n8n/src: corpo de nós Code do n8n (return no topo, globais $input/$), testado por npm run test:n8n.
+  { ignores: ['dist', 'node_modules', 'n8n/src'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],

@@ -437,7 +437,10 @@ export function LeadForm() {
       tipo: form.tipo,
       titular: form.titular,
       lgpd: String(form.lgpd),
-      fatura: faturaBase64,
+      // `fatura` continua no contrato (compatibilidade com a PageConv), mas vazio:
+      // repetir o base64 dobrava o corpo (~28 MB para uma fatura de 10 MB),
+      // acima do limite padrão do n8n (16 MB). O conteúdo vai em `fatura_base64`.
+      fatura: "",
       fatura_base64: faturaBase64,
       fatura_anexada: COM_UPLOAD && !!form.fatura ? "true" : "false",
       fatura_nome: COM_UPLOAD && form.fatura ? sanitizeParam(form.fatura.name) : "",
