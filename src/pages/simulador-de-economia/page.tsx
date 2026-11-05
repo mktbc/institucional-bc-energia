@@ -1,114 +1,135 @@
-import { PageHeader, ProductSection, ProductSteps, SectionHeader } from '@/components'
-import { FormEmbed } from '@/components/FormEmbed'
-import Simulator from '@/components/Simulator/Simulator'
-import { COMPANY_METRICS } from '@/data/companyMetrics'
-import { useLeadFormView } from '@/lib/analytics'
-import { useSearchParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+
+import { isPreviewEnvironment } from '@/config/site'
+
+import { Header } from '@pageconv/components/Header'
+import { Footer } from '@pageconv/components/Footer'
+import { WhatsAppButton } from '@pageconv/components/WhatsAppButton'
+import { MobileStickyCta } from '@pageconv/components/MobileStickyCta'
+import { Hero } from '@pageconv/components/sections/Hero'
+import { TrustBar } from '@pageconv/components/sections/TrustBar'
+import { Qualification } from '@pageconv/components/sections/Qualification'
+import { Steps } from '@pageconv/components/sections/Steps'
+import { VideoExplainer } from '@pageconv/components/sections/VideoExplainer'
+import { CustomerJourney } from '@pageconv/components/sections/CustomerJourney'
+import { SameDistributor } from '@pageconv/components/sections/SameDistributor'
+import { SavingsComparison } from '@pageconv/components/sections/SavingsComparison'
+import { Simulator } from '@pageconv/components/sections/Simulator'
+import { SavingsByState } from '@pageconv/components/sections/SavingsByState'
+import SocialProofCarousel from '@pageconv/components/SocialProofCarousel'
+import { Eligibility } from '@pageconv/components/sections/Eligibility'
+import { WhoWeAre } from '@pageconv/components/sections/WhoWeAre'
+import { Faq } from '@pageconv/components/sections/Faq'
+import { FinalCta } from '@pageconv/components/sections/FinalCta'
+import { PortalContainerContext } from '@pageconv/lib/portal-container'
+
+import './pageconv/pageconv.css'
 
 /**
- * /simulador-de-economia — SIMULADOR 01.
+ * /simulador-de-economia — landing page PageConv (mktbc/bc-energia-lp-googleads,
+ * src/routes/index.tsx) renderizada nativamente no site institucional.
  *
- * Página de estimativa e captação de lead. O resultado do simulador é sempre
- * apresentado como estimativa ("até X%"), nunca como economia garantida.
- *
- * Rota noindex,follow nesta etapa: fora de INDEXABLE_ROUTES e fora do sitemap
- * (ver src/config/routes.ts). A indexação será decidida após QA e validação
- * comercial.
+ * - Header, footer e widgets institucionais não são renderizados nesta rota
+ *   (ver RootLayout): a página usa os da PageConv.
+ * - O CSS da PageConv (Tailwind 4) é pré-compilado e escopado em `.pageconv-root`
+ *   (ver scripts/build-pageconv-css.mjs), sem afetar as demais páginas.
+ * - GTM já é carregado pelo site (mesmo container GTM-KWRL7CWP). As tags
+ *   exclusivas da PageConv (Google Ads, Clarity, LinkedIn) são carregadas
+ *   apenas nesta rota, uma vez, e nunca em preview.
  */
 
-const STEPS = [
-  {
-    title: 'Faça a simulação',
-    description:
-      'Selecione o estado da sua unidade consumidora e informe o valor médio da conta para ver uma estimativa de economia mensal.'
-  },
-  {
-    title: 'Envie sua conta',
-    description:
-      'Preencha o formulário com seus dados de contato para que a nossa equipe possa avaliar a sua fatura.'
-  },
-  {
-    title: 'Receba uma análise personalizada',
-    description:
-      'Um consultor do Grupo BC Energia verifica as condições realmente disponíveis para a sua unidade consumidora.'
-  }
-]
+const GOOGLE_ADS_ID = 'AW-18374949482'
+const CLARITY_ID = 'yf994ly5kn'
+const LINKEDIN_PARTNER_ID = '11123873'
 
-/** Somente duas métricas institucionais, lidas da fonte única. */
-const TRUST_METRICS = COMPANY_METRICS.filter((metric) =>
-  ['clientes', 'economia'].includes(metric.id)
-)
+let pageconvTagsLoaded = false
+
+const loadPageconvTags = () => {
+  if (pageconvTagsLoaded || typeof window === 'undefined' || isPreviewEnvironment()) return
+  pageconvTagsLoaded = true
+  const w = window as unknown as Record<string, any>
+
+  // Google Ads (gtag) — mesmo snippet de GoogleAdsTag.tsx da PageConv.
+  const gtagScript = document.createElement('script')
+  gtagScript.async = true
+  gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`
+  document.head.appendChild(gtagScript)
+  w.dataLayer = w.dataLayer || []
+  w.gtag =
+    w.gtag ||
+    function gtag() {
+      // eslint-disable-next-line prefer-rest-params
+      w.dataLayer.push(arguments)
+    }
+  w.gtag('js', new Date())
+  w.gtag('config', GOOGLE_ADS_ID)
+
+  // Microsoft Clarity — snippet de __root.tsx da PageConv.
+  w.clarity =
+    w.clarity ||
+    function clarity(...args: unknown[]) {
+      ;(w.clarity.q = w.clarity.q || []).push(args)
+    }
+  const clarityScript = document.createElement('script')
+  clarityScript.async = true
+  clarityScript.src = `https://www.clarity.ms/tag/${CLARITY_ID}`
+  document.head.appendChild(clarityScript)
+
+  // LinkedIn Insight Tag — snippet de __root.tsx da PageConv.
+  w._linkedin_partner_id = LINKEDIN_PARTNER_ID
+  w._linkedin_data_partner_ids = w._linkedin_data_partner_ids || []
+  w._linkedin_data_partner_ids.push(LINKEDIN_PARTNER_ID)
+  if (!w.lintrk) {
+    w.lintrk = function lintrk(a: unknown, b: unknown) {
+      w.lintrk.q.push([a, b])
+    }
+    w.lintrk.q = []
+  }
+  const linkedinScript = document.createElement('script')
+  linkedinScript.async = true
+  linkedinScript.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js'
+  document.head.appendChild(linkedinScript)
+}
 
 const SimuladorDeEconomia = () => {
-  // lead_form_view: dispara uma vez quando o bloco do formulário entra em tela.
-  const formRef = useLeadFormView('simulador')
-  // Valor pré-preenchido pela prévia do simulador na Home (?conta=).
-  const [searchParams] = useSearchParams()
-  const contaParam = Number(searchParams.get('conta'))
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    loadPageconvTags()
+  }, [])
 
   return (
-  <div className="bc-simulator-page min-h-screen">
-    <PageHeader
-      align="left"
-      variant="banner"
-      compact
-      bgImage="/img/pages/simulador-hero.webp"
-      bgPosition="bg-[position:72%_center] lg:bg-[position:center_right]"
-      eyebrow="Simulador de economia"
-      title="Descubra quanto sua conta de energia pode economizar"
-      description="Selecione seu estado e informe o valor médio da conta para visualizar uma estimativa de economia."
-      category="Simulador de economia"
-    />
-
-
-    <ProductSection
-      id="simulador"
-      graphic={{ variant: 'radial', tone: 'teal', size: 'small', position: 'bottom-right', opacity: 0.04 }}
-    >
-      <Simulator initialValue={contaParam > 0 ? contaParam : undefined} />
-    </ProductSection>
-
-    <ProductSteps
-      tone="muted"
-      id="como-funciona"
-      eyebrow="Como a simulação funciona"
-      title="Da estimativa à análise real"
-      description="A simulação usa percentuais de referência por estado. A condição efetiva depende da análise da sua fatura."
-      steps={STEPS}
-    />
-
-    {/* Lado a lado no desktop: o cabeçalho centralizado empilhado sobre o
-        formulário somava ~220px a uma seção cuja altura real vem do embed
-        (~956px). Abaixo de lg, empilha como antes. */}
-    <ProductSection id="lead-form">
-      <div className="grid grid-cols-1 gap-7 lg:grid-cols-12 lg:items-start lg:gap-10">
-        <div className="lg:sticky lg:top-28 lg:col-span-5">
-          <SectionHeader
-            eyebrow="Análise personalizada"
-            title="Agora envie sua conta para uma análise real"
-            description="A simulação é apenas uma estimativa. Nossa equipe analisa sua fatura para verificar as condições disponíveis para sua unidade consumidora."
-          />
+    <div className="pageconv-root">
+      <PortalContainerContext.Provider value={portalContainer}>
+        <div className="flex min-h-screen flex-col bg-background">
+          <Header />
+          <main className="lp-editorial flex-1 pt-16 sm:pt-20">
+            <Hero />
+            <TrustBar />
+            <Qualification />
+            <Steps />
+            <VideoExplainer />
+            <CustomerJourney />
+            <SameDistributor />
+            <SavingsComparison />
+            <Simulator />
+            <SavingsByState />
+            <SocialProofCarousel
+              scrollToForm={() =>
+                document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })
+              }
+            />
+            <Eligibility />
+            <WhoWeAre />
+            <Faq />
+            <FinalCta />
+          </main>
+          <Footer />
+          <WhatsAppButton />
+          <MobileStickyCta />
         </div>
-        <div ref={formRef} className="w-full lg:col-span-7">
-          <FormEmbed variant="bare" id="formulario-simulador" />
-        </div>
-      </div>
-    </ProductSection>
-
-    <ProductSection tone="muted" id="confianca">
-      <ul className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:gap-9">
-        {TRUST_METRICS.map((metric) => (
-          <li key={metric.id} className="pt-1">
-            <p className="t-metric-lg text-bc-primary">
-              {metric.value}
-            </p>
-            <p className="mt-3 max-w-[34ch] t-body-sm text-text-secondary">
-              {metric.label}
-            </p>
-          </li>
-        ))}
-      </ul>
-    </ProductSection>
+      </PortalContainerContext.Provider>
+      <div ref={setPortalContainer} className="pageconv-portal" />
     </div>
   )
 }

@@ -7,7 +7,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@pageconv': fileURLToPath(new URL('./src/pages/simulador-de-economia/pageconv', import.meta.url))
     }
   },
   // SSG: react-helmet-async é CJS — precisa ser bundlado no build de servidor.
