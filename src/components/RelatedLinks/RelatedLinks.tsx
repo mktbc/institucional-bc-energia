@@ -4,6 +4,23 @@ import Link from '@/components/Link'
 import { RelatedLinksProps } from './RelatedLinks.type'
 
 /**
+ * Colunas das listas-índice ao lado do título (variantes `index` e `editorial`).
+ * Com número ímpar de destinos, 2 colunas deixavam o último item sozinho na
+ * linha e um vazio ao lado; nesses casos a lista vira uma coluna de linhas.
+ */
+const sideIndexColumns = (count: number) => (count > 1 && count % 2 === 0 ? 'sm:grid-cols-2' : '')
+
+/**
+ * Lista de largura cheia (variante padrão): 3 destinos ficam em 3 colunas no
+ * desktop em vez de 2 + 1 órfão.
+ */
+const fullIndexColumns = (count: number) => {
+  if (count <= 1) return ''
+  if (count === 3) return 'lg:grid-cols-3'
+  return 'md:grid-cols-2'
+}
+
+/**
  * Bloco de linking interno com âncoras descritivas.
  * Usado por soluções, segmentos e páginas regionais para conectar os clusters
  * (solução ↔ segmento ↔ região ↔ conversão) sem "saiba mais" genérico.
@@ -134,7 +151,7 @@ const RelatedLinks = ({
             ) : null}
           </div>
 
-          <ul className="grid gap-x-10 self-center lg:col-span-8 sm:grid-cols-2">
+          <ul className={`grid gap-x-10 self-center lg:col-span-8 ${sideIndexColumns(items.length)}`}>
             {items.map((item) => (
               <li key={item.href} className="border-t border-border-subtle">
                 <Link
@@ -191,7 +208,7 @@ const RelatedLinks = ({
           </div>
 
           <ul
-            className={`grid gap-x-10 self-center lg:col-span-8 ${items.length > 1 ? 'sm:grid-cols-2' : ''}`}
+            className={`grid gap-x-10 self-center lg:col-span-8 ${sideIndexColumns(items.length)}`}
           >
             {items.map((item) => (
               <li key={item.href} className="border-t border-border-subtle">
@@ -239,7 +256,7 @@ const RelatedLinks = ({
         )}
       </div>
 
-      <ul className={`mt-8 grid gap-x-12 ${items.length > 1 ? 'md:grid-cols-2' : ''}`}>
+      <ul className={`mt-8 grid gap-x-12 ${fullIndexColumns(items.length)}`}>
         {items.map((item) => (
           <li key={item.href} className="border-t border-border-subtle">
             <Link

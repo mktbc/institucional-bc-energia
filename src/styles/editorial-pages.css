@@ -153,12 +153,17 @@
 .bc-inner-editorial .bc-blog-composition h3 { max-width: 100%; }
 .bc-inner-editorial .bc-topic-composition [data-cta-location] {
   display: grid; grid-template-columns: minmax(0, .35fr) minmax(0, .65fr);
+  /* Filete, título e descrição em linhas automáticas; a última linha flexível
+     absorve a altura da lista de links. Antes a lista ocupava só 2 linhas e,
+     quando era alta (Legal e regulatório), esticava a linha do título e
+     empurrava a descrição para longe dele. */
+  grid-template-rows: auto auto auto 1fr;
   column-gap: var(--editorial-gap);
 }
 .bc-inner-editorial .bc-topic-composition [data-cta-location] > h3 { grid-column: 1; }
 .bc-inner-editorial .bc-topic-composition [data-cta-location] > p { grid-column: 1; }
 .bc-inner-editorial .bc-topic-composition [data-cta-location] > .grid {
-  grid-column: 2; grid-row: 1 / span 2; margin-top: 0;
+  grid-column: 2; grid-row: 1 / -1; margin-top: 0;
 }
 .bc-inner-editorial .bc-topic-composition [data-cta-location] a {
   border: 0; border-radius: 0; background: transparent; box-shadow: none;
@@ -233,7 +238,7 @@
   .bc-inner-editorial .bc-legacy-media { grid-template-columns: 1fr; }
   .bc-inner-editorial .bc-media-composition img { aspect-ratio: 16 / 9; }
   .bc-inner-editorial .bc-benefits-composition > .bc-container,
-  .bc-inner-editorial .bc-topic-composition [data-cta-location] { grid-template-columns: 1fr; }
+  .bc-inner-editorial .bc-topic-composition [data-cta-location] { grid-template-columns: 1fr; grid-template-rows: none; }
   .bc-inner-editorial .bc-topic-composition [data-cta-location] > :is(h3, p, .grid) { grid-column: auto; grid-row: auto; }
   .bc-inner-editorial .bc-topic-composition [data-cta-location] > .grid { margin-top: 20px; }
   .bc-inner-editorial .bc-territory-composition { grid-template-columns: 1fr; }
@@ -372,7 +377,17 @@
   .bc-inner-editorial .bc-blog-approved ul.divide-y { grid-template-columns: 1fr; }
 }
 .bc-inner-editorial .bc-management-approved #contato .bc-management-contact { padding-block: 20px 0; }
-.bc-inner-editorial .bc-management-approved #contato .bc-management-contact > div { width: 100%; max-width: 42rem; padding: 0; margin-inline: auto; }
+/* O bloco "Contato" ocupa a mesma coluna do formulário logo abaixo (650px).
+   O seletor com #contato vence a regra global de container (!important),
+   que antes deixava o título recuado e a lista na largura cheia. Celular
+   mantém o layout atual. */
+@media (min-width: 768px) {
+  .bc-site-shell .bc-inner-editorial .bc-management-approved #contato nav.bc-management-contact { width: 100% !important; max-width: 650px !important; margin-inline: auto !important; }
+  .bc-inner-editorial .bc-management-approved #contato .bc-management-contact > div { max-width: none; padding: 0; }
+}
+@media (min-width: 1680px) {
+  .bc-site-shell .bc-inner-editorial .bc-management-approved #contato nav.bc-management-contact { max-width: 40.625rem !important; }
+}
 .bc-inner-editorial .bc-management-approved #contato .bc-management-contact ul { margin-top: 8px; }
 .bc-inner-editorial :is(.bc-management-approved, .bc-leasing-approved, .bc-consortium-approved, .bc-irec-approved) .bc-proof-composition .t-metric-md { color: var(--bc-color-yellow); }
 .bc-inner-editorial :is(.bc-products-approved, .bc-content-approved, .bc-blog-approved, .bc-management-related, .bc-management-contact) .bc-arrow-action--row .text-text-secondary { font-weight: 400; }
@@ -832,4 +847,13 @@
 @media (prefers-reduced-motion: reduce) {
   .bc-site-shell .bc-inner-editorial :is(.bc-seg-img, .bc-seg-go) { transition: none; }
   .bc-site-shell .bc-inner-editorial a.bc-seg-card:hover :is(.bc-seg-img, .bc-seg-go) { transform: none; }
+}
+
+/* Dois blocos de links seguidos no mesmo fundo branco ("Para quem esta solução
+   faz sentido" + "Soluções e conteúdos relacionados", em Gestão e Consórcio)
+   somavam o respiro inferior de um e o superior do outro: ~200px vazios no
+   desktop. O segundo bloco passa a começar logo após o respiro do primeiro.
+   Mobile mantém o espaçamento atual. */
+@media (min-width: 1024px) {
+  .bc-site-shell .bc-inner-editorial nav.bg-surface[data-testid="related-links"] + nav.container[data-testid="related-links"] { padding-top: 0; }
 }

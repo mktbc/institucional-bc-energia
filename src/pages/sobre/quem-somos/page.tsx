@@ -103,7 +103,7 @@ const WhoWeAre = () => (
         </div>
 
         <div className="lg:col-span-5">
-          <div className="mx-auto aspect-[4/5] w-full max-w-[320px] overflow-hidden rounded-[12px] bg-surface-muted sm:max-w-[340px]">
+          <div className="mx-auto aspect-[4/5] w-full max-w-[320px] lg:mr-0 overflow-hidden rounded-[12px] bg-surface-muted sm:max-w-[340px]">
             <YouTubeEmbed
               className="h-full w-full"
               height="100%"

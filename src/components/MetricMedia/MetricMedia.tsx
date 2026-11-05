@@ -137,7 +137,10 @@ const MetricMedia = ({
     )
   }
 
-  const mediaOrder = layout === 'media-right' ? 'lg:order-2' : ''
+  // Mídia à direita ocupa as colunas 6–12 (espelho do layout media-left, que
+  // deixa a coluna 8 de respiro): antes ia de 5 a 11 e sobrava a coluna 12
+  // vazia, com a imagem terminando antes da borda do container.
+  const mediaOrder = layout === 'media-right' ? 'lg:order-2 lg:col-start-6' : ''
   const metricOrder = layout === 'media-right' ? 'lg:order-1' : ''
 
   return (
