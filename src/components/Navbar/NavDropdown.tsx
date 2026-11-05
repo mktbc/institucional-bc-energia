@@ -15,17 +15,17 @@ const PanelLink = ({ link, secondary }: { link: NavLinkType; secondary?: boolean
   <Link
     href={link.href}
     {...linkTargetProps(link)}
-    className={`flex min-h-11 items-start gap-3 rounded-md px-3 py-2 transition-colors duration-fast hover:bg-surface-muted focus-visible:bg-surface-muted ${ secondary ? 'text-text-secondary' : 'text-text-primary' }`}
+    className={`group flex min-h-11 items-start gap-3 rounded-md px-3 py-2.5 transition-colors duration-fast hover:bg-surface-muted focus-visible:bg-surface-muted ${ secondary ? 'text-text-secondary' : 'text-text-primary' }`}
   >
     {link.iconSrc && !secondary ? (
       <img src={link.iconSrc} alt="" aria-hidden="true" width={22} height={22} className="mt-0.5 h-[22px] w-[22px] shrink-0" loading="lazy" decoding="async" />
     ) : null}
     <span className="min-w-0">
-      <span className={`block ${secondary ? 't-body-sm' : 't-label'}`}>
+      <span className={`block transition-colors duration-fast group-hover:text-bc-primary group-focus-visible:text-bc-primary ${secondary ? 't-body-sm' : 't-label font-semibold'}`}>
         {link.label}
       </span>
       {!secondary && link.description ? (
-        <span className="mt-0.5 block t-body-sm text-text-secondary">
+        <span className="mt-1 block t-body-sm leading-snug text-text-muted">
           {link.description}
         </span>
       ) : null}
@@ -122,11 +122,11 @@ const NavDropdown = ({ entry, active }: NavDropdownProps) => {
         className="absolute left-0 top-full z-40 pt-3"
       >
         <div
-          className={`rounded-lg border border-border-subtle bg-surface p-3 shadow-md ${ entry.columns === 2 ? 'w-[36rem]' : 'w-72' }`}
+          className={`rounded-lg border border-border-subtle bg-surface p-3 shadow-md xl:p-4 ${ entry.columns === 2 ? 'w-[36rem] xl:w-[44rem]' : 'w-80' }`}
         >
           <div
             className={
-              entry.columns === 2 && (entry.groups?.length ?? 0) > 1 ? 'grid grid-cols-2 gap-x-2' : ''
+              entry.columns === 2 && (entry.groups?.length ?? 0) > 1 ? 'grid grid-cols-2 gap-x-4' : ''
             }
           >
             {entry.groups?.map((group, index) => (
@@ -139,7 +139,7 @@ const NavDropdown = ({ entry, active }: NavDropdownProps) => {
                 <ul
                   className={
                     entry.columns === 2 && (entry.groups?.length ?? 0) === 1
-                      ? 'grid grid-cols-2 gap-x-2'
+                      ? 'grid grid-cols-2 gap-x-4'
                       : ''
                   }
                 >
@@ -154,12 +154,14 @@ const NavDropdown = ({ entry, active }: NavDropdownProps) => {
           </div>
 
           {entry.viewAll ? (
-            <Link
-              href={entry.viewAll.href}
-              className="bc-arrow-action mt-2 t-label"
-            >
-              {entry.viewAll.label}
-            </Link>
+            <div className="mt-2 border-t border-border-subtle px-1 pt-3">
+              <Link
+                href={entry.viewAll.href}
+                className="bc-arrow-action t-label"
+              >
+                {entry.viewAll.label}
+              </Link>
+            </div>
           ) : null}
         </div>
       </div>
