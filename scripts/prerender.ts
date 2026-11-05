@@ -46,6 +46,40 @@ const CONTENT_ROUTES = [
 const PRERENDER_ROUTES = [...INDEXABLE_ROUTES, ...NOINDEX_ROUTES, ...CONTENT_ROUTES]
 
 const DIST = resolve('dist')
+
+/**
+ * Rotas cujo CSS fica no chunk lazy da página (não no CSS global). O HTML
+ * pré-renderizado precisa desse CSS desde o primeiro paint; sem ele a página
+ * aparece sem estilo até o JS da rota carregar.
+ * /simulador-de-economia: CSS escopado da PageConv (pageconv.css).
+ */
+const ROUTE_STYLES: Record<string, string> = {
+  '/simulador-de-economia': 'src/pages/simulador-de-economia/page.tsx'
+}
+
+type ManifestChunk = { file: string; css?: string[]; imports?: string[] }
+
+const routeStylesheets = (
+  manifest: Record<string, ManifestChunk>,
+  template: string,
+  route: string
+): string => {
+  const entryKey = ROUTE_STYLES[route]
+  if (!entryKey) return ''
+  if (!manifest[entryKey]) throw new Error(`[prerender] ${entryKey} ausente no manifest do Vite`)
+  const css = new Set<string>()
+  const visit = (key: string, seen = new Set<string>()) => {
+    if (seen.has(key) || !manifest[key]) return
+    seen.add(key)
+    manifest[key].css?.forEach((file) => css.add(file))
+    manifest[key].imports?.forEach((imported) => visit(imported, seen))
+  }
+  visit(entryKey)
+  return [...css]
+    .filter((file) => !template.includes(`/${file}"`)) // CSS global já está no template
+    .map((file) => `<link rel="stylesheet" crossorigin href="/${file}">`)
+    .join('\n  ')
+}
 const SSR_DIST = resolve('dist-ssr')
 
 const buildServerBundle = () => {
@@ -93,12 +127,15 @@ const run = async () => {
   }
 
   const template = stripStaticHelmetTags(readFileSync(resolve(DIST, 'index.html'), 'utf-8'))
+  const manifest = JSON.parse(
+    readFileSync(resolve(DIST, '.vite/manifest.json'), 'utf-8')
+  ) as Record<string, ManifestChunk>
 
   for (const route of PRERENDER_ROUTES) {
     const { html, head } = await render(route)
 
     const page = template
-      .replace('</head>', `  ${head}\n  </head>`)
+      .replace('</head>', `  ${head}\n  ${routeStylesheets(manifest, template, route)}\n  </head>`)
       .replace('<div id="root"></div>', `<div id="root" data-prerender-path="${route}">${html}</div>`)
 
     const dir = route === '/' ? DIST : resolve(DIST, route.replace(/^\//, ''))
@@ -130,6 +167,8 @@ const run = async () => {
   )
 
   rmSync(SSR_DIST, { recursive: true, force: true })
+  // O manifest só serve à pré-renderização; não é publicado.
+  rmSync(resolve(DIST, '.vite'), { recursive: true, force: true })
   console.log(`pré-render concluído (${PRERENDER_ROUTES.length} rotas + 404.html)`)
 }
 

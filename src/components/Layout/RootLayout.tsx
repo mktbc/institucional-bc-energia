@@ -44,7 +44,10 @@ const RootLayout = () => {
 
   const isHome = pathname === '/'
   const isDesignSystem = pathname === '/design-system'
-  const editorialClass = !isHome && !isDesignSystem ? 'bc-inner-editorial' : ''
+  // O conteúdo da PageConv em /simulador-de-economia tem estilo próprio
+  // (CSS escopado): fica fora do tratamento editorial das páginas internas.
+  const isPageConv = pathname === '/simulador-de-economia'
+  const editorialClass = !isHome && !isDesignSystem && !isPageConv ? 'bc-inner-editorial' : ''
   const jsonLd: Array<JsonLd | null> = []
 
   // ETAPA SEO 07: nenhuma página noindex (sistema, conteúdo provisório, 404 ou

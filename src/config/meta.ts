@@ -378,9 +378,10 @@ ROUTE_META['/conteudo/bc-cast'] = {
 }
 
 ROUTE_META['/simulador-de-economia'] = {
-  title: 'Simulador de Economia de Energia | Grupo BC Energia',
+  // Título e descrição da PageConv (src/routes/index.tsx).
+  title: 'Economize até 25% na Conta de Energia | Grupo BC Energia',
   description:
-    'Simule uma estimativa de economia na conta de energia conforme o valor mensal e o estado de atendimento do Grupo BC Energia.',
+    'Economize até 25% na conta de energia com Geração Distribuída. Sem placas solares, sem obras e sem investimento inicial. Solicite uma análise gratuita.',
   breadcrumb: [{ name: 'Simulador de economia', path: '/simulador-de-economia' }]
 }
 
