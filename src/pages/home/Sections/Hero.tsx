@@ -79,9 +79,15 @@ const Hero = () => {
       </Helmet>
       <div className="hx-hero-media" aria-hidden="true">
         {slidersData.map((slide, index) => (
-          <picture key={slide.id} className={`hx-ph${index === current ? ' is-on' : ''}`}>
+          <picture key={slide.id} data-slide={slide.id} className={`hx-ph${index === current ? ' is-on' : ''}`}>
             {slide.bgImageMobile && <source media="(max-width: 767px)" srcSet={slide.bgImageMobile} />}
-            <source media="(max-width: 1023px)" srcSet={tabletHeroImage(slide.bgImage)} />
+            {/* Tablet: o navegador escolhe 1024 ou 1920 conforme a densidade da tela
+                (antes era sempre 1024, abaixo do necessário em telas 2x). */}
+            <source
+              media="(max-width: 1023px)"
+              srcSet={tabletHeroImage(slide.bgImage) === slide.bgImage ? slide.bgImage : `${tabletHeroImage(slide.bgImage)} 1024w, ${slide.bgImage} 1920w`}
+              sizes="100vw"
+            />
             <img
               src={slide.bgImage}
               alt=""
