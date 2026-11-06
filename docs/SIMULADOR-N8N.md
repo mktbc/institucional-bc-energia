@@ -57,6 +57,7 @@ Macros de anúncio não resolvidas (`{{ad.name}}`, `{campaignid}`, `__PLACEMENT_
 | Lead criado | 200 | `{"success": true, "lead_id": "00Q…"}` |
 | Mesmo envio em até 10 min | 200 | `{"success": true, "duplicate": true}` (não cria outro lead) |
 | Payload inválido | 400 | `{"success": false, "error": "payload_invalido"}` |
+| Execução sem requisição (Webhook `[{}]`) | 400 | `{"success": false, "error": "sem_dados"}` |
 | Fatura inválida | 400 | `{"success": false, "error": "fatura_invalida"}` |
 | Salesforce indisponível | 502 | `{"success": false, "error": "crm_indisponivel"}` |
 
@@ -106,3 +107,7 @@ valores aceitos antes).
 Sucesso: `form_submit` e `lead_generated` no `dataLayer`, com `form_name=simulador_institucional`.
 Falha: `form_error` com `error_type=submission`. O evento `pageconv_form_submit` não é mais enviado;
 uma conversão do Google Ads que dependia dele precisa de gatilho em `lead_generated`.
+
+## Confirmação no formulário
+
+O formulário só mostra sucesso com HTTP 2xx **e** `{"success": true, "lead_id": "..."}` (ou `{"success": true, "duplicate": true}`), respostas que o workflow só envia depois do Salesforce. Um 2xx sem isso aparece como "cadastro não confirmado", e os dados ficam no formulário.

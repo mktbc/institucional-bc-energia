@@ -91,7 +91,7 @@ ao abrir cada nó.
 ## Segurança e dados pessoais
 
 - Nenhuma credencial ou token no JSON, no repositório ou no front-end.
-- Respostas de erro só trazem um código (`payload_invalido`, `fatura_invalida`, `crm_indisponivel`).
+- Respostas de erro só trazem um código (`payload_invalido`, `fatura_invalida`, `crm_indisponivel`, `sem_dados`). `sem_dados` = execução sem requisição HTTP (Webhook com saída `[{}]`: execução manual sem evento ou dados fixados).
 - A fatura é conferida pelo conteúdo (PDF/JPG/PNG), limitada a 10 MB e gravada na pasta restrita;
   o link enviado ao Salesforce só abre para quem tem acesso à pasta.
 - Execuções com sucesso não são salvas no n8n (`saveDataSuccessExecution: none`); as com erro
