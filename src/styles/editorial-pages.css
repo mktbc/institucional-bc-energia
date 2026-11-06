@@ -153,12 +153,17 @@
 .bc-inner-editorial .bc-blog-composition h3 { max-width: 100%; }
 .bc-inner-editorial .bc-topic-composition [data-cta-location] {
   display: grid; grid-template-columns: minmax(0, .35fr) minmax(0, .65fr);
+  /* Filete, título e descrição em linhas automáticas; a última linha flexível
+     absorve a altura da lista de links. Antes a lista ocupava só 2 linhas e,
+     quando era alta (Legal e regulatório), esticava a linha do título e
+     empurrava a descrição para longe dele. */
+  grid-template-rows: auto auto auto 1fr;
   column-gap: var(--editorial-gap);
 }
 .bc-inner-editorial .bc-topic-composition [data-cta-location] > h3 { grid-column: 1; }
 .bc-inner-editorial .bc-topic-composition [data-cta-location] > p { grid-column: 1; }
 .bc-inner-editorial .bc-topic-composition [data-cta-location] > .grid {
-  grid-column: 2; grid-row: 1 / span 2; margin-top: 0;
+  grid-column: 2; grid-row: 1 / -1; margin-top: 0;
 }
 .bc-inner-editorial .bc-topic-composition [data-cta-location] a {
   border: 0; border-radius: 0; background: transparent; box-shadow: none;
@@ -233,7 +238,7 @@
   .bc-inner-editorial .bc-legacy-media { grid-template-columns: 1fr; }
   .bc-inner-editorial .bc-media-composition img { aspect-ratio: 16 / 9; }
   .bc-inner-editorial .bc-benefits-composition > .bc-container,
-  .bc-inner-editorial .bc-topic-composition [data-cta-location] { grid-template-columns: 1fr; }
+  .bc-inner-editorial .bc-topic-composition [data-cta-location] { grid-template-columns: 1fr; grid-template-rows: none; }
   .bc-inner-editorial .bc-topic-composition [data-cta-location] > :is(h3, p, .grid) { grid-column: auto; grid-row: auto; }
   .bc-inner-editorial .bc-topic-composition [data-cta-location] > .grid { margin-top: 20px; }
   .bc-inner-editorial .bc-territory-composition { grid-template-columns: 1fr; }
@@ -372,7 +377,17 @@
   .bc-inner-editorial .bc-blog-approved ul.divide-y { grid-template-columns: 1fr; }
 }
 .bc-inner-editorial .bc-management-approved #contato .bc-management-contact { padding-block: 20px 0; }
-.bc-inner-editorial .bc-management-approved #contato .bc-management-contact > div { width: 100%; max-width: 42rem; padding: 0; margin-inline: auto; }
+/* O bloco "Contato" ocupa a mesma coluna do formulário logo abaixo (650px).
+   O seletor com #contato vence a regra global de container (!important),
+   que antes deixava o título recuado e a lista na largura cheia. Celular
+   mantém o layout atual. */
+@media (min-width: 768px) {
+  .bc-site-shell .bc-inner-editorial .bc-management-approved #contato nav.bc-management-contact { width: 100% !important; max-width: 650px !important; margin-inline: auto !important; }
+  .bc-inner-editorial .bc-management-approved #contato .bc-management-contact > div { max-width: none; padding: 0; }
+}
+@media (min-width: 1680px) {
+  .bc-site-shell .bc-inner-editorial .bc-management-approved #contato nav.bc-management-contact { max-width: 40.625rem !important; }
+}
 .bc-inner-editorial .bc-management-approved #contato .bc-management-contact ul { margin-top: 8px; }
 .bc-inner-editorial :is(.bc-management-approved, .bc-leasing-approved, .bc-consortium-approved, .bc-irec-approved) .bc-proof-composition .t-metric-md { color: var(--bc-color-yellow); }
 .bc-inner-editorial :is(.bc-products-approved, .bc-content-approved, .bc-blog-approved, .bc-management-related, .bc-management-contact) .bc-arrow-action--row .text-text-secondary { font-weight: 400; }
@@ -802,7 +817,7 @@
 .bc-site-shell .bc-inner-editorial .bc-seg-body { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; width: 100%; padding: clamp(20px, 2vw, 28px); }
 .bc-site-shell .bc-inner-editorial .bc-seg-card h3 { font: 500 clamp(1.25rem, 1.6vw, 1.5rem)/1.2 Onest, sans-serif; letter-spacing: -.015em; color: #fff; }
 .bc-site-shell .bc-inner-editorial .bc-seg-feature .bc-seg-card h3 { font-size: clamp(1.5rem, 2.2vw, 2rem); }
-.bc-site-shell .bc-inner-editorial .bc-seg-card p { margin-top: 6px; max-width: 40ch; font-size: .9375rem; line-height: 1.5; color: rgb(255 255 255 / .82); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.bc-site-shell .bc-inner-editorial .bc-seg-card p { margin-top: 6px; max-width: 40ch; font-size: .9375rem; line-height: 1.5; color: rgb(255 255 255 / .82); }
 .bc-site-shell .bc-inner-editorial .bc-seg-go { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border: 1px solid rgb(255 255 255 / .5); border-radius: 50%; font-size: 1.125rem; color: #fff; transition: background-color .3s, border-color .3s, color .3s, transform .3s; }
 .bc-site-shell .bc-inner-editorial a.bc-seg-card:hover .bc-seg-go { background: var(--bc-color-yellow); border-color: var(--bc-color-yellow); color: var(--bc-color-dark); transform: translateX(3px); }
 .bc-site-shell .bc-inner-editorial a.bc-seg-card:focus-visible { outline: 3px solid var(--bc-color-yellow); outline-offset: 3px; }
@@ -817,7 +832,7 @@
 @media (max-width: 639px) {
   .bc-site-shell .bc-inner-editorial .bc-seg-grid { grid-template-columns: 1fr; gap: 10px; }
   .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:last-child:nth-child(odd) { grid-column: auto; }
-  .bc-site-shell .bc-inner-editorial .bc-seg-feature a.bc-seg-card { height: 240px; }
+  .bc-site-shell .bc-inner-editorial .bc-seg-feature a.bc-seg-card { height: auto; min-height: 280px; }
   .bc-site-shell .bc-inner-editorial .bc-seg-grid > li:not(.bc-seg-feature) a.bc-seg-card {
     height: auto; grid-template-columns: 84px minmax(0, 1fr); align-items: center; gap: 14px; padding: 10px;
     border: 1px solid var(--hx-line); border-radius: 16px; background: #fff; color: var(--bc-color-dark);
@@ -832,4 +847,25 @@
 @media (prefers-reduced-motion: reduce) {
   .bc-site-shell .bc-inner-editorial :is(.bc-seg-img, .bc-seg-go) { transition: none; }
   .bc-site-shell .bc-inner-editorial a.bc-seg-card:hover :is(.bc-seg-img, .bc-seg-go) { transform: none; }
+}
+
+/* Dois blocos de links seguidos no mesmo fundo branco ("Para quem esta solução
+   faz sentido" + "Soluções e conteúdos relacionados", em Gestão e Consórcio)
+   somavam o respiro inferior de um e o superior do outro: ~200px vazios no
+   desktop. O segundo bloco passa a começar logo após o respiro do primeiro.
+   Mobile mantém o espaçamento atual. */
+@media (min-width: 1024px) {
+  .bc-site-shell .bc-inner-editorial nav.bg-surface[data-testid="related-links"] + nav.container[data-testid="related-links"] { padding-top: 0; }
+}
+
+/* BC Cast, "Episódios anteriores": com um único episódio, o card ocupava
+   metade da largura e deixava a outra metade vazia. Nesse caso o rótulo vai
+   à esquerda e o card à direita, como nos demais índices editoriais. */
+@media (min-width: 1024px) {
+  .bc-site-shell .bc-inner-editorial .bc-cast-list:has(> ul > li:only-child) {
+    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: 40px; align-items: start;
+  }
+  .bc-site-shell .bc-inner-editorial .bc-cast-list:has(> ul > li:only-child) > p { padding-top: 16px; }
+  .bc-site-shell .bc-inner-editorial .bc-cast-list:has(> ul > li:only-child) ul { grid-template-columns: 1fr; margin-top: 0; }
+  .bc-site-shell .bc-inner-editorial .bc-cast-list:has(> ul > li:only-child) .bc-cast-card { grid-template-columns: 260px minmax(0, 1fr); }
 }

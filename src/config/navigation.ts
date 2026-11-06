@@ -267,7 +267,10 @@ export const MAIN_NAV: Array<NavEntry> = [
     href: '/conteudo',
     match: ['/conteudo'],
     columns: 1,
-    groups: [{ secondary: true, links: CONTENT_HUB_ITEMS.map(toNavLink) }]
+    // Itens com descrição (já existente em CONTENT_HUB_ITEMS) e atalho para o
+    // hub /conteudo, como nos demais menus.
+    groups: [{ links: CONTENT_HUB_ITEMS.map(toNavLink) }],
+    viewAll: { label: 'Explorar conteúdos', href: '/conteudo' }
   },
   {
     id: 'simulador',

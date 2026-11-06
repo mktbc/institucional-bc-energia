@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet-async'
 import './page-header-reference.css'
 
 import { Breadcrumbs, Section } from '@/components'
@@ -108,6 +109,21 @@ const PageHeader = ({
               recebe só o elemento de apoio da marca. */}
           {bgImage ? (
             <>
+              {/* A foto do banner é background-image (descoberta só depois do CSS):
+                  preload no <head> para não atrasar o LCP. Mesmo corte de
+                  globals.css (.hero-bg): ≤1024px usa a variante menor, se houver. */}
+              <Helmet>
+                {heroMobileVariant(bgImage) ? (
+                  <link rel="preload" as="image" href={heroMobileVariant(bgImage)} media="(max-width: 1024px)" />
+                ) : null}
+                <link
+                  rel="preload"
+                  as="image"
+                  href={bgImage}
+                  {...(heroMobileVariant(bgImage) ? { media: '(min-width: 1025px)' } : {})}
+                  fetchPriority="high"
+                />
+              </Helmet>
               <div
                 aria-hidden="true"
                 style={
