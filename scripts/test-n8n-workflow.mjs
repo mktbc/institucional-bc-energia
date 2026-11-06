@@ -30,7 +30,7 @@ function evalExpr(expr, $json, $) {
 async function runWorkflow(body, mocks = {}, staticData = {}, item = { json: { body } }) {
   const nodes = Object.fromEntries(wf.nodes.map((n) => [n.name, n]))
   const results = {}
-  const calls = { drive: [], salesforce: [] }
+  const calls = { drive: [], salesforce: [], erroExecucao: null }
   const $ = (name) => {
     if (!results[name]) throw new Error(`nó ${name} não executou`)
     return { first: () => results[name][0], all: () => results[name] }
@@ -95,6 +95,9 @@ async function runWorkflow(body, mocks = {}, staticData = {}, item = { json: { b
         if (fail) throw new Error(fail)
         return [[{ json: { id: '00Q000000000001AAA', success: true } }]]
       }
+      case 'n8n-nodes-base.stopAndError':
+        calls.erroExecucao = evalExpr(node.parameters.errorMessage, $json, $)
+        return [[]]
       case 'n8n-nodes-base.respondToWebhook':
         response = { status: node.parameters.options.responseCode, body: evalExpr(node.parameters.responseBody, $json, $), headers: node.parameters.options.responseHeaders }
         return [input]
@@ -188,6 +191,10 @@ test('5. falha no Salesforce: 502 genérico e envio não marcado como repetido',
   assert.equal(r.response.status, 502)
   assert.deepEqual(r.response.body, { success: false, error: 'crm_indisponivel' })
   assert.ok(!JSON.stringify(r.response.body).includes('REQUIRED'))
+  // A execução é marcada como erro (salva pelo n8n) com o código do Salesforce.
+  assert.match(r.calls.erroExecucao, /^Salesforce recusou o lead: REQUIRED_FIELD_MISSING/)
+  const ok = await runWorkflow(base())
+  assert.equal(ok.calls.erroExecucao, null)
   const retry = await runWorkflow(base(), {}, sd)
   assert.equal(retry.response.status, 200)
   assert.equal(retry.calls.salesforce.length, 1)

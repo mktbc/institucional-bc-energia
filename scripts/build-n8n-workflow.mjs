@@ -185,8 +185,19 @@ const nodes = [
   code('7c1d2e3f-0013-4b6a-9c11-5e1a00000013', 'Registrar envio', 'registrar-envio.js', [2420, 400]),
   respond('7c1d2e3f-0014-4b6a-9c11-5e1a00000014', 'Responder sucesso',
     '={{ { "success": true, "lead_id": $json.lead_id } }}', 200, [2640, 400]),
+  code('7c1d2e3f-0018-4b6a-9c11-5e1a00000018', 'Registrar falha no CRM', 'registrar-falha-crm.js', [2420, 620]),
   respond('7c1d2e3f-0015-4b6a-9c11-5e1a00000015', 'Responder falha no CRM',
-    '={{ { "success": false, "error": "crm_indisponivel" } }}', 502, [2420, 620])
+    '={{ { "success": false, "error": "crm_indisponivel" } }}', 502, [2640, 620]),
+  // Depois de responder ao formulário, marca a execução como erro: o n8n a
+  // salva (saveDataErrorExecution) com a mensagem do Salesforce e o lead.
+  {
+    parameters: { errorMessage: "=Salesforce recusou o lead: {{ $('Registrar falha no CRM').first().json.crm_codigo }} — {{ $('Registrar falha no CRM').first().json.crm_erro }}" },
+    type: 'n8n-nodes-base.stopAndError',
+    typeVersion: 1,
+    position: [2860, 620],
+    id: '7c1d2e3f-0019-4b6a-9c11-5e1a00000019',
+    name: 'Marcar execução com erro'
+  }
 ]
 
 const to = (node, index = 0) => ({ node, type: 'main', index })
@@ -201,7 +212,9 @@ const connections = {
   'Base64 → Arquivo': { main: [[to('Upload da fatura')], [to('Preparar Lead')]] },
   'Upload da fatura': { main: [[to('Preparar Lead')], [to('Preparar Lead')]] },
   'Preparar Lead': { main: [[to('Criar Lead no Salesforce')]] },
-  'Criar Lead no Salesforce': { main: [[to('Registrar envio')], [to('Responder falha no CRM')]] },
+  'Criar Lead no Salesforce': { main: [[to('Registrar envio')], [to('Registrar falha no CRM')]] },
+  'Registrar falha no CRM': { main: [[to('Responder falha no CRM')]] },
+  'Responder falha no CRM': { main: [[to('Marcar execução com erro')]] },
   'Registrar envio': { main: [[to('Responder sucesso')]] }
 }
 

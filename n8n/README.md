@@ -97,3 +97,7 @@ ao abrir cada nó.
 - Execuções com sucesso não são salvas no n8n (`saveDataSuccessExecution: none`); as com erro
   ficam (defina a retenção em *Settings* → *Executions* conforme a política da empresa).
 - A trava de duplicidade guarda só um hash do envio, por 10 min.
+
+## Falha no Salesforce: onde ver o erro
+
+Quando o Salesforce recusa o lead, o formulário recebe `502 crm_indisponivel` e mantém os dados. Em seguida, "Registrar falha no CRM" extrai o código (ex.: `REQUIRED_FIELD_MISSING`, `INVALID_FIELD`, `INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST`) e "Marcar execução com erro" faz o n8n salvar a execução como erro. Em **Executions → filtro Error**, a mensagem aparece como `Salesforce recusou o lead: <CÓDIGO> — <mensagem>`, e o lead completo fica salvo para reprocessar. Antes dessa mudança, a execução terminava como "sucesso" e não era salva (`saveDataSuccessExecution: none`).
