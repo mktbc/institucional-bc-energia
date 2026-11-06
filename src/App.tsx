@@ -1,6 +1,31 @@
 import { Suspense, lazy } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 
+/**
+ * lazy() com recuperação automática: quando um chunk (JS ou CSS) falha ao
+ * carregar — caso típico de uma aba aberta antes de um novo deploy, em que os
+ * arquivos com hash antigo não existem mais — recarrega a página UMA vez para
+ * buscar o build atual. A guarda em sessionStorage evita loop de reload.
+ */
+const RELOAD_GUARD_KEY = 'chunk-reload-guard'
+function lazyWithReload<T extends { default: React.ComponentType<unknown> }>(
+  factory: () => Promise<T>,
+) {
+  return lazy(() =>
+    factory().catch((err) => {
+      const alreadyReloaded = sessionStorage.getItem(RELOAD_GUARD_KEY) === '1'
+      if (!alreadyReloaded) {
+        sessionStorage.setItem(RELOAD_GUARD_KEY, '1')
+        window.location.reload()
+        // Mantém o Suspense visível enquanto a página recarrega.
+        return new Promise<T>(() => {})
+      }
+      sessionStorage.removeItem(RELOAD_GUARD_KEY)
+      throw err
+    }),
+  )
+}
+
 import RootLayout from '@/components/Layout/RootLayout'
 
 // A Home é crítica para o LCP e permanece no bundle inicial (import estático).
