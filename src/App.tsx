@@ -1,6 +1,31 @@
 import { Suspense, lazy } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 
+/**
+ * lazy() com recuperação automática: quando um chunk (JS ou CSS) falha ao
+ * carregar — caso típico de uma aba aberta antes de um novo deploy, em que os
+ * arquivos com hash antigo não existem mais — recarrega a página UMA vez para
+ * buscar o build atual. A guarda em sessionStorage evita loop de reload.
+ */
+const RELOAD_GUARD_KEY = 'chunk-reload-guard'
+function lazyWithReload<T extends { default: React.ComponentType<any> }>(
+  factory: () => Promise<T>,
+) {
+  return lazy(() =>
+    factory().catch((err) => {
+      const alreadyReloaded = sessionStorage.getItem(RELOAD_GUARD_KEY) === '1'
+      if (!alreadyReloaded) {
+        sessionStorage.setItem(RELOAD_GUARD_KEY, '1')
+        window.location.reload()
+        // Mantém o Suspense visível enquanto a página recarrega.
+        return new Promise<T>(() => {})
+      }
+      sessionStorage.removeItem(RELOAD_GUARD_KEY)
+      throw err
+    }),
+  )
+}
+
 import RootLayout from '@/components/Layout/RootLayout'
 
 // A Home é crítica para o LCP e permanece no bundle inicial (import estático).
@@ -8,49 +33,49 @@ import Home from '@/pages/home/page'
 import UtmKeeper from '@/components/Utm/UtmKeeper'
 
 // Demais páginas são carregadas sob demanda (code splitting por rota).
-const Contato = lazy(() => import('@/pages/contato/page'))
-const ContatoEnviado = lazy(() => import('@/pages/contato/enviado/page'))
-const Conteudo = lazy(() => import('@/pages/conteudo/page'))
-const ConteudoBcCast = lazy(() => import('@/pages/conteudo/bc-cast/page'))
-const ConteudoBlog = lazy(() => import('@/pages/conteudo/blog/page'))
-const ConteudoBlogArtigo = lazy(() => import('@/pages/conteudo/blog/artigo/page'))
-const ConteudoBcCastEpisodio = lazy(() => import('@/pages/conteudo/bc-cast/episodio/page'))
+const Contato = lazyWithReload(() => import('@/pages/contato/page'))
+const ContatoEnviado = lazyWithReload(() => import('@/pages/contato/enviado/page'))
+const Conteudo = lazyWithReload(() => import('@/pages/conteudo/page'))
+const ConteudoBcCast = lazyWithReload(() => import('@/pages/conteudo/bc-cast/page'))
+const ConteudoBlog = lazyWithReload(() => import('@/pages/conteudo/blog/page'))
+const ConteudoBlogArtigo = lazyWithReload(() => import('@/pages/conteudo/blog/artigo/page'))
+const ConteudoBcCastEpisodio = lazyWithReload(() => import('@/pages/conteudo/bc-cast/episodio/page'))
 
-const EnergiaSolarAnapolis = lazy(() => import('@/pages/energia-solar-anapolis/page'))
-const EnergiaSolarAparecida = lazy(() => import('@/pages/energia-solar-aparecida-de-goiania/page'))
-const EnergiaSolarRioVerde = lazy(() => import('@/pages/energia-solar-em-rio-verde/page'))
-const EnergiaSolarGoiania = lazy(() => import('@/pages/energia-solar-goiania/page'))
-const EnergiaSolarTocantins = lazy(() => import('@/pages/energia-solar-no-tocantins/page'))
-const EnergiaSolarPalmas = lazy(() => import('@/pages/energia-solar-palmas/page'))
-const EnergiaSolarTrindade = lazy(() => import('@/pages/energia-solar-trindade/page'))
+const EnergiaSolarAnapolis = lazyWithReload(() => import('@/pages/energia-solar-anapolis/page'))
+const EnergiaSolarAparecida = lazyWithReload(() => import('@/pages/energia-solar-aparecida-de-goiania/page'))
+const EnergiaSolarRioVerde = lazyWithReload(() => import('@/pages/energia-solar-em-rio-verde/page'))
+const EnergiaSolarGoiania = lazyWithReload(() => import('@/pages/energia-solar-goiania/page'))
+const EnergiaSolarTocantins = lazyWithReload(() => import('@/pages/energia-solar-no-tocantins/page'))
+const EnergiaSolarPalmas = lazyWithReload(() => import('@/pages/energia-solar-palmas/page'))
+const EnergiaSolarTrindade = lazyWithReload(() => import('@/pages/energia-solar-trindade/page'))
 
-const Produtos = lazy(() => import('@/pages/produtos/page'))
-const ProdutoMercadoLivre = lazy(() => import('@/pages/produtos/mercado-livre-de-energia/page'))
-const ProdutoConsorcio = lazy(() => import('@/pages/produtos/consorcio-bc-energia/page'))
-const ProdutoGestao = lazy(() => import('@/pages/produtos/gestao-de-energia/page'))
-const ProdutoCertificacaoIrec = lazy(() => import('@/pages/produtos/certificacao-renovavel-irec/page'))
-const ProdutoArrendamento = lazy(() => import('@/pages/produtos/arrendamento-de-usinas/page'))
+const Produtos = lazyWithReload(() => import('@/pages/produtos/page'))
+const ProdutoMercadoLivre = lazyWithReload(() => import('@/pages/produtos/mercado-livre-de-energia/page'))
+const ProdutoConsorcio = lazyWithReload(() => import('@/pages/produtos/consorcio-bc-energia/page'))
+const ProdutoGestao = lazyWithReload(() => import('@/pages/produtos/gestao-de-energia/page'))
+const ProdutoCertificacaoIrec = lazyWithReload(() => import('@/pages/produtos/certificacao-renovavel-irec/page'))
+const ProdutoArrendamento = lazyWithReload(() => import('@/pages/produtos/arrendamento-de-usinas/page'))
 
-const Simulador = lazy(() => import('@/pages/simulador-de-economia/page'))
+const Simulador = lazyWithReload(() => import('@/pages/simulador-de-economia/page'))
 
-const Segmentos = lazy(() => import('@/pages/segmentos/page'))
-const Segmento = lazy(() => import('@/pages/segmentos/segmento/page'))
+const Segmentos = lazyWithReload(() => import('@/pages/segmentos/page'))
+const Segmento = lazyWithReload(() => import('@/pages/segmentos/segmento/page'))
 
-const Sobre = lazy(() => import('@/pages/sobre/page'))
-const SobreQuemSomos = lazy(() => import('@/pages/sobre/quem-somos/page'))
-const SobreNossasUsinas = lazy(() => import('@/pages/sobre/nossas-usinas/page'))
-const SobreLgpd = lazy(() => import('@/pages/sobre/lgpd/page'))
-const SobreLeilao = lazy(() => import('@/pages/sobre/leilao/page'))
-const SobreFatorAlavancagem = lazy(() => import('@/pages/sobre/fator-de-alavancagem/page'))
-const SobreSustentabilidade = lazy(() => import('@/pages/sobre/sustentabilidade/page'))
-const SobreSocial = lazy(() => import('@/pages/sobre/social/page'))
-const SobreCondicoesVarejistas = lazy(() => import('@/pages/sobre/condicoes-gerais-varejistas/page'))
+const Sobre = lazyWithReload(() => import('@/pages/sobre/page'))
+const SobreQuemSomos = lazyWithReload(() => import('@/pages/sobre/quem-somos/page'))
+const SobreNossasUsinas = lazyWithReload(() => import('@/pages/sobre/nossas-usinas/page'))
+const SobreLgpd = lazyWithReload(() => import('@/pages/sobre/lgpd/page'))
+const SobreLeilao = lazyWithReload(() => import('@/pages/sobre/leilao/page'))
+const SobreFatorAlavancagem = lazyWithReload(() => import('@/pages/sobre/fator-de-alavancagem/page'))
+const SobreSustentabilidade = lazyWithReload(() => import('@/pages/sobre/sustentabilidade/page'))
+const SobreSocial = lazyWithReload(() => import('@/pages/sobre/social/page'))
+const SobreCondicoesVarejistas = lazyWithReload(() => import('@/pages/sobre/condicoes-gerais-varejistas/page'))
 
-const NotFound = lazy(() => import('@/pages/not-found'))
-const PdfRedirect = lazy(() => import('@/pages/documentos/PdfRedirect'))
+const NotFound = lazyWithReload(() => import('@/pages/not-found'))
+const PdfRedirect = lazyWithReload(() => import('@/pages/documentos/PdfRedirect'))
 
 // Página interna de referência do Design System (noindex, fora do sitemap).
-const DesignSystem = lazy(() => import('@/pages/design-system/page'))
+const DesignSystem = lazyWithReload(() => import('@/pages/design-system/page'))
 
 
 /**
