@@ -78,3 +78,35 @@
    fixed e prendia o painel (#menu-mobile) à altura do cabeçalho. Sem o blur,
    o painel volta a ocupar a tela inteira. Vale para Home e internas. */
 .bc-site-shell .bc-navbar:has(#menu-mobile:not([hidden])) { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--bc-color-dark); }
+
+/* Telas grandes (≥1680px): o layout foi composto para ~1440px e, em monitores
+   1920–2560px, ficava concentrado numa faixa central estreita (texto pequeno e
+   margens laterais enormes). A partir de 1680px a fonte-base cresce de 16px até
+   20px (2560px) e os containers passam a usar rem, então tipografia,
+   espaçamentos e larguras crescem juntos, na mesma proporção. Abaixo de 1680px
+   nada muda (mobile, tablet e notebooks ficam idênticos). */
+@media (min-width: 1680px) {
+  html { font-size: clamp(16px, calc(0.46875vw + 8.125px), 20px); }
+  :root { --container-max: 82.5rem; }
+  /* energy-flow.css: .bc-container/.bc-container-editorial 1480px, narrow 1060px. */
+  html :is(.bc-container, .bc-container-editorial) { max-width: 92.5rem !important; }
+  html .bc-container-narrow { max-width: 66.25rem; }
+  .bc-site-shell .bc-inner-editorial :is(.bc-container, .bc-container-editorial, .bc-legacy-section > .container, nav.container) {
+    width: min(100% - 5rem, 80rem) !important; max-width: 80rem !important;
+  }
+  .bc-site-shell .bc-inner-editorial :is(.bc-segment-index, .bc-segment-showcase) > div { max-width: 82.5rem; }
+  .bc-site-shell .hx-home { --hx-wrap: min(100% - 5rem, 80rem); }
+  /* Coluna de texto dos banners internos (page-header-reference.css / editorial-pages.css). */
+  html .bc-site-shell .bc-page-hero .hero-panel { width: min(40vw, 37.5rem); }
+  html .bc-site-shell .bc-page-hero--plain .hero-panel { width: min(100%, 47.5rem); }
+  html .bc-site-shell .bc-inner-editorial .bc-reference-banner .hero-panel { max-width: 42.5rem; }
+  /* Demais limites em px que concentravam o conteúdo (mesmo valor em 16px). */
+  html .bc-site-shell .bc-page-hero > .bc-container { width: min(100% - 5rem, 80rem); }
+  html .bc-site-shell .bc-page-hero-mark { width: min(46%, 40rem); }
+  html .bc-inner-editorial .bc-reference-banner :is(.bc-banner-copy, .hero-panel, .hero-title) { max-width: 50rem; }
+  html .bc-inner-editorial .bc-form-surface, html .bc-form-surface { max-width: 40.625rem; }
+  html .bc-site-shell .bc-inner-editorial .bc-split-media { max-width: 32.5rem; }
+  html .flow-hero-copy { max-width: 41.25rem; }
+  html .hx-home .hx-slide { width: min(48vw, 40rem); }
+  html .hx-home .hx-plant { width: min(100%, 27.5rem); }
+}

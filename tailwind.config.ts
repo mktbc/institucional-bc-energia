@@ -11,7 +11,14 @@ import type { Config } from 'tailwindcss'
  * Brandbook: #18857D (primária) · #242F40 (escura) · #F1C035 · #24D2C8 · #1B9D93 · #E5E5E5
  */
 const config: Config = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx,mdx}'],
+  // A pasta da PageConv (/simulador-de-economia) usa Tailwind 4 pré-compilado e
+  // escopado (scripts/build-pageconv-css.mjs). Fora da varredura do Tailwind 3
+  // para não gerar utilitários duplicados no CSS global de todas as páginas.
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    '!./src/pages/simulador-de-economia/pageconv/**'
+  ],
   theme: {
     extend: {
       colors: {

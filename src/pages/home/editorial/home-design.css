@@ -76,15 +76,38 @@
 /* ---------- Hero / carrossel ---------- */
 /* A barra de abas termina 96px acima da base da tela: o botão flutuante
    "Simule agora" (fixo no canto inferior direito) cobria a seta "próximo". */
-.hx-home .hx-hero { position: relative; height: min(calc(100vh - 96px), 900px); min-height: 680px; background: var(--hx-navy); overflow: hidden; }
+.hx-home .hx-hero { position: relative; height: min(calc(100vh - 96px), 1080px); min-height: 680px; background: var(--hx-navy); overflow: hidden; }
 .hx-home .hx-hero-media { position: absolute; inset: 0; }
 .hx-home .hx-hero-media .hx-ph { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s var(--hx-ease); }
-.hx-home .hx-hero-media .hx-ph img { transform: scale(1.08); transition: transform 7s linear; }
+/* Zoom de entrada discreto e concluído dentro dos 4 s do slide: a foto não fica
+   ampliada além da resolução do arquivo nem corta as bordas. */
+.hx-home .hx-hero-media .hx-ph img { transform: scale(1.03); transition: transform 3.6s var(--hx-ease); }
 .hx-home .hx-hero-media .hx-ph.is-on { opacity: 1; }
 .hx-home .hx-hero-media .hx-ph.is-on img { transform: scale(1); }
 /* Filtro escuro para o texto sobre a foto: mais denso à esquerda (texto) e
    na base (abas), mantendo a fotografia visível à direita. */
 .hx-home .hx-hero-media .hx-ph::after { background: linear-gradient(90deg, rgb(20 27 38 / .9) 0%, rgb(20 27 38 / .76) 34%, rgb(20 27 38 / .38) 68%, rgb(20 27 38 / .22) 100%), linear-gradient(0deg, rgb(20 27 38 / .7) 0%, transparent 32%), linear-gradient(180deg, rgb(20 27 38 / .45) 0%, transparent 22%); mix-blend-mode: normal; }
+/* Enquadramento adaptativo dos slides com pessoas (rostos preservados).
+   Slide 1 (Grupo BC Energia): âncora no topo; em telas largas o corte cai na
+   parte de baixo da foto, não nas cabeças. Personagem principal à direita. */
+@media (min-width: 768px) {
+  .hx-home .hx-ph[data-slide="slider_home_1"] img { object-position: 62% 0%; }
+}
+/* Slide 2 (Consórcio): a foto passa a ocupar só a área da direita e se funde ao
+   fundo navy por máscara (sem esticar, sem inventar cenário). A mulher fica à
+   direita do bloco de texto e o recuo superior mantém a cabeça abaixo do menu. */
+@media (min-width: 768px) {
+  .hx-home .hx-ph[data-slide="slider_home_2"] img {
+    position: absolute; top: 56px; right: 0; bottom: 0; left: auto;
+    width: 74%; height: calc(100% - 56px); object-position: 46% 0%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 30%), linear-gradient(180deg, transparent 0%, #000 14%);
+    -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0%, #000 30%), linear-gradient(180deg, transparent 0%, #000 14%);
+    mask-composite: intersect;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hx-home .hx-ph[data-slide="slider_home_2"] img { width: 88%; object-position: 30% 0%; }
+}
 .hx-home .hx-hero-copy { position: relative; z-index: 2; height: 100%; display: flex; align-items: center; padding-block: 96px 48px; }
 .hx-home .hx-hero-slides { display: grid; }
 .hx-home .hx-slide { grid-area: 1 / 1; width: min(48vw, 640px); align-self: center; visibility: hidden; }

@@ -36,7 +36,8 @@ export const slidersData: Array<WrapperProps> = [
     id: 'slider_home_1',
     bgImage: '/img/hero/hero-mercado-livre.webp',
     bgImageMobile: '/img/hero/hero-mercado-livre-mobile.webp',
-    bgPosition: 'md:object-[62%_center]',
+    // Enquadramento de tablet e desktop em home-design.css ([data-slide]).
+    bgPosition: '',
     bgPositionMobile: 'object-[68%_top]',
     eyebrow: 'Grupo BC Energia',
     primary: true,
@@ -52,7 +53,8 @@ export const slidersData: Array<WrapperProps> = [
   {
     id: 'slider_home_2',
     bgImage: '/img/hero/hero-consorcio.webp',
-    bgPosition: 'md:object-[54%_top]',
+    // Enquadramento de tablet e desktop em home-design.css ([data-slide]).
+    bgPosition: '',
     bgPositionMobile: 'object-[52%_top]',
     eyebrow: 'Consórcio BC Energia',
     title: <TitleSlider2 />,

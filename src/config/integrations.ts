@@ -20,6 +20,8 @@ type IntegrationsShape = {
   RDSTATION_TRACKING_SCRIPT_URL: string
   VAGAS_URL: string
   GTM_ID: string
+  /** Webhook n8n do formulário de /simulador-de-economia (sem valor padrão). */
+  SIMULADOR_WEBHOOK_URL: string
 }
 
 // Defaults usados enquanto a config remota não carrega (e como fallback).
@@ -31,7 +33,10 @@ export const INTEGRATIONS: IntegrationsShape = {
   VAGAS_URL: 'https://grupobcenergia.vagas.solides.com.br',
   // PERFORMANCE 04: ID único do container, antes hardcoded no index.html.
   // O carregamento acontece em src/lib/integrations/thirdParty.ts.
-  GTM_ID: 'GTM-KWRL7CWP'
+  GTM_ID: 'GTM-KWRL7CWP',
+  // Definido por ambiente: VITE_SIMULADOR_WEBHOOK_URL (build) ou a chave
+  // SIMULADOR_WEBHOOK_URL em public.app_config. Sem valor, o formulário não envia.
+  SIMULADOR_WEBHOOK_URL: ''
 }
 
 const REMOTE_KEYS: Array<keyof IntegrationsShape> = [
@@ -40,7 +45,8 @@ const REMOTE_KEYS: Array<keyof IntegrationsShape> = [
   'WHATSAPP_LINK_PARCERIAS',
   'RDSTATION_TRACKING_SCRIPT_URL',
   'VAGAS_URL',
-  'GTM_ID'
+  'GTM_ID',
+  'SIMULADOR_WEBHOOK_URL'
 ]
 
 // Alias aceito no banco (o pedido do usuário mencionou este nome).
