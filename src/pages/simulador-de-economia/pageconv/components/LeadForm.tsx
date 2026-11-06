@@ -13,7 +13,7 @@ import {
 } from "@pageconv/components/ui/select";
 import { cn } from "@pageconv/lib/utils";
 import { runExclusiveSubmission } from "@pageconv/lib/submission-lock";
-import { submissionErrorMessage, type SubmissionFailure } from "@pageconv/lib/submission-error";
+import { crmConfirmou, submissionErrorMessage, type SubmissionFailure } from "@pageconv/lib/submission-error";
 import { LEAD_ORIGIN, resolveCaptureEndpoint } from "@pageconv/lib/lead-config";
 import { DEFAULT_UTMS } from "@/helpers/utm";
 import { trackFormError, trackLead } from "@/lib/analytics";
@@ -387,14 +387,14 @@ export function LeadForm() {
         const responseText = await res.text();
         console.log("[LeadForm] resposta tentativa 1:", res.status, responseText);
 
-        if (res.ok) {
+        if (res.ok && crmConfirmou(responseText)) {
           logLeadId(responseText, 1);
           finalizeSuccess();
           return;
         }
 
         console.warn("[LeadForm] tentativa com upload falhou:", { status: res.status });
-        failSubmission("http", res.status);
+        failSubmission(res.ok ? "unconfirmed" : "http", res.status);
       } catch (err) {
         console.warn("[LeadForm] tentativa com upload falhou:", err);
         failSubmission("network");
@@ -437,7 +437,10 @@ export function LeadForm() {
       tipo: form.tipo,
       titular: form.titular,
       lgpd: String(form.lgpd),
-      fatura: faturaBase64,
+      // `fatura` continua no contrato (compatibilidade com a PageConv), mas vazio:
+      // repetir o base64 dobrava o corpo (~28 MB para uma fatura de 10 MB),
+      // acima do limite padrão do n8n (16 MB). O conteúdo vai em `fatura_base64`.
+      fatura: "",
       fatura_base64: faturaBase64,
       fatura_anexada: COM_UPLOAD && !!form.fatura ? "true" : "false",
       fatura_nome: COM_UPLOAD && form.fatura ? sanitizeParam(form.fatura.name) : "",
@@ -461,7 +464,7 @@ export function LeadForm() {
       const fallbackText = await fallbackRes.text();
       console.log("[LeadForm] resposta tentativa 2:", fallbackRes.status, fallbackText);
 
-      if (fallbackRes.ok) {
+      if (fallbackRes.ok && crmConfirmou(fallbackText)) {
         logLeadId(fallbackText, 2);
         finalizeSuccess();
         return;
@@ -470,7 +473,7 @@ export function LeadForm() {
       console.error("[LeadForm] tentativa 2 falhou:", {
         status: fallbackRes.status,
       });
-      failSubmission("http", fallbackRes.status);
+      failSubmission(fallbackRes.ok ? "unconfirmed" : "http", fallbackRes.status);
     } catch (err) {
       console.error("[LeadForm] tentativa 2 falhou:", err);
       failSubmission("network");

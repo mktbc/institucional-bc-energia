@@ -1,4 +1,20 @@
-export type SubmissionFailure = "file_read" | "network" | "http" | "not_configured";
+export type SubmissionFailure = "file_read" | "network" | "http" | "not_configured" | "unconfirmed";
+
+/**
+ * O workflow n8n só responde `{ success: true, lead_id }` depois que o
+ * Salesforce cria o lead (ou `{ success: true, duplicate: true }` para um
+ * reenvio já confirmado). Um 2xx sem isso — por exemplo, um nó de resposta
+ * provisório antes do Salesforce — não conta como sucesso.
+ */
+export function crmConfirmou(responseText: string): boolean {
+  try {
+    const data = JSON.parse(responseText);
+    if (!data || data.success !== true) return false;
+    return data.duplicate === true || (typeof data.lead_id === "string" && data.lead_id.trim().length > 0);
+  } catch {
+    return false;
+  }
+}
 
 /** Never display arbitrary webhook bodies, which may contain personal data. */
 export function submissionErrorMessage(failure: SubmissionFailure, status?: number): string {
@@ -8,6 +24,9 @@ export function submissionErrorMessage(failure: SubmissionFailure, status?: numb
   // Site institucional: webhook do simulador ainda não configurado no ambiente.
   if (failure === "not_configured") {
     return "O envio está temporariamente indisponível e sua solicitação não foi enviada. Seus dados foram mantidos. Fale com nossa equipe pelo WhatsApp.";
+  }
+  if (failure === "unconfirmed") {
+    return "O envio chegou ao serviço, mas o cadastro não foi confirmado. Seus dados e o anexo foram mantidos. Confirme com nossa equipe antes de reenviar para evitar duplicidade.";
   }
   if (failure === "network") {
     return "A conexão falhou e não conseguimos confirmar o recebimento. Seus dados e o anexo foram mantidos. Antes de reenviar, confirme com nossa equipe se a solicitação chegou para evitar duplicidade.";

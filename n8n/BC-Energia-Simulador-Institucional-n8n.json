@@ -1,0 +1,750 @@
+{
+  "name": "BC Energia | Simulador Institucional | Leads Salesforce",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "simulador-institucional-leads",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "https://grupobcenergia.com.br,https://www.grupobcenergia.com.br"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        400
+      ],
+      "id": "7c1d2e3f-0001-4b6a-9c11-5e1a00000001",
+      "name": "Webhook Simulador",
+      "webhookId": "0b9f6a2e-6f4d-4c7e-9a51-3d2c5b8e7f10"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// Validar payload — Code node (n8n), \"Run Once for All Items\"\n// Simulador institucional (/simulador-de-economia) → n8n → Salesforce.\n//\n// Valida o JSON recebido pelo webhook ANTES de qualquer gravação\n// (Drive ou Salesforce) e devolve um único item:\n//   { valido, erro, fatura_presente, duplicado, dedupe_key, body }\n// `body` é a cópia normalizada do que o formulário enviou; a fatura em\n// base64 segue só em `body.fatura_base64` (o campo `fatura`, mantido no\n// contrato por compatibilidade com a PageConv, é aceito como alternativa).\n// Nenhum dado pessoal é devolvido nas respostas de erro.\n// ============================================================\n\n// Regra comercial do formulário: a fatura é obrigatória NO FRONT-END.\n// Aqui fica false para que um lead nunca seja descartado só por falta\n// do arquivo (ele segue para o Salesforce sem link de fatura).\nconst EXIGIR_FATURA = false;\n\nconst MAX_FATURA_BYTES = 10 * 1024 * 1024; // mesmo limite do formulário (10 MB)\nconst TIPOS_FATURA = ['application/pdf', 'image/jpeg', 'image/png'];\nconst ESTADOS = ['GO', 'TO', 'PR', 'MG', 'MT'];\nconst TIPOS_CONTA = ['Residencial', 'Comercial', 'Industrial'];\nconst TITULAR = ['Sim', 'Não', 'Nao'];\nconst JANELA_DUPLICIDADE_MS = 10 * 60 * 1000; // 10 min\n\n// Entrada do Webhook: { headers, params, query, body }. Um item vazio ([{}])\n// significa execução sem requisição HTTP real (execução manual sem evento,\n// dados fixados/simulados): responde `sem_dados` para não confundir com um\n// formulário inválido. O body pode chegar como objeto (application/json) ou\n// como texto JSON (proxy/content-type alterado).\nconst entrada = ($input.first() && $input.first().json) || {};\nlet raw = entrada.body;\nif (typeof raw === 'string') {\n  try { raw = JSON.parse(raw); } catch (e) { raw = null; }\n}\nconst body = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : null;\n\nconst str = (v, max = 255) => String(v ?? '').trim().slice(0, max);\nconst isTrue = (v) => v === true || String(v ?? '').trim().toLowerCase() === 'true';\n\nfunction falha(erro) {\n  return [{ json: { valido: false, erro, fatura_presente: false, duplicado: false } }];\n}\n\nif (!body) return falha(Object.keys(entrada).length === 0 ? 'sem_dados' : 'payload_invalido');\n\n// ---------- campos obrigatórios ----------\nconst nome = str(body.nome, 120);\nconst whatsDigits = String(body.whatsapp || body.telefone_sf || '').replace(/\\D/g, '');\nconst email = str(body.email || body.email_sf, 120).toLowerCase();\nconst estado = str(body.estado, 2).toUpperCase();\nconst valorConta = str(body.valor_conta, 60);\nconst tipo = str(body.tipo, 30);\nconst titular = str(body.titular, 10);\n\nconst faltando =\n  nome.length < 2 ||\n  whatsDigits.length < 10 || whatsDigits.length > 13 ||\n  (email && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) ||\n  !ESTADOS.includes(estado) ||\n  !valorConta ||\n  !TIPOS_CONTA.includes(tipo) ||\n  !TITULAR.includes(titular) ||\n  !isTrue(body.lgpd);\nif (faltando) return falha('payload_invalido');\n\n// ---------- fatura (base64, sem o prefixo data:) ----------\nlet base64 = String(body.fatura_base64 || body.fatura || '').replace(/\\s+/g, '');\nif (base64.startsWith('data:')) base64 = base64.slice(base64.indexOf(',') + 1);\nconst faturaPresente = base64.length > 0;\n\nif (!faturaPresente && EXIGIR_FATURA) {\n  return falha('fatura_ausente');\n}\n\nlet faturaTipo = str(body.fatura_tipo, 60).toLowerCase();\nlet faturaBytes = 0;\nif (faturaPresente) {\n  if (!/^[A-Za-z0-9+/]+={0,2}$/.test(base64) || base64.length % 4 !== 0) return falha('fatura_invalida');\n  const padding = base64.endsWith('==') ? 2 : base64.endsWith('=') ? 1 : 0;\n  faturaBytes = (base64.length / 4) * 3 - padding;\n  if (faturaBytes <= 0 || faturaBytes > MAX_FATURA_BYTES) return falha('fatura_invalida');\n\n  // Confere o tipo real pelo início do arquivo (não confia só no MIME enviado).\n  const head = Buffer.from(base64.slice(0, 16), 'base64');\n  const real =\n    head.slice(0, 4).toString('latin1') === '%PDF' ? 'application/pdf'\n    : head[0] === 0xff && head[1] === 0xd8 && head[2] === 0xff ? 'image/jpeg'\n    : head[0] === 0x89 && head.slice(1, 4).toString('latin1') === 'PNG' ? 'image/png'\n    : '';\n  if (!real || (faturaTipo && faturaTipo !== real && !(faturaTipo === 'image/jpg' && real === 'image/jpeg'))) {\n    return falha('fatura_invalida');\n  }\n  faturaTipo = real;\n}\nif (faturaPresente && !TIPOS_FATURA.includes(faturaTipo)) return falha('fatura_invalida');\n\n// Nome do arquivo sem caminho nem caracteres de controle.\nconst ext = { 'application/pdf': '.pdf', 'image/jpeg': '.jpg', 'image/png': '.png' }[faturaTipo] || '';\nlet faturaNome = str(body.fatura_nome, 120).replace(/[\\\\/:*?\"<>|\\u0000-\\u001f]/g, '').trim();\nif (faturaPresente && !faturaNome) faturaNome = 'fatura' + ext;\n\n// ---------- duplicidade ----------\n// Mesmo WhatsApp + e-mail + faixa de valor + tamanho da fatura em até 10 min.\n// Guarda só um hash (sem dados pessoais) em staticData; vale para execuções\n// de produção (workflow ativo). O registro é feito em \"Registrar envio\",\n// depois do Salesforce confirmar, para não bloquear um reenvio após falha.\nfunction fnv1a(s) {\n  let h = 0x811c9dc5;\n  for (let i = 0; i < s.length; i++) {\n    h ^= s.charCodeAt(i);\n    h = Math.imul(h, 0x01000193) >>> 0;\n  }\n  return h.toString(16).padStart(8, '0');\n}\nconst dedupeKey = fnv1a([whatsDigits.slice(-11), email, valorConta, faturaBytes].join('|'));\nconst store = $getWorkflowStaticData('global');\nconst agora = Date.now();\nstore.envios = store.envios || {};\nfor (const [k, t] of Object.entries(store.envios)) if (agora - t > JANELA_DUPLICIDADE_MS) delete store.envios[k];\nconst duplicado = Boolean(store.envios[dedupeKey]);\n\nreturn [{\n  json: {\n    valido: true,\n    erro: '',\n    fatura_presente: faturaPresente,\n    duplicado,\n    dedupe_key: dedupeKey,\n    body: {\n      ...body,\n      nome,\n      email,\n      estado,\n      valor_conta: valorConta,\n      tipo,\n      titular,\n      fatura: '',\n      fatura_base64: base64,\n      fatura_anexada: faturaPresente ? 'true' : 'false',\n      fatura_nome: faturaPresente ? faturaNome : '',\n      fatura_tipo: faturaPresente ? faturaTipo : '',\n      fatura_tamanho: faturaPresente ? String(faturaBytes) : '',\n    },\n  },\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        400
+      ],
+      "id": "7c1d2e3f-0002-4b6a-9c11-5e1a00000002",
+      "name": "Validar payload"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7c1d2e3f-0003-4b6a-9c11-5e1a00000003-c1",
+              "leftValue": "={{ $json.valido }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        400
+      ],
+      "id": "7c1d2e3f-0003-4b6a-9c11-5e1a00000003",
+      "name": "Payload válido?"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": false, \"error\": $json.erro } }}",
+        "options": {
+          "responseCode": 400,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        660,
+        620
+      ],
+      "id": "7c1d2e3f-0004-4b6a-9c11-5e1a00000004",
+      "name": "Responder payload inválido"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7c1d2e3f-0005-4b6a-9c11-5e1a00000005-c1",
+              "leftValue": "={{ $json.duplicado }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        660,
+        380
+      ],
+      "id": "7c1d2e3f-0005-4b6a-9c11-5e1a00000005",
+      "name": "Envio repetido?"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"duplicate\": true } }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        880,
+        200
+      ],
+      "id": "7c1d2e3f-0006-4b6a-9c11-5e1a00000006",
+      "name": "Responder envio repetido"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7c1d2e3f-0007-4b6a-9c11-5e1a00000007-c1",
+              "leftValue": "={{ $json.fatura_presente }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        400
+      ],
+      "id": "7c1d2e3f-0007-4b6a-9c11-5e1a00000007",
+      "name": "Enviou fatura?"
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $('Validar payload').first().json.body.nome }} - {{ $now.toFormat('yyyy-MM-dd HH-mm') }}",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "CONFIGURAR_ID_DA_PASTA_DAS_FATURAS",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1100,
+        260
+      ],
+      "id": "7c1d2e3f-0008-4b6a-9c11-5e1a00000008",
+      "name": "Criar pasta da fatura",
+      "onError": "continueErrorOutput",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 1000
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// Juntar pasta e fatura — Code node (n8n), \"Run Once for All Items\"\n// Substitui o \"Merge1\" do workflow da PageConv: recebe a pasta criada no\n// Drive e devolve, num único item, o id da pasta e os dados da fatura que o\n// nó \"Base64 → Arquivo\" (o mesmo da PageConv) converte em binário.\n// ============================================================\n\nconst pasta = $input.first().json;\nconst body = $('Validar payload').first().json.body;\n\nif (!pasta || !pasta.id) throw new Error('pasta_drive_sem_id');\n\nreturn [{\n  json: {\n    pasta_id: pasta.id,\n    fatura_base64: body.fatura_base64,\n    fatura_nome: body.fatura_nome,\n    fatura_tipo: body.fatura_tipo,\n  },\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        240
+      ],
+      "id": "7c1d2e3f-0009-4b6a-9c11-5e1a00000009",
+      "name": "Juntar pasta e fatura",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "fatura_base64",
+        "binaryPropertyName": "fatura0",
+        "options": {
+          "fileName": "={{ $json.fatura_nome }}",
+          "mimeType": "={{ $json.fatura_tipo }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1540,
+        240
+      ],
+      "id": "7c1d2e3f-0016-4b6a-9c11-5e1a00000016",
+      "name": "Base64 → Arquivo",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "fatura0",
+        "name": "={{ $('Validar payload').first().json.body.nome }} - fatura{{ (String($('Validar payload').first().json.body.fatura_nome || '').match(/\\.[a-z0-9]+$/i) || [''])[0] }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Juntar pasta e fatura').first().json.pasta_id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1760,
+        240
+      ],
+      "id": "7c1d2e3f-0010-4b6a-9c11-5e1a00000010",
+      "name": "Upload da fatura",
+      "onError": "continueErrorOutput",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 1000
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// Preparar Lead — Code node (n8n), \"Run Once for All Items\"\n// Base: \"Preparar Lead1\" do workflow \"LP PageConv - Criação do SalesForce\"\n// (Padrão UTM v5.2, mesmos nomes e fallbacks). Mudanças para o simulador\n// institucional estão marcadas com [SIMULADOR].\n// ============================================================\n\n// [SIMULADOR] Produção: macros não resolvidas ({{campaign.name}}, {campaignid},\n// __PLACEMENT__) não vão para o CRM. Para depurar mapeamento, mude para false.\nconst LIMPAR_MACROS = true;\n\n// [SIMULADOR] Lê o payload já validado (e não o webhook bruto).\nconst validado = $('Validar payload').first().json;\nconst body = validado.body || {};\n\n// ------------------------------------------------------------\n// HELPERS (iguais ao original)\n// ------------------------------------------------------------\n\n// Macros de plataforma que NAO foram resolvidas.\n// Meta: {{campaign.name}} | Google: {campaignid} | TikTok: __CAMPAIGN_ID__\nconst MACRO_NAO_RESOLVIDA = /^(\\{\\{.*\\}\\}|\\{[^{}]*\\}|__.*__)$/;\n\nfunction clean(v) {\n  const s = String(v ?? '').trim();\n  if (!s) return '';\n  const low = s.toLowerCase();\n  if (low === 'undefined' || low === 'null') return '';\n  if (LIMPAR_MACROS && MACRO_NAO_RESOLVIDA.test(s)) return '';\n  return s;\n}\n\nfunction pick(...vals) {\n  for (const v of vals) {\n    const c = clean(v);\n    if (c) return c;\n  }\n  return '';\n}\n\nfunction boolOf(v) {\n  return v === true || String(v ?? '').trim().toLowerCase() === 'true';\n}\n\nfunction cut(v, max) {\n  const s = clean(v);\n  return s.length > max ? s.slice(0, max) : s;\n}\n\n// [SIMULADOR] Campos texto do Salesforce: no máximo 255 caracteres.\nconst t = (v) => cut(v, 255);\n\n// Telefone -> formato Salesforce (DD) 9XXXX-XXXX\nfunction telSF(raw) {\n  let d = String(raw || '').replace(/\\D/g, '');\n  if (d.length > 11 && d.startsWith('55')) d = d.slice(2);\n  if (d.length === 10) d = d.slice(0, 2) + '9' + d.slice(2);\n  if (d.length !== 11) return String(raw || '');\n  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;\n}\n\n// ------------------------------------------------------------\n// FATURA (Drive)\n// [SIMULADOR] Distingue \"sem fatura\" de \"upload falhou\": se o Drive falhar,\n// o lead é criado mesmo assim e a falha fica registrada na descrição.\n// ------------------------------------------------------------\n\nlet faturaUrl = '';\ntry {\n  const up = $('Upload da fatura').first().json;\n  if (up && up.id && !up.error) faturaUrl = `https://drive.google.com/file/d/${up.id}/view`;\n} catch (e) {\n  faturaUrl = ''; // branch sem anexo, ou a pasta não foi criada\n}\nconst faturaStatus = !validado.fatura_presente ? 'sem_fatura' : faturaUrl ? 'anexada' : 'upload_falhou';\n\n// ------------------------------------------------------------\n// CAMPOS DERIVADOS / FALLBACKS (iguais ao original)\n// ------------------------------------------------------------\n\n// utm_project_id virou utm_campaign_code.\n// FALLBACK PERMANENTE: existe QR code impresso que nao pode ser reemitido.\nconst campaignCode = pick(body.utm_campaign_code, body.utm_project_id);\n\n// utm_adgroup foi unificado em utm_adset.\nconst adset = pick(body.utm_adset, body.utm_adgroup);\nconst adsetId = pick(body.utm_adset_id, body.utm_adgroup_id);\n\nconst cidade = pick(body.cidade, body.utm_city);\nconst estado = pick(body.estado, body.utm_state);\n\n// ------------------------------------------------------------\n// [SIMULADOR] Identificação da origem institucional. Campos próprios,\n// sem sobrescrever utm_source/utm_campaign_code/utm_lp reais.\n// ------------------------------------------------------------\nconst leadOrigin = pick(body.origem_site) || 'site_institucional';\nconst leadForm = pick(body.form_name, body.origem_formulario) || 'simulador_institucional';\nconst pagePath = pick(body.origem_pagina, body.page_path) || '/simulador-de-economia';\n\nconst nome = cut(body.nome, 80);\n\n// [SIMULADOR] Company é obrigatório no Lead do Salesforce e o formulário não\n// coleta empresa. Padrão do Salesforce para pessoa física/lead sem empresa:\n// usar o nome da pessoa. Não é inventado nenhum dado comercial.\nconst company = nome;\n\n// [SIMULADOR] Dados do formulário sem campo próprio no mapeamento original\n// (tipo de conta, titularidade, consentimento LGPD, origem e situação da\n// fatura) vão para o campo padrão Description, sem criar campos no CRM.\nconst statusFaturaTexto = {\n  anexada: 'anexada (link no campo Link da fatura)',\n  sem_fatura: 'não enviada',\n  upload_falhou: 'enviada pelo visitante, mas o upload no Drive falhou; solicitar reenvio',\n}[faturaStatus];\nconst descricao = [\n  'Lead do simulador de economia do site institucional.',\n  `Tipo de conta: ${clean(body.tipo) || '-'}`,\n  `Titular da conta: ${clean(body.titular) || '-'}`,\n  `Consentimento LGPD: ${boolOf(body.lgpd) ? 'sim' : 'não'}${clean(body.created_at) ? ` (${clean(body.created_at)})` : ''}`,\n  `Fatura: ${statusFaturaTexto}`,\n  `Origem: ${leadOrigin} · formulário ${leadForm} · página ${pagePath}`,\n].join('\\n');\n\n// ------------------------------------------------------------\n// PAYLOAD (mesmos campos do original + os marcados [SIMULADOR])\n// ------------------------------------------------------------\n\nreturn [{\n  json: {\n    // --- dados do formulario ---\n    nome,\n    company,\n    email: clean(body.email || body.email_sf).toLowerCase(),\n    telefone_sf: telSF(body.whatsapp || body.telefone_sf),\n    cidade: t(cidade),\n    estado: t(estado),\n    valor_conta: t(body.valor_conta),\n    tipo: t(body.tipo),\n    titular: t(body.titular),\n    lgpd: boolOf(body.lgpd),\n\n    // --- fatura ---\n    fatura_url: faturaUrl,\n    fatura_status: faturaStatus,\n    fatura_anexada: boolOf(body.fatura_anexada),\n    fatura_nome: t(body.fatura_nome),\n    fatura_tipo: t(body.fatura_tipo),\n    fatura_tamanho: t(body.fatura_tamanho),\n\n    // --- rastreio / contexto ---\n    lead_source: t(body.lead_source),\n    origem_formulario: t(body.origem_formulario),\n    lead_origin: leadOrigin,\n    lead_form: leadForm,\n    gclid: t(body.gclid),\n    page_url: t(body.page_url),\n    page_url_full: t(body.page_url_full),\n    page_path: pagePath,\n    created_at: t(body.created_at),\n    descricao,\n\n    // --- identificacao da origem ---\n    utm_source: t(body.utm_source),\n    utm_medium: t(body.utm_medium),\n    utm_font: t(body.utm_font),\n    utm_channel: t(body.utm_channel),\n    utm_placement: t(body.utm_placement),\n\n    // --- campanha BC (interna) ---\n    utm_campaign_code: t(campaignCode),\n    utm_campaign: t(body.utm_campaign),\n    utm_campaign_id: t(body.utm_campaign_id),\n    utm_link_id: t(body.utm_link_id),\n\n    // --- hierarquia do gerenciador de anuncios ---\n    utm_adcampaign: t(body.utm_adcampaign),\n    utm_adcampaign_id: t(body.utm_adcampaign_id),\n    utm_adset: t(adset),\n    utm_adset_id: t(adsetId),\n    utm_content: t(body.utm_content),\n    utm_content_id: t(body.utm_content_id),\n    utm_term: t(body.utm_term),\n\n    // --- originador / vendedor ---\n    utm_originator: t(body.utm_originator),\n    utm_seller: t(body.utm_seller),\n\n    // --- classificacao ---\n    utm_product: t(body.utm_product),\n    utm_segment: t(body.utm_segment),\n    utm_public: t(body.utm_public),\n    utm_region: t(body.utm_region),\n    utm_state: t(body.utm_state),\n    utm_city: t(body.utm_city),\n    utm_offer: t(body.utm_offer),\n    utm_objective: t(body.utm_objective),\n    utm_contract: t(body.utm_contract),\n    utm_lp: t(body.utm_lp),\n    utm_id: t(body.utm_id),\n\n    // --- legado (mantidos pra nao quebrar mapeamento existente) ---\n    utm_project_id: t(body.utm_project_id),\n    utm_adgroup: t(body.utm_adgroup),\n    utm_adgroup_id: t(body.utm_adgroup_id),\n  },\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        420
+      ],
+      "id": "7c1d2e3f-0011-4b6a-9c11-5e1a00000011",
+      "name": "Preparar Lead"
+    },
+    {
+      "parameters": {
+        "company": "={{ $json.company }}",
+        "lastname": "={{ $json.nome }}",
+        "additionalFields": {
+          "customFieldsUi": {
+            "customFieldsValues": [
+              {
+                "fieldId": "Canal_RD__c",
+                "value": "={{ $json.utm_font }}"
+              },
+              {
+                "fieldId": "Tipo_de_Trafego__c",
+                "value": "={{ $json.utm_medium }}"
+              },
+              {
+                "fieldId": "Origem_do_Lead__c",
+                "value": "={{ $json.utm_source }}"
+              },
+              {
+                "fieldId": "Evento_Identificador__c",
+                "value": "={{ $json.utm_adgroup }}"
+              },
+              {
+                "fieldId": "Modalidade_de_Contrato__c",
+                "value": "={{ $json.utm_contract }}"
+              },
+              {
+                "fieldId": "ID_Campanha_Portal__c",
+                "value": "={{ $json.utm_campaign_code }}"
+              },
+              {
+                "fieldId": "Segmento_Publico_Alvo__c",
+                "value": "={{ $json.utm_segment }}"
+              },
+              {
+                "fieldId": "Publico_Alvo__c",
+                "value": "={{ $json.utm_public }}"
+              },
+              {
+                "fieldId": "Produto_Ofertado__c",
+                "value": "={{ $json.utm_product }}"
+              },
+              {
+                "fieldId": "Cidade__c",
+                "value": "={{ $json.cidade }}"
+              },
+              {
+                "fieldId": "Estado_Regiao__c",
+                "value": "={{ $json.utm_region }}"
+              },
+              {
+                "fieldId": "Conjunto_Publico_de_Conversao__c",
+                "value": "={{ $json.utm_adset }}"
+              },
+              {
+                "fieldId": "Meio_de_Conversao_Ads__c",
+                "value": "=Formulário Pagina Web"
+              },
+              {
+                "fieldId": "Anuncio_de_Conversao__c",
+                "value": "={{ $json.utm_content }}"
+              },
+              {
+                "fieldId": "IdeFai__c",
+                "value": "={{ $json.valor_conta }}"
+              },
+              {
+                "fieldId": "UF__c",
+                "value": "={{ $json.utm_state }}"
+              },
+              {
+                "fieldId": "Link_da_fatura__c",
+                "value": "={{ $json.fatura_url }}"
+              },
+              {
+                "fieldId": "Email_de_contato__c",
+                "value": "={{ $json.email }}"
+              },
+              {
+                "fieldId": "Meio_Conversao__c",
+                "value": "={{ $json.utm_channel }}"
+              },
+              {
+                "fieldId": "UTM_Campanha__c",
+                "value": "={{ $json.utm_campaign }}"
+              },
+              {
+                "fieldId": "ID_URL_da_Campanha_Portal__c",
+                "value": "={{ $json.utm_link_id }}"
+              },
+              {
+                "fieldId": "Campanha_de_Conversao__c",
+                "value": "={{ $json.utm_adcampaign }}"
+              },
+              {
+                "fieldId": "Id_da_Campanha_Ads__c",
+                "value": "={{ $json.utm_adcampaign_id }}"
+              },
+              {
+                "fieldId": "Id_do_Conjunto_Publico_Ads__c",
+                "value": "={{ $json.utm_adset_id }}"
+              },
+              {
+                "fieldId": "Id_do_Anuncio_Ads__c",
+                "value": "={{ $json.utm_content_id }}"
+              },
+              {
+                "fieldId": "Qual_palavra_pesquisou__c",
+                "value": "={{ $json.utm_term }}"
+              },
+              {
+                "fieldId": "Originador_Campanha__c",
+                "value": "={{ $json.utm_originator }}"
+              },
+              {
+                "fieldId": "Originador_do_lead__c",
+                "value": "={{ $json.utm_seller }}"
+              },
+              {
+                "fieldId": "Pagina_de_Conversao__c",
+                "value": "={{ $json.utm_lp }}"
+              }
+            ]
+          },
+          "description": "={{ $json.descricao }}",
+          "email": "={{ $json.email }}",
+          "mobilePhone": "={{ $json.telefone_sf }}"
+        }
+      },
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        2200,
+        420
+      ],
+      "id": "7c1d2e3f-0012-4b6a-9c11-5e1a00000012",
+      "name": "Criar Lead no Salesforce",
+      "onError": "continueErrorOutput",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// Registrar envio — Code node (n8n), \"Run Once for All Items\"\n// Roda só depois do Salesforce confirmar a criação do lead: guarda o hash\n// do envio (sem dados pessoais) para barrar reenvios iguais por 10 min e\n// devolve o id do lead para a resposta ao formulário.\n// ============================================================\n\nconst lead = $input.first().json;\nconst { dedupe_key: chave } = $('Validar payload').first().json;\n\nif (!lead || !lead.id) throw new Error('salesforce_sem_id');\n\nconst store = $getWorkflowStaticData('global');\nstore.envios = store.envios || {};\nif (chave) store.envios[chave] = Date.now();\n\nreturn [{ json: { lead_id: lead.id, fatura_status: $('Preparar Lead').first().json.fatura_status } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        400
+      ],
+      "id": "7c1d2e3f-0013-4b6a-9c11-5e1a00000013",
+      "name": "Registrar envio"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"lead_id\": $json.lead_id } }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2640,
+        400
+      ],
+      "id": "7c1d2e3f-0014-4b6a-9c11-5e1a00000014",
+      "name": "Responder sucesso"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================\n// Registrar falha no CRM — Code node (n8n), \"Run Once for All Items\"\n// Recebe a saída de erro de \"Criar Lead no Salesforce\" e extrai a\n// mensagem do Salesforce (ex.: REQUIRED_FIELD_MISSING, INVALID_FIELD,\n// INVALID_OR_NULL_FOR_RESTRICTED_PICKLIST). A mensagem NÃO vai para o\n// visitante (a resposta continua genérica, 502 crm_indisponivel); ela vai\n// para \"Marcar execução com erro\", que faz o n8n salvar a execução\n// (saveDataErrorExecution: all) com o erro e o lead completo, para\n// diagnóstico e reprocessamento sem perder o lead.\n// ============================================================\nconst e = $input.first().json.error;\nconst texto =\n  typeof e === 'string' ? e\n  : e && typeof e === 'object' ? [e.message, e.description, e.cause && e.cause.message].filter(Boolean).join(' | ')\n  : JSON.stringify($input.first().json);\nconst codigo = (String(texto).match(/\\b[A-Z][A-Z_]{5,}\\b/) || [''])[0];\nreturn [{ json: { crm_codigo: codigo || 'DESCONHECIDO', crm_erro: String(texto).slice(0, 800) } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        620
+      ],
+      "id": "7c1d2e3f-0018-4b6a-9c11-5e1a00000018",
+      "name": "Registrar falha no CRM"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": false, \"error\": \"crm_indisponivel\" } }}",
+        "options": {
+          "responseCode": 502,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2640,
+        620
+      ],
+      "id": "7c1d2e3f-0015-4b6a-9c11-5e1a00000015",
+      "name": "Responder falha no CRM"
+    },
+    {
+      "parameters": {
+        "errorMessage": "=Salesforce recusou o lead: {{ $('Registrar falha no CRM').first().json.crm_codigo }} — {{ $('Registrar falha no CRM').first().json.crm_erro }}"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        2860,
+        620
+      ],
+      "id": "7c1d2e3f-0019-4b6a-9c11-5e1a00000019",
+      "name": "Marcar execução com erro"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook Simulador": {
+      "main": [
+        [
+          {
+            "node": "Validar payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar payload": {
+      "main": [
+        [
+          {
+            "node": "Payload válido?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Payload válido?": {
+      "main": [
+        [
+          {
+            "node": "Envio repetido?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Responder payload inválido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envio repetido?": {
+      "main": [
+        [
+          {
+            "node": "Responder envio repetido",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enviou fatura?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviou fatura?": {
+      "main": [
+        [
+          {
+            "node": "Criar pasta da fatura",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar pasta da fatura": {
+      "main": [
+        [
+          {
+            "node": "Juntar pasta e fatura",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Juntar pasta e fatura": {
+      "main": [
+        [
+          {
+            "node": "Base64 → Arquivo",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base64 → Arquivo": {
+      "main": [
+        [
+          {
+            "node": "Upload da fatura",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload da fatura": {
+      "main": [
+        [
+          {
+            "node": "Preparar Lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Lead": {
+      "main": [
+        [
+          {
+            "node": "Criar Lead no Salesforce",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criar Lead no Salesforce": {
+      "main": [
+        [
+          {
+            "node": "Registrar envio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Registrar falha no CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar falha no CRM": {
+      "main": [
+        [
+          {
+            "node": "Responder falha no CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Responder falha no CRM": {
+      "main": [
+        [
+          {
+            "node": "Marcar execução com erro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar envio": {
+      "main": [
+        [
+          {
+            "node": "Responder sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "all",
+    "saveManualExecutions": true,
+    "saveExecutionProgress": false
+  },
+  "tags": []
+}
