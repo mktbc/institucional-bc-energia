@@ -23,7 +23,16 @@ const TIPOS_CONTA = ['Residencial', 'Comercial', 'Industrial'];
 const TITULAR = ['Sim', 'Não', 'Nao'];
 const JANELA_DUPLICIDADE_MS = 10 * 60 * 1000; // 10 min
 
-const raw = $input.first().json.body;
+// Entrada do Webhook: { headers, params, query, body }. Um item vazio ([{}])
+// significa execução sem requisição HTTP real (execução manual sem evento,
+// dados fixados/simulados): responde `sem_dados` para não confundir com um
+// formulário inválido. O body pode chegar como objeto (application/json) ou
+// como texto JSON (proxy/content-type alterado).
+const entrada = ($input.first() && $input.first().json) || {};
+let raw = entrada.body;
+if (typeof raw === 'string') {
+  try { raw = JSON.parse(raw); } catch (e) { raw = null; }
+}
 const body = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : null;
 
 const str = (v, max = 255) => String(v ?? '').trim().slice(0, max);
@@ -33,7 +42,7 @@ function falha(erro) {
   return [{ json: { valido: false, erro, fatura_presente: false, duplicado: false } }];
 }
 
-if (!body) return falha('payload_invalido');
+if (!body) return falha(Object.keys(entrada).length === 0 ? 'sem_dados' : 'payload_invalido');
 
 // ---------- campos obrigatórios ----------
 const nome = str(body.nome, 120);

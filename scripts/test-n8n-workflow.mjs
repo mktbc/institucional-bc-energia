@@ -27,7 +27,7 @@ function evalExpr(expr, $json, $) {
   return body.replace(/\{\{([\s\S]*?)\}\}/g, (_, c) => String(run(c) ?? ''))
 }
 
-async function runWorkflow(body, mocks = {}, staticData = {}) {
+async function runWorkflow(body, mocks = {}, staticData = {}, item = { json: { body } }) {
   const nodes = Object.fromEntries(wf.nodes.map((n) => [n.name, n]))
   const results = {}
   const calls = { drive: [], salesforce: [] }
@@ -36,7 +36,7 @@ async function runWorkflow(body, mocks = {}, staticData = {}) {
     return { first: () => results[name][0], all: () => results[name] }
   }
   let response = null
-  const queue = [[wf.nodes.find((n) => n.type.endsWith('.webhook')).name, [{ json: { body } }]]]
+  const queue = [[wf.nodes.find((n) => n.type.endsWith('.webhook')).name, [item]]]
   while (queue.length) {
     const [name, input] = queue.shift()
     const node = nodes[name]
@@ -251,6 +251,20 @@ test('9. formato da resposta e campos obrigatórios do Salesforce', async () => 
   assert.equal(sf.mobilePhone, '(62) 99999-8888')
   assert.equal(r.response.headers.entries[0].value, 'no-store')
   for (const k of Object.keys(sf)) assert.ok(typeof sf[k] !== 'string' || sf[k].length <= 32000)
+})
+
+test('11. execução sem requisição ([{}]) e body como texto JSON', async () => {
+  // Item vazio = execução manual sem evento ou dados fixados/simulados.
+  const vazio = await runWorkflow(null, {}, {}, { json: {} })
+  assert.equal(vazio.response.status, 400)
+  assert.deepEqual(vazio.response.body, { success: false, error: 'sem_dados' })
+  assert.equal(vazio.calls.salesforce.length + vazio.calls.drive.length, 0)
+  // Body que chega como string (content-type alterado no caminho) é aceito.
+  const texto = await runWorkflow(null, {}, {}, { json: { headers: {}, body: JSON.stringify(comFatura()) } })
+  assert.equal(texto.response.status, 200)
+  assert.equal(texto.calls.drive.length, 2)
+  assert.equal(texto.calls.salesforce[0].ID_Campanha_Portal__c, 'BCCAMPMKT033')
+  assert.equal(texto.calls.salesforce[0].Origem_do_Lead__c, 'SEO')
 })
 
 test('10. JSON importável, independente e sem credenciais', async () => {
