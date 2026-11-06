@@ -8,7 +8,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
  * buscar o build atual. A guarda em sessionStorage evita loop de reload.
  */
 const RELOAD_GUARD_KEY = 'chunk-reload-guard'
-function lazyWithReload<T extends { default: React.ComponentType<unknown> }>(
+function lazyWithReload<P, T extends { default: React.ComponentType<P> }>(
   factory: () => Promise<T>,
 ) {
   return lazy(() =>
