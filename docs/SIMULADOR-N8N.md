@@ -7,10 +7,11 @@ Workflow: `n8n/BC-Energia-Simulador-Institucional-n8n.json` (guia em `n8n/README
 
 ## Endpoint
 
-- URL por ambiente, nunca no código: `VITE_SIMULADOR_WEBHOOK_URL` (build) ou a chave
-  `SIMULADOR_WEBHOOK_URL` em `public.app_config` (Supabase `ufbkblkahyzfsjsoqmzg`, sem novo build).
-  Precisa começar com `https://`. Sem URL válida, o build publicado não envia o lead e mostra
-  "envio indisponível"; em `npm run dev`, só registra o payload no console.
+- URL pública de produção em `SIMULADOR_WEBHOOK_PRODUCAO` (`pageconv/lib/lead-config.ts`):
+  `https://automacao-gd.grupobcenergia.com.br/webhook/simulador-institucional-leads`.
+  `VITE_SIMULADOR_WEBHOOK_URL` (build), se definida, tem prioridade. O Supabase (`app_config`)
+  não é mais consultado para o simulador. Em `npm run dev` sem a variável, só registra o payload
+  no console (nenhum envio local vira lead).
 - `POST`, `Content-Type: application/json` (dispara preflight `OPTIONS`; CORS no nó Webhook).
 - Corpo de até ~14 MB (fatura de 10 MB em base64). Limite padrão do n8n: 16 MB (`N8N_PAYLOAD_SIZE_MAX`).
 
