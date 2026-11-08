@@ -19,7 +19,7 @@ export const LEAD_ORIGIN = {
  * institucional). Não é credencial: é a mesma URL que o navegador chama.
  */
 export const SIMULADOR_WEBHOOK_PRODUCAO =
-  "https://automacao-gd.grupobcenergia.com.br/webhook/simulador-institucional-leads";
+  "https://automacao-gd.grupobcenergia.com.br/webhook/simulador-de-economia";
 
 /**
  * URL do webhook n8n. Ordem:
