@@ -26,7 +26,7 @@ const cards = [
 export function SameDistributor() {
   return (
     <section className="bg-brand-navy text-white">
-      <div className="mx-auto max-w-[1160px] px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-[1280px] px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
         <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-white sm:text-4xl lg:text-5xl">
           VOCÊ CONTINUA COM A MESMA DISTRIBUIDORA
         </h2>

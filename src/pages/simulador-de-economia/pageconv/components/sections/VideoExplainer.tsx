@@ -57,7 +57,7 @@ export function VideoExplainer() {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="overflow-hidden bg-background pt-16 pb-10 sm:pt-20 sm:pb-12">
+    <section className="overflow-hidden bg-brand-ice pt-16 pb-10 sm:pt-20 sm:pb-12">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-[1200px]">
           {/* Título + subtítulo */}

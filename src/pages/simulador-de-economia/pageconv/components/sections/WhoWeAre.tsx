@@ -41,7 +41,7 @@ export function WhoWeAre() {
         className="pointer-events-none absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-brand-teal/10 blur-3xl"
       />
 
-      <div className="relative mx-auto max-w-[1120px] px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
+      <div className="relative mx-auto max-w-[1280px] px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
         <h2 className="font-display text-[34px] font-bold uppercase leading-[1.05] tracking-tight sm:text-[44px] lg:text-[52px]">
           Conheça o Grupo BC Energia
         </h2>

@@ -123,7 +123,7 @@ const SocialProofCarousel = ({ scrollToForm }: Props) => {
           </div>
           <button
             onClick={scrollToForm}
-            className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-teal px-10 py-4 font-display text-base font-semibold uppercase tracking-tight text-white shadow-sm transition-all hover:bg-brand-teal-mid hover:shadow-md active:scale-[0.98] sm:w-auto"
+            className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full bg-brand-yellow px-10 py-4 font-sans text-base font-semibold tracking-normal text-brand-navy transition-all hover:brightness-[0.96] focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-brand-navy active:scale-[0.98] sm:w-auto"
           >
             {c.cta}
             <ArrowUp className="h-5 w-5 rotate-90 shrink-0" />
@@ -134,7 +134,7 @@ const SocialProofCarousel = ({ scrollToForm }: Props) => {
   ));
 
   return (
-    <section className="relative bg-background pt-4 pb-8 sm:pt-6 sm:pb-10 lg:pt-8 lg:pb-12 px-4 sm:px-6 lg:px-20">
+    <section className="relative bg-brand-ice pt-16 pb-16 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24 px-4 sm:px-6 lg:px-20">
       <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center">
         <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-brand-teal/20 bg-brand-teal/10 px-4 py-1.5 text-brand-teal">
           <CheckCircle2 className="h-4 w-4" />

@@ -27,8 +27,8 @@
   --color-brand-yellow: #f1c035;
   --color-brand-cyan: #24d2c8;
   --color-brand-teal-mid: #1b9d93;
-  --color-brand-gray: #e5e5e5;
-  --color-brand-ice: #f8fafa;
+  --color-brand-gray: #e4e7e9; /* --hx-line do site */
+  --color-brand-ice: #f4f5f5; /* cinza das seções alternadas do site */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -341,4 +341,87 @@
 :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), select, textarea) {
   min-height: 0;
   border-radius: calc(var(--radius) - 2px);
+}
+
+/* ============================================================
+   Padrão visual do site institucional (ajuste só de aparência).
+   Tudo escopado em .pageconv-root pelo build. O formulário recebe
+   apenas estilo: nenhuma regra muda campos, validação ou envio.
+   ============================================================ */
+
+/* H1 do hero: mesmo padrão do H1 da Home (Barlow Condensed 700, sem caixa alta). */
+.lp-editorial section h1 {
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  font-size: clamp(2.75rem, 4.6vw, 4.5rem) !important;
+  line-height: 1.02 !important;
+  letter-spacing: 0 !important;
+}
+
+/* H2 das seções: Onest 300, escala única do site. */
+.lp-editorial section h2 {
+  font-family: var(--font-sans) !important;
+  font-weight: 300 !important;
+  text-transform: none !important;
+  font-size: clamp(2rem, 3.3vw, 3rem) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.01em !important;
+}
+/* Título dentro do cartão do simulador e do formulário: um nível abaixo. */
+.lp-editorial #simulador h2,
+.lp-editorial #lead-form h2 {
+  font-size: clamp(1.625rem, 2.2vw, 2.125rem) !important;
+}
+
+/* Botões e chips em pílula: fonte do site (Onest), sem caixa alta. */
+.lp-editorial :is(a, button).rounded-full {
+  font-family: var(--font-sans) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+/* Cards: raio de 16px e sombra mínima, como no restante do site. */
+.lp-editorial section :is(.rounded-3xl, .rounded-2xl) { border-radius: 16px !important; }
+.lp-editorial section:not(:first-child) :is(.shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl) {
+  box-shadow: 0 1px 2px rgb(36 47 64 / 0.06) !important;
+}
+
+/* Botão de envio do formulário: CTA principal do site (amarelo, pílula, Onest). */
+form.pageconv button[type="submit"] {
+  background-color: var(--color-brand-yellow) !important;
+  color: var(--color-brand-navy) !important;
+  border-radius: 9999px !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+form.pageconv button[type="submit"]:hover:not(:disabled) { filter: brightness(0.96); }
+form.pageconv button[type="submit"]:focus-visible {
+  outline: 3px solid var(--color-brand-navy) !important;
+  outline-offset: 3px;
+}
+form.pageconv button[type="submit"]:disabled { opacity: 0.55; }
+
+/* Foco visível nos campos do formulário. */
+form.pageconv :is(input, select, textarea, button[role="combobox"]):focus-visible {
+  outline: 2px solid var(--color-brand-teal) !important;
+  outline-offset: 2px;
+}
+
+
+/* Subtítulos (H3) em Barlow caixa alta: Onest 600, como os intertítulos do site. */
+.lp-editorial section h3[class*="font-display"][class*="uppercase"] {
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+/* Frases de destaque grandes em Barlow caixa alta: mesmo tratamento dos H3. */
+.lp-editorial section p[class*="font-display"][class*="uppercase"]:is([class*="text-xl"], [class*="text-2xl"]) {
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
 }

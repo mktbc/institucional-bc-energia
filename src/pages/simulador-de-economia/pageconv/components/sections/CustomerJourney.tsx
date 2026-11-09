@@ -39,7 +39,7 @@ const diferenciais = [
 export function CustomerJourney() {
   return (
     <section className="border-t border-brand-gray/20 bg-background">
-      <div className="mx-auto max-w-[1200px] px-4 pt-12 pb-16 sm:px-6 lg:px-8 lg:pt-14 lg:pb-24">
+      <div className="mx-auto max-w-[1280px] px-4 pt-12 pb-16 sm:px-6 lg:px-8 lg:pt-14 lg:pb-24">
         {/* Cabeçalho */}
         <div className="text-center">
           <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-brand-navy sm:text-4xl lg:text-5xl">

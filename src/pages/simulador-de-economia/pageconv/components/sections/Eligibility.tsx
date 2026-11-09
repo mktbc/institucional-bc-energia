@@ -19,7 +19,7 @@ const naoPrecisa = [
 export function Eligibility() {
   return (
     <section className="bg-background">
-      <div className="mx-auto max-w-[1120px] px-4 pt-10 pb-16 sm:px-6 sm:pt-12 sm:pb-16 lg:px-8 lg:pt-14 lg:pb-24">
+      <div className="mx-auto max-w-[1280px] px-4 pt-10 pb-16 sm:px-6 sm:pt-12 sm:pb-16 lg:px-8 lg:pt-14 lg:pb-24">
         <div className="text-center">
           <h2 className="font-display text-3xl font-bold uppercase leading-[1.05] tracking-tight text-brand-navy sm:text-4xl lg:text-[46px]">
             Quem pode solicitar uma análise?

@@ -10,7 +10,7 @@ const items = [
 
 export function TrustBar() {
   return (
-    <section aria-label="Diferenciais do Grupo BC Energia" className="border-y border-brand-gray bg-brand-gray/30">
+    <section aria-label="Diferenciais do Grupo BC Energia" className="border-y border-brand-gray bg-background">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:flex lg:items-center lg:justify-between lg:gap-6">
           {items.map(({ icon: Icon, label }) => (
