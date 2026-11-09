@@ -12,7 +12,6 @@ import { CustomerJourney } from '@pageconv/components/sections/CustomerJourney'
 import { SameDistributor } from '@pageconv/components/sections/SameDistributor'
 import { SavingsComparison } from '@pageconv/components/sections/SavingsComparison'
 import { Simulator } from '@pageconv/components/sections/Simulator'
-import { SavingsByState } from '@pageconv/components/sections/SavingsByState'
 import SocialProofCarousel from '@pageconv/components/SocialProofCarousel'
 import { Eligibility } from '@pageconv/components/sections/Eligibility'
 import { WhoWeAre } from '@pageconv/components/sections/WhoWeAre'
@@ -112,7 +111,6 @@ const SimuladorDeEconomia = () => {
             <SameDistributor />
             <SavingsComparison />
             <Simulator />
-            <SavingsByState />
             <SocialProofCarousel
               scrollToForm={() =>
                 document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })

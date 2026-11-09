@@ -30,7 +30,7 @@ const cards = [
 export function Qualification() {
   return (
     <section className="border-y border-brand-gray/40 bg-brand-ice">
-      <div className="mx-auto max-w-[1120px] px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-[1280px] px-4 py-16 sm:px-6 sm:py-20 lg:py-24">
         <div className="text-center">
           <h2 className="font-display text-3xl font-bold uppercase leading-[1.05] tracking-tight text-brand-navy sm:text-4xl lg:text-[46px]">
             Veja se sua conta de energia pode participar

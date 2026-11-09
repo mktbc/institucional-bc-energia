@@ -24,8 +24,8 @@ const BENEFITS = [
 
 export function Steps() {
   return (
-    <section id="como-funciona" className="scroll-mt-20 bg-brand-gray/40">
-      <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+    <section id="como-funciona" className="scroll-mt-20 bg-background">
+      <div className="mx-auto max-w-[1280px] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <h2 className="text-center font-display text-3xl font-bold uppercase tracking-tight text-brand-navy sm:text-4xl">
           Economizar na conta de energia pode ser mais simples do que parece
         </h2>

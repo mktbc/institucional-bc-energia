@@ -24,7 +24,7 @@ const variantStyles = {
   yellow:
     "bg-brand-yellow text-brand-navy hover:brightness-[0.96] focus-visible:outline-brand-navy",
   outline:
-    "border border-brand-cyan bg-transparent text-brand-cyan hover:bg-brand-cyan/10 focus-visible:outline-brand-yellow",
+    "border border-white bg-transparent text-white hover:bg-white/15 focus-visible:outline-brand-yellow",
 };
 
 /**
@@ -35,7 +35,7 @@ export function CtaButton({
   children,
   href = SIGNUP_ROUTE,
   size = "default",
-  variant = "solid",
+  variant = "yellow",
   className,
 }: CtaButtonProps) {
   return (

@@ -135,6 +135,10 @@
     --default-transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     --default-font-family: "Onest", ui-sans-serif, system-ui, sans-serif;
     --default-mono-font-family: var(--font-mono);
+    --font-display: "Barlow Condensed", ui-sans-serif, system-ui, sans-serif;
+    --color-brand-teal: #18857d;
+    --color-brand-navy: #242f40;
+    --color-brand-yellow: #f1c035;
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --color-border: var(--border);
@@ -993,16 +997,16 @@
     max-width: 1120px;
   }
 
-.pageconv-root .max-w-\[1160px\] {
-    max-width: 1160px;
-  }
-
 .pageconv-root .max-w-\[1200px\] {
     max-width: 1200px;
   }
 
 .pageconv-root .max-w-\[1220px\] {
     max-width: 1220px;
+  }
+
+.pageconv-root .max-w-\[1280px\] {
+    max-width: 1280px;
   }
 
 .pageconv-root .max-w-full {
@@ -1333,24 +1337,20 @@
     border-color: var(--border);
   }
 
-.pageconv-root .border-brand-cyan {
-    border-color: #24d2c8;
-  }
-
 .pageconv-root .border-brand-gray {
-    border-color: #e5e5e5;
+    border-color: #e4e7e9;
   }
 
 .pageconv-root .border-brand-gray\/20 {
-    border-color: oklab(92.1906% 2.98023e-8 0 / .2);
+    border-color: oklab(92.6242% -.00233316 -.00352544 / .2);
   }
 
 .pageconv-root .border-brand-gray\/40 {
-    border-color: oklab(92.1906% 2.98023e-8 0 / .4);
+    border-color: oklab(92.6242% -.00233316 -.00352544 / .4);
   }
 
 .pageconv-root .border-brand-gray\/70 {
-    border-color: oklab(92.1906% 2.98023e-8 0 / .7);
+    border-color: oklab(92.6242% -.00233316 -.00352544 / .7);
   }
 
 .pageconv-root .border-brand-teal {
@@ -1397,6 +1397,10 @@
     .pageconv-root .border-primary\/50 {
       border-color: color-mix(in oklab, var(--primary) 50%, transparent);
     }
+  }
+
+.pageconv-root .border-white {
+    border-color: var(--color-white);
   }
 
 .pageconv-root .border-white\/10 {
@@ -1506,23 +1510,15 @@
   }
 
 .pageconv-root .bg-brand-gray {
-    background-color: #e5e5e5;
-  }
-
-.pageconv-root .bg-brand-gray\/30 {
-    background-color: oklab(92.1906% 2.98023e-8 0 / .3);
-  }
-
-.pageconv-root .bg-brand-gray\/40 {
-    background-color: oklab(92.1906% 2.98023e-8 0 / .4);
+    background-color: #e4e7e9;
   }
 
 .pageconv-root .bg-brand-gray\/60 {
-    background-color: oklab(92.1906% 2.98023e-8 0 / .6);
+    background-color: oklab(92.6242% -.00233316 -.00352544 / .6);
   }
 
 .pageconv-root .bg-brand-ice {
-    background-color: #f8fafa;
+    background-color: #f4f5f5;
   }
 
 .pageconv-root .bg-brand-navy {
@@ -1933,10 +1929,6 @@
     padding-top: calc(var(--spacing) * 4);
   }
 
-.pageconv-root .pt-5 {
-    padding-top: calc(var(--spacing) * 5);
-  }
-
 .pageconv-root .pt-7 {
     padding-top: calc(var(--spacing) * 7);
   }
@@ -1975,10 +1967,6 @@
 
 .pageconv-root .pb-6 {
     padding-bottom: calc(var(--spacing) * 6);
-  }
-
-.pageconv-root .pb-8 {
-    padding-bottom: calc(var(--spacing) * 8);
   }
 
 .pageconv-root .pb-10 {
@@ -2685,7 +2673,7 @@
     }
 
     .pageconv-root .hover\:border-brand-gray\/80:hover {
-      border-color: oklab(92.1906% 2.98023e-8 0 / .8);
+      border-color: oklab(92.6242% -.00233316 -.00352544 / .8);
     }
 
     .pageconv-root .hover\:border-brand-teal\/40:hover {
@@ -2712,12 +2700,8 @@
       }
     }
 
-    .pageconv-root .hover\:bg-brand-cyan\/10:hover {
-      background-color: oklab(78.1222% -.128784 -.019415 / .1);
-    }
-
     .pageconv-root .hover\:bg-brand-gray\/30:hover {
-      background-color: oklab(92.1906% 2.98023e-8 0 / .3);
+      background-color: oklab(92.6242% -.00233316 -.00352544 / .3);
     }
 
     .pageconv-root .hover\:bg-brand-teal:hover {
@@ -2730,6 +2714,16 @@
 
     .pageconv-root .hover\:bg-white:hover {
       background-color: var(--color-white);
+    }
+
+    .pageconv-root .hover\:bg-white\/15:hover {
+      background-color: #ffffff26;
+    }
+
+    @supports (color: color-mix(in lab, red, red)) {
+      .pageconv-root .hover\:bg-white\/15:hover {
+        background-color: color-mix(in oklab, var(--color-white) 15%, transparent);
+      }
     }
 
     .pageconv-root .hover\:bg-white\/25:hover {
@@ -3197,20 +3191,12 @@
       padding-top: calc(var(--spacing) * 0);
     }
 
-    .pageconv-root .sm\:pt-6 {
-      padding-top: calc(var(--spacing) * 6);
-    }
-
     .pageconv-root .sm\:pt-8 {
       padding-top: calc(var(--spacing) * 8);
     }
 
     .pageconv-root .sm\:pt-12 {
       padding-top: calc(var(--spacing) * 12);
-    }
-
-    .pageconv-root .sm\:pt-16 {
-      padding-top: calc(var(--spacing) * 16);
     }
 
     .pageconv-root .sm\:pt-20 {
@@ -3221,16 +3207,8 @@
       padding-right: calc(var(--spacing) * 8);
     }
 
-    .pageconv-root .sm\:pb-6 {
-      padding-bottom: calc(var(--spacing) * 6);
-    }
-
     .pageconv-root .sm\:pb-8 {
       padding-bottom: calc(var(--spacing) * 8);
-    }
-
-    .pageconv-root .sm\:pb-10 {
-      padding-bottom: calc(var(--spacing) * 10);
     }
 
     .pageconv-root .sm\:pb-12 {
@@ -3239,6 +3217,10 @@
 
     .pageconv-root .sm\:pb-16 {
       padding-bottom: calc(var(--spacing) * 16);
+    }
+
+    .pageconv-root .sm\:pb-20 {
+      padding-bottom: calc(var(--spacing) * 20);
     }
 
     .pageconv-root .sm\:pl-8 {
@@ -3561,10 +3543,6 @@
       padding-block: calc(var(--spacing) * 24);
     }
 
-    .pageconv-root .lg\:pt-8 {
-      padding-top: calc(var(--spacing) * 8);
-    }
-
     .pageconv-root .lg\:pt-14 {
       padding-top: calc(var(--spacing) * 14);
     }
@@ -3575,10 +3553,6 @@
 
     .pageconv-root .lg\:pb-8 {
       padding-bottom: calc(var(--spacing) * 8);
-    }
-
-    .pageconv-root .lg\:pb-12 {
-      padding-bottom: calc(var(--spacing) * 12);
     }
 
     .pageconv-root .lg\:pb-24 {
@@ -4032,6 +4006,76 @@
 .pageconv-root :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), select, textarea) {
   border-radius: calc(var(--radius) - 2px);
   min-height: 0;
+}
+
+.pageconv-root .lp-editorial section h1 {
+  font-family: var(--font-display) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-size: clamp(2.75rem, 4.6vw, 4.5rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.02 !important;
+}
+
+.pageconv-root .lp-editorial section h2 {
+  font-family: var(--font-sans) !important;
+  text-transform: none !important;
+  letter-spacing: -.01em !important;
+  font-size: clamp(2rem, 3.3vw, 3rem) !important;
+  font-weight: 300 !important;
+  line-height: 1.1 !important;
+}
+
+.pageconv-root .lp-editorial #simulador h2, .pageconv-root .lp-editorial #lead-form h2 {
+  font-size: clamp(1.625rem, 2.2vw, 2.125rem) !important;
+}
+
+.pageconv-root .lp-editorial :is(a, button).rounded-full {
+  font-family: var(--font-sans) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+.pageconv-root .lp-editorial section :is(.rounded-3xl, .rounded-2xl) {
+  border-radius: 16px !important;
+}
+
+.pageconv-root .lp-editorial section:not(:first-child) :is(.shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl) {
+  box-shadow: 0 1px 2px #242f400f !important;
+}
+
+.pageconv-root form.pageconv button[type="submit"] {
+  background-color: var(--color-brand-yellow) !important;
+  color: var(--color-brand-navy) !important;
+  font-family: var(--font-sans) !important;
+  box-shadow: none !important;
+  border-radius: 9999px !important;
+  font-weight: 600 !important;
+}
+
+.pageconv-root form.pageconv button[type="submit"]:hover:not(:disabled) {
+  filter: brightness(.96);
+}
+
+.pageconv-root form.pageconv button[type="submit"]:focus-visible {
+  outline-offset: 3px;
+  outline: 3px solid var(--color-brand-navy) !important;
+}
+
+.pageconv-root form.pageconv button[type="submit"]:disabled {
+  opacity: .55;
+}
+
+.pageconv-root form.pageconv :is(input, select, textarea, button[role="combobox"]):focus-visible {
+  outline-offset: 2px;
+  outline: 2px solid var(--color-brand-teal) !important;
+}
+
+.pageconv-root .lp-editorial section h3[class*="font-display"][class*="uppercase"], .pageconv-root .lp-editorial section p[class*="font-display"][class*="uppercase"]:is([class*="text-xl"], [class*="text-2xl"]) {
+  font-family: var(--font-sans) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-weight: 600 !important;
 }
 
 @property --tw-translate-x {

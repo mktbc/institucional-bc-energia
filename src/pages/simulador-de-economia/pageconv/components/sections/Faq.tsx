@@ -54,8 +54,8 @@ export const faqs = [
 
 export function Faq() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="bg-background">
-      <div className="mx-auto grid max-w-[1220px] grid-cols-1 gap-10 px-5 py-16 sm:px-7 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16 lg:px-8 lg:py-24">
+    <section id="faq" aria-labelledby="faq-title" className="bg-brand-ice">
+      <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-10 px-5 py-16 sm:px-7 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16 lg:px-8 lg:py-24">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <p className="eyebrow-chevron text-brand-teal">Dúvidas frequentes</p>
           <h2 id="faq-title" className="mt-5 text-3xl text-brand-navy sm:text-4xl lg:text-[44px]">

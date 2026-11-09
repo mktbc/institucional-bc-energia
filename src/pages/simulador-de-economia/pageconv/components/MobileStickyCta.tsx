@@ -32,7 +32,7 @@ export function MobileStickyCta() {
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-brand-gray bg-background/95 p-3 pr-20 backdrop-blur md:hidden">
       <a
         href="#lead-form"
-        className="flex w-full items-center justify-center rounded-full bg-brand-teal px-6 py-3 font-sans text-base font-semibold tracking-normal text-white shadow-sm active:scale-[0.98]"
+        className="flex w-full items-center justify-center rounded-full bg-brand-yellow px-6 py-3 font-sans text-base font-semibold tracking-normal text-brand-navy focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-brand-navy active:scale-[0.98]"
       >
         Analisar minha conta
       </a>

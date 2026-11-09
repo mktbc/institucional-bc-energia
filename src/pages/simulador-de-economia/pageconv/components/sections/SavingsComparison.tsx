@@ -1,7 +1,7 @@
 export function SavingsComparison() {
   return (
-    <section className="bg-background">
-      <div className="mx-auto max-w-4xl px-4 pt-16 pb-5 sm:px-6 sm:pt-16 sm:pb-6 lg:px-8 lg:pt-24 lg:pb-8">
+    <section className="bg-brand-ice">
+      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <h2 className="text-center font-display text-3xl font-bold uppercase tracking-tight text-brand-navy sm:text-4xl">
           Veja o impacto que a economia pode ter ao longo do ano
         </h2>

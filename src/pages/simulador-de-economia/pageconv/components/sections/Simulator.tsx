@@ -35,7 +35,7 @@ export function Simulator() {
 
   return (
     <section id="simulador" className="scroll-mt-20 bg-background">
-      <div className="mx-auto w-full max-w-[880px] px-4 pt-5 pb-8 sm:px-6 sm:pt-6 sm:pb-10 lg:px-8 lg:pt-8 lg:pb-12">
+      <div className="mx-auto w-full max-w-[880px] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="overflow-hidden rounded-[26px] bg-[linear-gradient(150deg,#18857D_0%,#1B9D93_100%)] p-6 text-white shadow-[0_24px_60px_-28px_rgba(24,133,125,0.65)] sm:p-9 lg:p-10">
           {/* Cabeçalho */}
           <header className="text-center sm:text-left">
