@@ -102,7 +102,7 @@ const SEGMENT_BANNER_ALT: Record<string, string> = {
   saude: 'Instalações de saúde, clínica e hospital atendidas pelo Grupo BC Energia',
   servico: 'Ambiente corporativo de empresa de serviços atendido pelo Grupo BC Energia',
   turismo: 'Hotelaria, resort e turismo atendidos pelo Grupo BC Energia',
-  varejo: 'Corredor de loja com prateleiras de produtos iluminadas'
+  varejo: 'Mulher e menina fazendo compras online com cartão de crédito'
 }
 
 const INSTITUTIONAL_CLAIM =
