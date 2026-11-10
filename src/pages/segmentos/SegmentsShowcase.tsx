@@ -11,13 +11,13 @@ export const SEGMENT_IMAGE: Record<string, string> = {
   '/segmentos/condominio': '/img/pages/segmentos/condominio-v2.webp',
   '/segmentos/educacional': '/img/pages/segmentos/educacional.webp',
   '/segmentos/turismo': '/img/pages/segmentos/turismo-intro.webp',
-  '/segmentos/lazer': '/img/pages/segmentos/lazer-v3.webp',
+  '/segmentos/lazer': '/img/pages/segmentos/lazer-v2.webp',
   '/segmentos/religioso': '/img/pages/segmentos/religioso.webp',
   '/segmentos/residencial': '/img/pages/segmentos/residencial.webp',
   // saude-v2 mostrava marca d'água "MOCKUP/LOGO" no jaleco (banco de imagens).
-  '/segmentos/saude': '/img/pages/segmentos/saude-v3.webp',
+  '/segmentos/saude': '/img/pages/segmentos/saude.webp',
   '/segmentos/servico': '/img/pages/segmentos/servico-v3.webp',
-  '/segmentos/varejo': '/img/pages/segmentos/varejo-v2.webp'
+  '/segmentos/varejo': '/img/pages/segmentos/varejo-v3.webp'
 }
 
 /**
