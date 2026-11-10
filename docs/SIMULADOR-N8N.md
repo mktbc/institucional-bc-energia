@@ -26,7 +26,7 @@ Obrigatório = o workflow responde 400 sem ele.
 | `email`, `email_sf` | string | não | formato de e-mail quando preenchido |
 | `estado` | string | sim | `GO`, `TO`, `PR`, `MG`, `MT` |
 | `cidade` | string | não | vazio (o formulário não coleta); cai para `utm_city` |
-| `valor_conta` | string | sim | faixa, ex.: `R$ 800 a R$ 1.200` |
+| `valor_conta` | string | sim | faixa, ex.: `R$ 700 a R$ 1.200` |
 | `tipo` | string | sim | `Residencial`, `Comercial`, `Industrial` |
 | `titular` | string | sim | `Sim` ou `Não` |
 | `lgpd` | string | sim | `"true"` |
