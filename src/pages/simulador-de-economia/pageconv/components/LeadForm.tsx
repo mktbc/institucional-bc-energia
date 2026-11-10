@@ -51,11 +51,11 @@ const ACCEPTED_TYPES = ["application/pdf", "image/jpeg", "image/png"];
 // valor enviado em valor_conta e gravado no Salesforce (campo IdeFai__c),
 // então deve ser idêntico ao valor cadastrado lá.
 const VALOR_OPTIONS = [
-  "A partir de R$ 700,00",
-  "De R$ 700,00 a R$ 1.200,00",
-  "De R$ 1.200,00 a R$ 2.000,00",
-  "De R$ 2.000,00 a R$ 5.000,00",
-  "Acima de R$ 5.000,00",
+  "A partir de R$ 700",
+  "De R$ 700 a R$ 1.200",
+  "De R$ 1.200 a R$ 2.000",
+  "De R$ 2.000 a R$ 5.000",
+  "Acima de R$ 5.000",
 ];
 
 const TIPO_OPTIONS = ["Residencial", "Comercial", "Industrial"];

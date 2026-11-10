@@ -63,7 +63,7 @@ ao abrir cada nó.
    curl -sS -X POST 'https://<seu-n8n>/webhook-test/simulador-institucional-leads' \
      -H 'Content-Type: application/json' \
      -d '{"nome":"Teste Integracao","whatsapp":"(62) 90000-0000","email":"teste@exemplo.com",
-          "estado":"GO","valor_conta":"De R$ 700,00 a R$ 1.200,00","tipo":"Residencial","titular":"Sim",
+          "estado":"GO","valor_conta":"De R$ 700 a R$ 1.200","tipo":"Residencial","titular":"Sim",
           "lgpd":"true","utm_source":"SEO","utm_medium":"organic","utm_campaign_code":"BCCAMPMKT033",
           "origem_site":"site_institucional","form_name":"simulador_institucional",
           "page_path":"/simulador-de-economia"}'
