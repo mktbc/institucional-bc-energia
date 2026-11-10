@@ -70,9 +70,13 @@ const IRECRenewableCertification = () => (
         'A Certificação I-REC comprova a origem renovável da energia utilizada por uma empresa, atestando seu consumo de energia limpa e contribuindo para a redução da emissão de gases de efeito estufa. Essa prática se alinha diretamente ao pilar ambiental dos princípios ESG, demonstrando o compromisso da empresa com a proteção do meio ambiente e a mitigação das mudanças climáticas.'
       ]}
       image={{
-        src: '/img/pages/certificacao-renovavel-intro.webp',
+        src: '/img/pages/irec-o-que-e.webp',
         sizes: '(max-width: 1024px) 100vw, 58vw',
-        alt: 'Certificação renovável I-REC do Grupo BC Energia'
+        width: 1400,
+        height: 1400,
+        // Enquadra o capacete por inteiro quando a foto acompanha a altura do texto.
+        imageClassName: 'h-auto object-[50%_20%]',
+        alt: 'Técnica com capacete e colete de segurança usando notebook em uma usina solar'
       }}
       factsPosition="below"
       facts={[
