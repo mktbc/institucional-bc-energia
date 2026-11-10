@@ -40,7 +40,7 @@ export const faqs = [
   },
   {
     q: "Minha conta precisa ser de quanto?",
-    a: "A solução é direcionada a contas médias a partir de R$ 800 por mês.",
+    a: "A solução é direcionada a contas médias a partir de R$ 700 por mês.",
   },
   {
     q: "Por que preciso enviar minha conta de energia?",

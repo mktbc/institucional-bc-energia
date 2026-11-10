@@ -66,11 +66,11 @@ const SEGMENT_HERO_MEDIA: Record<string, string> = {
   'bares-e-restaurantes': '/img/pages/segmentos/bares-e-restaurantes-hero.webp',
   condominio: '/img/pages/segmentos/condominio-hero.webp',
   educacional: '/img/pages/segmentos/educacional-hero.webp',
-  lazer: '/img/pages/segmentos/lazer-hero.webp',
+  lazer: '/img/pages/segmentos/lazer-hero-v3.webp',
   religioso: '/img/pages/segmentos/religioso-hero.webp',
   residencial: '/img/pages/segmentos/residencial-hero.webp',
-  saude: '/img/pages/segmentos/saude-hero.webp',
-  servico: '/img/pages/segmentos/servico-hero.webp',
+  saude: '/img/pages/segmentos/saude-hero-v3.webp',
+  servico: '/img/pages/segmentos/servico-hero-v3.webp',
   turismo: '/img/pages/segmentos/turismo-hero.webp',
   varejo: '/img/pages/segmentos/varejo-hero.webp'
 }
@@ -96,10 +96,10 @@ const SEGMENT_BANNER_ALT: Record<string, string> = {
   'bares-e-restaurantes': 'Ambiente gastronômico de restaurante e bar atendido pelo Grupo BC Energia',
   condominio: 'Edifícios e condomínios modernos atendidos pelo Grupo BC Energia',
   educacional: 'Campus e instalações de ensino atendidos pelo Grupo BC Energia',
-  lazer: 'Complexo esportivo e espaço de lazer atendido pelo Grupo BC Energia',
+  lazer: 'Pessoa correndo em estrada ao ar livre com aerogeradores ao fundo',
   religioso: 'Templo e instituição religiosa com espaço amplo atendido pelo Grupo BC Energia',
   residencial: 'Residência moderna atendida por energia solar por assinatura do Grupo BC Energia',
-  saude: 'Instalações de saúde, clínica e hospital atendidas pelo Grupo BC Energia',
+  saude: 'Interior iluminado de farmácia com prateleiras de produtos de saúde',
   servico: 'Ambiente corporativo de empresa de serviços atendido pelo Grupo BC Energia',
   turismo: 'Hotelaria, resort e turismo atendidos pelo Grupo BC Energia',
   varejo: 'Operação de varejo e supermercado atendida pelo Grupo BC Energia'

@@ -55,7 +55,7 @@ export function SameDistributor() {
           {cards.map(({ icon: Icon, title, description }) => (
             <div
               key={title}
-              className="group flex flex-col items-center rounded-[20px] border border-white/10 bg-white/[0.05] p-6 text-center transition duration-300 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.07] sm:p-7"
+              className="group flex flex-col items-center rounded-[16px] border border-white/10 bg-white/[0.05] p-6 text-center transition duration-300 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.07] sm:p-7"
             >
               <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-cyan/10 ring-1 ring-brand-cyan/20">
                 <Icon className="h-7 w-7 text-brand-cyan" aria-hidden="true" />

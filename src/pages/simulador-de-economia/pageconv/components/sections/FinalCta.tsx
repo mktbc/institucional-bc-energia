@@ -8,7 +8,7 @@ export function FinalCta() {
   return (
     <section className="bg-gradient-brand-dark">
       <div className="mx-auto max-w-[1100px] px-4 py-10 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
-        <div className="mx-auto max-w-[1000px] rounded-[24px] bg-brand-navy p-7 text-center shadow-xl sm:p-12 lg:p-16">
+        <div className="mx-auto max-w-[1000px] rounded-[16px] bg-brand-navy p-7 text-center shadow-xl sm:p-12 lg:p-16">
           <h2 className="font-display text-[26px] font-bold uppercase leading-tight tracking-tight text-white sm:text-[34px] lg:text-[40px]">
             Descubra quanto você pode economizar na sua conta de luz!
           </h2>

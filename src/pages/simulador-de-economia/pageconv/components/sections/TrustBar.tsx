@@ -2,7 +2,7 @@ import { BadgeCheck, Receipt, MapPin, SunMedium, PlugZap } from "lucide-react";
 
 const items = [
   { icon: BadgeCheck, label: "Análise gratuita" },
-  { icon: Receipt, label: "Contas a partir de R$ 800" },
+  { icon: Receipt, label: "Contas a partir de R$ 700" },
   { icon: MapPin, label: "GO • TO • PR • MG • MT" },
   { icon: SunMedium, label: "Sem placas solares" },
   { icon: PlugZap, label: "Mesma distribuidora" },

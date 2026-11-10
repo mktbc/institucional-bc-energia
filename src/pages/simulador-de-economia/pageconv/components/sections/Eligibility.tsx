@@ -3,7 +3,7 @@ import { PrivacyNote } from "@pageconv/components/PrivacyNote";
 import { Check, CircleMinus, Sparkles } from "lucide-react";
 
 const podeSolicitar = [
-  { texto: "sua conta média é a partir de R$ 800/mês", forte: true },
+  { texto: "sua conta média é a partir de R$ 700/mês", forte: true },
   { texto: "sua unidade está em GO, TO, PR, MG ou MT", forte: true },
   { texto: "você é titular ou responsável pela conta", forte: false },
   { texto: "deseja economizar sem comprar equipamentos", forte: false },
@@ -18,7 +18,7 @@ const naoPrecisa = [
 
 export function Eligibility() {
   return (
-    <section className="bg-background">
+    <section className="bg-brand-ice">
       <div className="mx-auto max-w-[1280px] px-4 pt-10 pb-16 sm:px-6 sm:pt-12 sm:pb-16 lg:px-8 lg:pt-14 lg:pb-24">
         <div className="text-center">
           <h2 className="font-display text-3xl font-bold uppercase leading-[1.05] tracking-tight text-brand-navy sm:text-4xl lg:text-[46px]">
@@ -30,7 +30,7 @@ export function Eligibility() {
         </div>
 
         {/* Wrapper visual da área de elegibilidade */}
-        <div className="mt-10 rounded-[28px] border border-brand-gray bg-[#F7F9F9] p-5 sm:p-8 lg:mt-12 lg:p-10">
+        <div className="mt-10 rounded-[16px] border border-brand-gray bg-white p-5 sm:p-8 lg:mt-12 lg:p-10">
           <div className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-[1.15fr_0.85fr] lg:gap-7">
             {/* Card principal */}
             <div className="relative flex h-full flex-col overflow-hidden rounded-3xl border-[1.5px] border-brand-teal bg-[#F3FAF8] p-6 shadow-[0_8px_28px_-18px_rgba(36,47,64,0.35)] sm:p-9">
@@ -46,7 +46,7 @@ export function Eligibility() {
               {/* Âncoras visuais */}
               <div className="mt-5 flex flex-wrap gap-2.5">
                 <span className="inline-flex items-center rounded-full bg-brand-yellow px-4 py-1.5 font-display text-[13px] font-bold uppercase tracking-wide text-brand-navy sm:text-sm">
-                  Contas a partir de R$ 800
+                  Contas a partir de R$ 700
                 </span>
                 <span className="inline-flex items-center rounded-full bg-brand-teal px-4 py-1.5 font-display text-[13px] font-bold uppercase tracking-wide text-white sm:text-sm">
                   GO • TO • PR • MG • MT
@@ -74,7 +74,7 @@ export function Eligibility() {
             </div>
 
             {/* Card secundário */}
-            <div className="flex h-full flex-col rounded-[22px] border border-brand-gray bg-white p-7 shadow-[0_6px_20px_-16px_rgba(36,47,64,0.18)] sm:p-9">
+            <div className="flex h-full flex-col rounded-[16px] border border-brand-gray bg-white p-7 shadow-[0_6px_20px_-16px_rgba(36,47,64,0.18)] sm:p-9">
               <div className="flex items-center gap-2.5">
                 <h3 className="font-display text-xl font-bold uppercase tracking-tight text-brand-navy sm:text-[26px]">
                   Você não precisa:

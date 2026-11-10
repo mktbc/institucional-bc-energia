@@ -61,7 +61,7 @@ export function WhoWeAre() {
           {pilares.map(({ icon, label, desc }, i) => (
             <div
               key={label}
-              className={`group flex h-full flex-col items-center gap-5 rounded-[22px] border border-white/[0.12] bg-white/[0.04] p-8 text-center backdrop-blur transition-all duration-200 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07] ${
+              className={`group flex h-full flex-col items-center gap-5 rounded-[16px] border border-white/[0.12] bg-white/[0.04] p-8 text-center backdrop-blur transition-all duration-200 hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07] ${
                 i === 2 ? "sm:col-span-2 lg:col-span-1" : ""
               }`}
             >
@@ -84,7 +84,7 @@ export function WhoWeAre() {
         </div>
 
         {/* Bloco institucional: proposta de valor + propósito */}
-        <div className="mt-8 rounded-[20px] border border-white/10 bg-white/[0.05] p-7 text-left sm:p-8">
+        <div className="mt-8 rounded-[16px] border border-white/10 bg-white/[0.05] p-7 text-left sm:p-8">
           <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 sm:gap-0">
             <div className="sm:pr-8">
               <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-brand-yellow">

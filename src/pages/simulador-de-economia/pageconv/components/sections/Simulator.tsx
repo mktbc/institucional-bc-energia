@@ -5,7 +5,7 @@ import { CtaButton } from "@pageconv/components/CtaButton";
 import { cn } from "@pageconv/lib/utils";
 
 // Faixa do slider (valor médio da conta de luz).
-const VALOR_MINIMO = 800;
+const VALOR_MINIMO = 700;
 const VALOR_MAXIMO = 5000;
 const VALOR_DEFAULT = 1200;
 
@@ -24,7 +24,7 @@ const brl = (v: number) =>
 const pct = (v: number) => `${Math.round(v * 100)}%`;
 
 // Tabela de referência (valores fixos de conta; economia é calculada pelo desconto do estado ativo).
-const TABELA_CONTAS = [800, 1200, 2000, 5000];
+const TABELA_CONTAS = [700, 1200, 2000, 5000];
 
 export function Simulator() {
   const [valor, setValor] = useState(VALOR_DEFAULT);
@@ -36,7 +36,7 @@ export function Simulator() {
   return (
     <section id="simulador" className="scroll-mt-20 bg-background">
       <div className="mx-auto w-full max-w-[880px] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="overflow-hidden rounded-[26px] bg-[linear-gradient(150deg,#18857D_0%,#1B9D93_100%)] p-6 text-white shadow-[0_24px_60px_-28px_rgba(24,133,125,0.65)] sm:p-9 lg:p-10">
+        <div className="overflow-hidden rounded-[16px] bg-[linear-gradient(150deg,#18857D_0%,#1B9D93_100%)] p-6 text-white sm:p-9 lg:p-10">
           {/* Cabeçalho */}
           <header className="text-center sm:text-left">
             <h2 className="font-display text-3xl font-bold uppercase leading-tight tracking-tight sm:text-4xl">
@@ -93,7 +93,7 @@ export function Simulator() {
           </div>
 
           {/* Resultado principal */}
-          <div className="mt-6 rounded-[22px] border border-white/25 bg-white/[0.16] p-7 text-center shadow-[0_10px_30px_-18px_rgba(0,0,0,0.5)] backdrop-blur sm:p-8">
+          <div className="mt-6 rounded-[16px] border border-white/25 bg-white/[0.16] p-7 text-center shadow-[0_10px_30px_-18px_rgba(0,0,0,0.5)] backdrop-blur sm:p-8">
             <p className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-white/85">
               Sua economia estimada
             </p>
@@ -148,7 +148,7 @@ export function Simulator() {
           <div className="mt-5 flex items-start gap-3 rounded-2xl bg-white/[0.08] p-4">
             <Info className="mt-0.5 h-5 w-5 shrink-0 text-brand-yellow" aria-hidden="true" />
             <p className="text-sm leading-relaxed text-white/85">
-              Condições válidas para contas a partir de R$ 800. A economia pode variar conforme
+              Condições válidas para contas a partir de R$ 700. A economia pode variar conforme
               análise da fatura, estado, distribuidora, bandeira tarifária, disponibilidade de
               créditos e condições comerciais.
             </p>

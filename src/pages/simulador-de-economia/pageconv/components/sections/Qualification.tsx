@@ -6,9 +6,9 @@ import { Receipt, MapPin, Building2, UserCheck } from "lucide-react";
 const cards = [
   {
     icon: Receipt,
-    title: "Conta a partir de R$ 800/mês",
+    title: "Conta a partir de R$ 700/mês",
     badge: "Principal critério",
-    desc: "A análise comercial é direcionada a unidades com conta média mensal a partir de R$ 800.",
+    desc: "A análise comercial é direcionada a unidades com conta média mensal a partir de R$ 700.",
   },
   {
     icon: MapPin,
@@ -84,7 +84,7 @@ export function Qualification() {
 
         <div className="mt-14 flex flex-col items-center gap-4 text-center sm:mt-16">
           <p className="max-w-2xl font-display text-xl font-semibold uppercase tracking-tight text-brand-navy sm:text-2xl">
-            Sua conta é a partir de R$ 800 por mês? Envie sua fatura para uma análise gratuita.
+            Sua conta é a partir de R$ 700 por mês? Envie sua fatura para uma análise gratuita.
           </p>
           <CtaButton size="xl" href="#lead-form" variant="yellow">
             Enviar minha conta para análise
