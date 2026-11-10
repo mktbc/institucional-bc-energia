@@ -72,7 +72,7 @@ const SEGMENT_HERO_MEDIA: Record<string, string> = {
   saude: '/img/pages/segmentos/saude-hero.webp',
   servico: '/img/pages/segmentos/servico-hero-v3.webp',
   turismo: '/img/pages/segmentos/turismo-hero.webp',
-  varejo: '/img/pages/segmentos/varejo-hero.webp'
+  varejo: '/img/pages/segmentos/varejo-hero-v3.webp'
 }
 
 /** Enquadramento responsivo calibrado por segmento (evita cortes indesejados). */
@@ -102,7 +102,7 @@ const SEGMENT_BANNER_ALT: Record<string, string> = {
   saude: 'Instalações de saúde, clínica e hospital atendidas pelo Grupo BC Energia',
   servico: 'Ambiente corporativo de empresa de serviços atendido pelo Grupo BC Energia',
   turismo: 'Hotelaria, resort e turismo atendidos pelo Grupo BC Energia',
-  varejo: 'Operação de varejo e supermercado atendida pelo Grupo BC Energia'
+  varejo: 'Corredor de loja com prateleiras de produtos iluminadas'
 }
 
 const INSTITUTIONAL_CLAIM =

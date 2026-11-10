@@ -17,7 +17,7 @@ export const SEGMENT_IMAGE: Record<string, string> = {
   // saude-v2 mostrava marca d'água "MOCKUP/LOGO" no jaleco (banco de imagens).
   '/segmentos/saude': '/img/pages/segmentos/saude.webp',
   '/segmentos/servico': '/img/pages/segmentos/servico-v3.webp',
-  '/segmentos/varejo': '/img/pages/segmentos/varejo-v2.webp'
+  '/segmentos/varejo': '/img/pages/segmentos/varejo-v3.webp'
 }
 
 /**
