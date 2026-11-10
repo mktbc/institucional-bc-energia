@@ -47,13 +47,15 @@ const ACCEPTED = ".pdf,.jpg,.jpeg,.png";
 const ACCEPTED_TYPES = ["application/pdf", "image/jpeg", "image/png"];
 
 
-// Faixas sem sobreposição, a partir do mínimo comercial de R$ 700.
-// O texto da opção é o valor gravado no Salesforce (campo IdeFai__c).
+// Faixas definidas pelo comercial (mínimo de R$ 700). O texto da opção é o
+// valor enviado em valor_conta e gravado no Salesforce (campo IdeFai__c),
+// então deve ser idêntico ao valor cadastrado lá.
 const VALOR_OPTIONS = [
-  "R$ 700 a R$ 1.200",
-  "R$ 1.201 a R$ 2.000",
-  "R$ 2.001 a R$ 5.000",
-  "Acima de R$ 5.000",
+  "A partir de 700",
+  "700 a 1.200",
+  "1.200 a 2.000",
+  "2.000 a 5.000",
+  "Acima de 5.000",
 ];
 
 const TIPO_OPTIONS = ["Residencial", "Comercial", "Industrial"];
