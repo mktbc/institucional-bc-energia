@@ -113,7 +113,7 @@ const PNG = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0
 const base = () => ({
   nome: 'Maria Teste', whatsapp: '(62) 99999-8888', telefone_sf: '(62) 99999-8888',
   email: 'Maria@Exemplo.com', email_sf: 'Maria@Exemplo.com', estado: 'GO', cidade: '',
-  valor_conta: '700 a 1.200', tipo: 'Comercial', titular: 'Sim', lgpd: 'true',
+  valor_conta: 'De R$ 700,00 a R$ 1.200,00', tipo: 'Comercial', titular: 'Sim', lgpd: 'true',
   fatura: '', fatura_base64: '', fatura_anexada: 'false', fatura_nome: '', fatura_tipo: '', fatura_tamanho: '',
   utm_source: 'SEO', utm_medium: 'organic', utm_font: 'marketing', utm_channel: 'Site', utm_campaign_code: 'BCCAMPMKT033',
   utm_product: 'GD', utm_segment: 'B2B B2C', utm_contract: 'sem fidelidade', utm_lp: 'grupobcenergia-com-br',
@@ -219,13 +219,13 @@ test('6. UTMs de campanha preservadas e fallbacks históricos', async () => {
   assert.equal(sf.Campanha_de_Conversao__c, '', 'macro {campaignname} não resolvida não vai ao CRM')
   assert.equal(sf.UF__c, 'GO')
   assert.equal(sf.Estado_Regiao__c, 'Goias')
-  assert.equal(sf.IdeFai__c, '700 a 1.200')
+  assert.equal(sf.IdeFai__c, 'De R$ 700,00 a R$ 1.200,00')
   assert.equal(sf.Meio_de_Conversao_Ads__c, 'Formulário Pagina Web')
 })
 
 test('6b. cada faixa do formulário chega sem alteração ao IdeFai__c', async () => {
   // Mesmas opções de VALOR_OPTIONS em LeadForm.tsx.
-  for (const faixa of ['A partir de 700', '700 a 1.200', '1.200 a 2.000', '2.000 a 5.000', 'Acima de 5.000']) {
+  for (const faixa of ['A partir de R$ 700,00', 'De R$ 700,00 a R$ 1.200,00', 'De R$ 1.200,00 a R$ 2.000,00', 'De R$ 2.000,00 a R$ 5.000,00', 'Acima de R$ 5.000,00']) {
     const r = await runWorkflow({ ...base(), valor_conta: faixa, whatsapp: `(62) 9${faixa.length}999-0000` })
     assert.equal(r.calls.salesforce.length, 1, faixa)
     assert.equal(r.calls.salesforce[0].IdeFai__c, faixa)
